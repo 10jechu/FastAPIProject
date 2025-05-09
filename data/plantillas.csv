@@ -1,0 +1,20 @@
+id,equipo_id,nombre,posicion,año
+1,3,Lionel Messi,Delantero,2021
+2,3,Ángel Di María,Mediocampista,2021
+3,3,Emiliano Martínez,Arquero,2021
+4,5,Neymar,Delantero,2021
+5,5,Marquinhos,Defensa,2021
+6,5,Alisson,Arquero,2021
+7,17,Guaraní,Mediocampista,2021
+8,17,Ángel Romero,Delantero,2021
+9,20,Edinson Cavani,Delantero,2021
+10,20,Luis Suárez,Delantero,2021
+11,3,Lionel Messi,Delantero,2024
+12,3,Julián Álvarez,Delantero,2024
+13,3,Emiliano Martínez,Arquero,2024
+14,5,Neymar,Delantero,2024
+15,5,Vinícius Jr.,Delantero,2024
+16,5,Alisson,Arquero,2024
+18,17,Miguel Almirón,Mediocampista,2024
+19,20,Darwin Núñez,Delantero,2024
+20,20,Federico Valverde,Mediocampista,2024
