@@ -10,15 +10,17 @@ from operations.jugador_ops import JugadorOps
 from operations.torneo_ops import TorneoOps
 from operations.equipo_ops import EquipoOps
 from operations.plantilla_ops import PlantillaOps
+import os
 
 app = FastAPI()
 
-# Rutas a los CSVs
-PARTIDOS_CSV = "data/partidos.csv"
-JUGADORES_CSV = "data/jugadores.csv"
-TORNEOS_CSV = "data/torneos.csv"
-EQUIPOS_CSV = "data/equipos.csv"
-PLANTILLAS_CSV = "data/plantillas.csv"
+# Rutas a los CSVs usando rutas relativas al directorio del script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PARTIDOS_CSV = os.path.join(BASE_DIR, "data", "partidos.csv")
+JUGADORES_CSV = os.path.join(BASE_DIR, "data", "jugadores.csv")
+TORNEOS_CSV = os.path.join(BASE_DIR, "data", "torneos.csv")
+EQUIPOS_CSV = os.path.join(BASE_DIR, "data", "equipos.csv")
+PLANTILLAS_CSV = os.path.join(BASE_DIR, "data", "plantillas.csv")
 
 # Instancias de operaciones
 partido_ops = PartidoOps(PARTIDOS_CSV)
