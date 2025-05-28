@@ -27,7 +27,7 @@ class EquipoOps:
         return equipo
 
     def update(self, equipo_id: str, updated_equipo: Equipo) -> Equipo:
-        equipos = self.get_all  ()
+        equipos = self.get_all()
         for i, equipo in enumerate(equipos):
             if equipo.id == equipo_id:
                 updated_equipo.id = equipo_id
