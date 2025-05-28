@@ -32,6 +32,10 @@ plantilla_ops = PlantillaOps(PLANTILLAS_CSV, equipo_ops)
 # ID de la Selección Colombia
 COLOMBIA_ID = "Colombia"
 
+def validate_year(year: int):
+    if not (2021 <= year <= 2024):
+        raise HTTPException(status_code=400, detail="Hola, solo puedes ingresar a datos del 2021 hasta el 2024 de la Selección Colombia")
+
 @app.get("/")
 async def root():
     return {"message": "Hola, FastAPI funciona"}
@@ -47,6 +51,7 @@ async def get_partido(partido_id: str):
 
 @app.get("/partidos/filter/{ano}", response_model=List[Partido])
 async def get_partidos_by_year(ano: int):
+    validate_year(ano)
     partidos = partido_ops.get_all()
     return [partido for partido in partidos if partido.fecha.year == ano]
 
@@ -70,6 +75,7 @@ async def get_all_jugadores():
 
 @app.get("/jugadores/filter/{ano}", response_model=List[Jugador])
 async def get_jugadores_by_year(ano: int):
+    validate_year(ano)
     return jugador_ops.get_by_year(ano)
 
 @app.get("/jugadores/{jugador_id}", response_model=Jugador)
@@ -169,7 +175,6 @@ async def delete_plantilla(plantilla_id: str):
     plantilla_ops.delete(plantilla_id)
     return {"message": f"Plantilla {plantilla_id} deleted"}
 
-
 # Endpoints de Estadísticas
 @app.get("/estadisticas/partidos-por-torneo/")
 async def get_partidos_por_torneo(torneo_id: str = None):
@@ -213,6 +218,8 @@ async def get_goles_por_torneo(torneo_id: str = None):
 
 @app.get("/estadisticas/jugadores/")
 async def get_estadisticas_jugadores(ano: int = None):
+    if ano:
+        validate_year(ano)
     jugadores = jugador_ops.get_all()
     if ano:
         jugadores = [j for j in jugadores if j.año == ano]
@@ -222,6 +229,8 @@ async def get_estadisticas_jugadores(ano: int = None):
 
 @app.get("/estadisticas/completa/")
 async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
+    if ano:
+        validate_year(ano)
     partidos = partido_ops.get_all()
     jugadores = jugador_ops.get_all()
     
@@ -234,8 +243,8 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
     total_partidos = 0
     goles_anotados = 0
     goles_recibidos = 0
-    tarjetas_amarillas = 0
-    tarjetas_rojas = 0
+    tarjetas_amarillas_partidos = 0
+    tarjetas_rojas_partidos = 0
     victorias = 0
     empates = 0
     derrotas = 0
@@ -248,8 +257,8 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
         if partido.equipo_local == COLOMBIA_ID:
             goles_anotados += partido.goles_local
             goles_recibidos += partido.goles_visitante
-            tarjetas_amarillas += partido.tarjetas_amarillas_local
-            tarjetas_rojas += partido.tarjetas_rojas_local
+            tarjetas_amarillas_partidos += partido.tarjetas_amarillas_local
+            tarjetas_rojas_partidos += partido.tarjetas_rojas_local
             if partido.goles_local > partido.goles_visitante:
                 victorias += 1
             elif partido.goles_local == partido.goles_visitante:
@@ -259,8 +268,8 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
         else:
             goles_anotados += partido.goles_visitante
             goles_recibidos += partido.goles_local
-            tarjetas_amarillas += partido.tarjetas_amarillas_visitante
-            tarjetas_rojas += partido.tarjetas_rojas_visitante
+            tarjetas_amarillas_partidos += partido.tarjetas_amarillas_visitante
+            tarjetas_rojas_partidos += partido.tarjetas_rojas_visitante
             if partido.goles_visitante > partido.goles_local:
                 victorias += 1
             elif partido.goles_visitante == partido.goles_local:
@@ -269,9 +278,12 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
                 derrotas += 1
 
     # Estadísticas de jugadores
-    for jugador in jugadores:
-        tarjetas_amarillas += jugador.tarjetas_amarillas
-        tarjetas_rojas += jugador.tarjetas_rojas
+    tarjetas_amarillas_jugadores = sum(j.tarjetas_amarillas for j in jugadores if not ano or j.año == ano)
+    tarjetas_rojas_jugadores = sum(j.tarjetas_rojas for j in jugadores if not ano or j.año == ano)
+
+    # Totales combinados
+    tarjetas_amarillas = tarjetas_amarillas_partidos + tarjetas_amarillas_jugadores
+    tarjetas_rojas = tarjetas_rojas_partidos + tarjetas_rojas_jugadores
 
     promedio_goles = goles_anotados / total_partidos if total_partidos > 0 else 0
 
