@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torneos - Selección Colombia 2021-2024</title>
+  <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+  <header>
+    <h1>Selección Colombia 2021 - 2024</h1>
+    <nav>
+      <ul>
+        <li><a href="/static/index.html">Inicio</a></li>
+        <li><a href="/static/equipos.html">Equipos</a></li>
+        <li><a href="/static/jugadores.html">Jugadores</a></li>
+        <li><a href="/static/partidos.html">Partidos</a></li>
+        <li><a href="/static/torneos.html">Torneos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Torneos de la Selección Colombia</h2>
+      <div id="torneos">
+        <p>Cargando torneos...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
+    <p>Universidad Católica de Colombia</p>
+  </footer>
+
+  <script>
+    async function loadTorneos() {
+      const torneosDiv = document.getElementById('torneos');
+      const url = 'https://fastapiproject-dap2.onrender.com/torneos/';
+      
+      try {
+        const response = await fetch(url);
+        const torneos = await response.json();
+        torneosDiv.innerHTML = '<ul>' + torneos.map(t => `<li>${t.nombre} (${t.anio}) - País: ${t.pais_anfitrion}, Estado: ${t.estado}</li>`).join('') + '</ul>';
+      } catch (error) {
+        torneosDiv.innerHTML = `<p>Error al cargar los torneos: ${error.message}</p>`;
+      }
+    }
+
+    // Cargar torneos al iniciar
+    loadTorneos();
+  </script>
+</body>
+</html>

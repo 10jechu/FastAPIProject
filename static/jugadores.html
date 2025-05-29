@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jugadores - Selección Colombia 2021-2024</title>
+  <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+  <header>
+    <h1>Selección Colombia 2021 - 2024</h1>
+    <nav>
+      <ul>
+        <li><a href="/static/index.html">Inicio</a></li>
+        <li><a href="/static/equipos.html">Equipos</a></li>
+        <li><a href="/static/jugadores.html">Jugadores</a></li>
+        <li><a href="/static/partidos.html">Partidos</a></li>
+        <li><a href="/static/torneos.html">Torneos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Jugadores de la Selección Colombia</h2>
+      <div id="jugadores">
+        <p>Cargando jugadores...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
+    <p>Universidad Católica de Colombia</p>
+  </footer>
+
+  <script>
+    async function loadJugadores() {
+      const jugadoresDiv = document.getElementById('jugadores');
+      const url = 'https://fastapiproject-dap2.onrender.com/jugadores/';
+      
+      try {
+        const response = await fetch(url);
+        const jugadores = await response.json();
+        jugadoresDiv.innerHTML = '<ul>' + jugadores.map(j => `<li>${j.nombre} (#${j.numero}) - Posición: ${j.posicion}, Goles: ${j.goles}</li>`).join('') + '</ul>';
+      } catch (error) {
+        jugadoresDiv.innerHTML = `<p>Error al cargar los jugadores: ${error.message}</p>`;
+      }
+    }
+
+    // Cargar jugadores al iniciar
+    loadJugadores();
+  </script>
+</body>
+</html>
