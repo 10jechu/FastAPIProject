@@ -16,6 +16,7 @@
         <li><a href="/static/jugadores.html">Jugadores</a></li>
         <li><a href="/static/partidos.html">Partidos</a></li>
         <li><a href="/static/torneos.html">Torneos</a></li>
+        <li><a href="/static/plantillas.html">Plantillas Rivales</a></li>
       </ul>
     </nav>
   </header>
@@ -42,7 +43,13 @@
       try {
         const response = await fetch(url);
         const torneos = await response.json();
-        torneosDiv.innerHTML = '<ul>' + torneos.map(t => `<li>${t.nombre} (${t.anio}) - País: ${t.pais_anfitrion}, Estado: ${t.estado}</li>`).join('') + '</ul>';
+        if (torneos.length === 0) {
+          torneosDiv.innerHTML = '<p>No se encontraron torneos.</p>';
+        } else {
+          torneosDiv.innerHTML = '<ul>' + torneos.map(t => 
+            `<li>${t.nombre} (${t.anio}) - País: ${t.pais_anfitrion}, Estado: ${t.estado}</li>`
+          ).join('') + '</ul>';
+        }
       } catch (error) {
         torneosDiv.innerHTML = `<p>Error al cargar los torneos: ${error.message}</p>`;
       }

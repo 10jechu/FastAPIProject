@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plantillas - Selección Colombia 2021-2024</title>
+  <title>Plantillas Rivales - Selección Colombia 2021-2024</title>
   <link rel="stylesheet" href="/static/estilos.css">
 </head>
 <body>
@@ -16,14 +16,14 @@
         <li><a href="/static/jugadores.html">Jugadores</a></li>
         <li><a href="/static/partidos.html">Partidos</a></li>
         <li><a href="/static/torneos.html">Torneos</a></li>
-        <li><a href="/static/plantillas.html">Plantillas</a></li>
+        <li><a href="/static/plantillas.html">Plantillas Rivales</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <section>
-      <h2>Plantillas de la Selección Colombia</h2>
+      <h2>Jugadores Rivales de la Selección Colombia</h2>
       <div id="plantillas">
         <p>Cargando plantillas...</p>
       </div>
@@ -43,4 +43,20 @@
       try {
         const response = await fetch(url);
         const plantillas = await response.json();
-        plantillasDiv.innerHTML = '<ul>' +
+        if (plantillas.length === 0) {
+          plantillasDiv.innerHTML = '<p>No se encontraron plantillas.</p>';
+        } else {
+          plantillasDiv.innerHTML = '<ul>' + plantillas.map(p => 
+            `<li>${p.nombre} (${p.posicion}) - Equipo: ${p.equipo_id}, Año: ${p.año}</li>`
+          ).join('') + '</ul>';
+        }
+      } catch (error) {
+        plantillasDiv.innerHTML = `<p>Error al cargar las plantillas: ${error.message}</p>`;
+      }
+    }
+
+    // Cargar plantillas al iniciar
+    loadPlantillas();
+  </script>
+</body>
+</html>

@@ -65,14 +65,10 @@ class Jugador(BaseModel):
 
 class Plantilla(BaseModel):
     id: str
-    nombre: str
     equipo_id: str
-    partido_id: str
+    nombre: str
     posicion: str
-    goles: int
-    asistencias: int
-    tarjetas_amarillas: int = 0
-    tarjetas_rojas: int = 0
+    año: int
 
 # Operaciones para leer datos con Pandas
 class EquipoOps:
@@ -119,11 +115,13 @@ class TorneoOps:
             print("Encabezados de torneos.csv:", df.columns.tolist())  # Log para depurar encabezados
             for _, row in df.iterrows():
                 print("Fila de torneos.csv:", row.to_dict())  # Log para depurar cada fila
+                # Manejar 'N/A' en pais_anfitrion convirtiéndolo a una cadena vacía si es necesario
+                pais_anfitrion = row["pais_anfitrion"] if pd.notna(row["pais_anfitrion"]) else ""
                 torneo = Torneo(
                     id=str(row["id"]),
                     nombre=row["nombre"],
                     anio=int(row["anio"]),
-                    pais_anfitrion=row["pais_anfitrion"],
+                    pais_anfitrion=pais_anfitrion,
                     estado=row["estado"],
                     eliminado=row["eliminado"]
                 )
@@ -162,19 +160,15 @@ class JugadorOps:
 
 class PlantillaOps:
     def get_all(self) -> List[Plantilla]:
-        df = pd.read_csv("data/plantillas.csv")
+        df = pd.read_csv("data/plantilla.csv")  # Nota: Asegúrate de que el nombre del archivo sea correcto
         plantillas = []
         for _, row in df.iterrows():
             plantilla = Plantilla(
                 id=str(row["id"]),
+                equipo_id=str(row["equipo_id"]),
                 nombre=row["nombre"],
-                equipo_id=row["equipo_id"],
-                partido_id=row["partido_id"],
                 posicion=row["posicion"],
-                goles=int(row["goles"]),
-                asistencias=int(row["asistencias"]),
-                tarjetas_amarillas=int(row["tarjetas_amarillas"]),
-                tarjetas_rojas=int(row["tarjetas_rojas"])
+                año=int(row["año"])
             )
             plantillas.append(plantilla)
         return plantillas
