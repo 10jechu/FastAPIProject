@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plantillas Rivales - Selección Colombia 2021-2024</title>
+  <title>Selección Colombia 2021-2024</title>
   <link rel="stylesheet" href="/static/estilos.css">
 </head>
 <body>
@@ -17,22 +17,15 @@
         <li><a href="/partidos/">Partidos</a></li>
         <li><a href="/torneos/">Torneos</a></li>
         <li><a href="/plantillas/">Plantillas Rivales</a></li>
+        <li><a href="/estadisticas/completa/">Estadísticas</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <section>
-      <h2>Plantillas Rivales</h2>
-      {% if plantillas %}
-        <ul>
-          {% for plantilla in plantillas %}
-            <li>{{ plantilla.nombre }} ({{ plantilla.posicion }}, Equipo: {{ plantilla.equipo_id }}, Año: {{ plantilla.año }})</li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No se encontraron plantillas.</p>
-      {% endif %}
+      <h2>Bienvenido</h2>
+      <p>Esta es la página principal del proyecto sobre la Selección Colombia 2021-2024. Usa el menú de navegación para explorar equipos, jugadores, partidos, torneos y estadísticas.</p>
     </section>
   </main>
 
