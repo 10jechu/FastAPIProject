@@ -59,8 +59,9 @@ footer {
     background-color: #003087;
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 5px; /* Reducimos el padding */
     position: fixed;
     bottom: 0;
     width: 100%;
+    font-size: 0.8em; /* Reducimos el tamaño de la fuente */
 }
