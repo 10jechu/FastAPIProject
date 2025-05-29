@@ -17,33 +17,15 @@
         <li><a href="/partidos/">Partidos</a></li>
         <li><a href="/torneos/">Torneos</a></li>
         <li><a href="/plantillas/">Plantillas Rivales</a></li>
+        <li><a href="/estadisticas/completa/">Estadísticas</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <section>
-      <h2>Resumen General de la Selección Colombia</h2>
-      <form method="get" action="/estadisticas/completa/">
-        <label for="ano">Selecciona un año (2021-2024):</label>
-        <select name="ano" id="ano" onchange="this.form.submit()">
-          <option value="2021">2021</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-          <option value="2024">2024</option>
-        </select>
-      </form>
-      {% if estadisticas.message %}
-        <p>{{ estadisticas.message }}</p>
-      {% else %}
-        <p><strong>Total Partidos:</strong> {{ estadisticas.total_partidos }}</p>
-        <p><strong>Goles Anotados:</strong> {{ estadisticas.goles_anotados }}</p>
-        <p><strong>Goles Recibidos:</strong> {{ estadisticas.goles_recibidos }}</p>
-        <p><strong>Promedio Goles por Partido:</strong> {{ estadisticas.promedio_goles_por_partido }}</p>
-        <p><strong>Victorias:</strong> {{ estadisticas.victorias }}</p>
-        <p><strong>Empates:</strong> {{ estadisticas.empates }}</p>
-        <p><strong>Derrotas:</strong> {{ estadisticas.derrotas }}</p>
-      {% endif %}
+      <h2>Bienvenido</h2>
+      <p>Esta es la página principal del proyecto sobre la Selección Colombia 2021-2024. Usa el menú de navegación para explorar equipos, jugadores, partidos, torneos y estadísticas.</p>
     </section>
   </main>
 
