@@ -11,21 +11,28 @@
     <h1>Selección Colombia 2021 - 2024</h1>
     <nav>
       <ul>
-        <li><a href="/static/index.html">Inicio</a></li>
-        <li><a href="/static/equipos.html">Equipos</a></li>
-        <li><a href="/static/jugadores.html">Jugadores</a></li>
-        <li><a href="/static/partidos.html">Partidos</a></li>
-        <li><a href="/static/torneos.html">Torneos</a></li>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/equipos/">Equipos</a></li>
+        <li><a href="/jugadores/">Jugadores</a></li>
+        <li><a href="/partidos/">Partidos</a></li>
+        <li><a href="/torneos/">Torneos</a></li>
+        <li><a href="/plantillas/">Plantillas Rivales</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <section>
-      <h2>Equipos Enfrentados por Colombia</h2>
-      <div id="equipos">
-        <p>Cargando equipos...</p>
-      </div>
+      <h2>Equipos</h2>
+      {% if equipos %}
+        <ul>
+          {% for equipo in equipos %}
+            <li>{{ equipo.nombre }} (País: {{ equipo.pais }}, Enfrentamientos con Colombia: {{ equipo.enfrentamientos_con_colombia }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No se encontraron equipos.</p>
+      {% endif %}
     </section>
   </main>
 
@@ -33,23 +40,5 @@
     <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
     <p>Universidad Católica de Colombia</p>
   </footer>
-
-  <script>
-    async function loadEquipos() {
-      const equiposDiv = document.getElementById('equipos');
-      const url = 'https://fastapiproject-dap2.onrender.com/equipos/';
-      
-      try {
-        const response = await fetch(url);
-        const equipos = await response.json();
-        equiposDiv.innerHTML = '<ul>' + equipos.map(e => `<li>${e.nombre} (${e.pais}) - Enfrentamientos: ${e.enfrentamientos_con_colombia}</li>`).join('') + '</ul>';
-      } catch (error) {
-        equiposDiv.innerHTML = `<p>Error al cargar los equipos: ${error.message}</p>`;
-      }
-    }
-
-    // Cargar equipos al iniciar
-    loadEquipos();
-  </script>
 </body>
 </html>

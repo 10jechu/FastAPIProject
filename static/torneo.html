@@ -11,22 +11,28 @@
     <h1>Selección Colombia 2021 - 2024</h1>
     <nav>
       <ul>
-        <li><a href="/static/index.html">Inicio</a></li>
-        <li><a href="/static/equipos.html">Equipos</a></li>
-        <li><a href="/static/jugadores.html">Jugadores</a></li>
-        <li><a href="/static/partidos.html">Partidos</a></li>
-        <li><a href="/static/torneos.html">Torneos</a></li>
-        <li><a href="/static/plantillas.html">Plantillas Rivales</a></li>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/equipos/">Equipos</a></li>
+        <li><a href="/jugadores/">Jugadores</a></li>
+        <li><a href="/partidos/">Partidos</a></li>
+        <li><a href="/torneos/">Torneos</a></li>
+        <li><a href="/plantillas/">Plantillas Rivales</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <section>
-      <h2>Torneos de la Selección Colombia</h2>
-      <div id="torneos">
-        <p>Cargando torneos...</p>
-      </div>
+      <h2>Torneos</h2>
+      {% if torneos %}
+        <ul>
+          {% for torneo in torneos %}
+            <li>{{ torneo.nombre }} ({{ torneo.anio }}, País: {{ torneo.pais_anfitrion }}, Estado: {{ torneo.estado }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No se encontraron torneos.</p>
+      {% endif %}
     </section>
   </main>
 
@@ -34,29 +40,5 @@
     <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
     <p>Universidad Católica de Colombia</p>
   </footer>
-
-  <script>
-    async function loadTorneos() {
-      const torneosDiv = document.getElementById('torneos');
-      const url = 'https://fastapiproject-dap2.onrender.com/torneos/';
-      
-      try {
-        const response = await fetch(url);
-        const torneos = await response.json();
-        if (torneos.length === 0) {
-          torneosDiv.innerHTML = '<p>No se encontraron torneos.</p>';
-        } else {
-          torneosDiv.innerHTML = '<ul>' + torneos.map(t => 
-            `<li>${t.nombre} (${t.anio}) - País: ${t.pais_anfitrion}, Estado: ${t.estado}</li>`
-          ).join('') + '</ul>';
-        }
-      } catch (error) {
-        torneosDiv.innerHTML = `<p>Error al cargar los torneos: ${error.message}</p>`;
-      }
-    }
-
-    // Cargar torneos al iniciar
-    loadTorneos();
-  </script>
 </body>
 </html>

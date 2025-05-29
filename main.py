@@ -1,111 +1,97 @@
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
-from datetime import date
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 import pandas as pd
-from typing import List, Dict
+from datetime import date
+from typing import List
 import os
 
 app = FastAPI()
 
-# Monta la carpeta static para servir archivos HTML, CSS y JS
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Define la ruta raíz para servir index.html
-@app.get("/", response_class=FileResponse)
-async def read_index():
-    return FileResponse("static/index.html")
+# Configurar Jinja2
+templates = Jinja2Templates(directory="templates")
 
 # Constantes
 COLOMBIA_ID = "Colombia"
 
 # Modelos
-class Equipo(BaseModel):
-    id: str
-    nombre: str
-    pais: str
-    enfrentamientos_con_colombia: int
+class Equipo:
+    def __init__(self, id: str, nombre: str, pais: str, enfrentamientos_con_colombia: int):
+        self.id = id
+        self.nombre = nombre
+        self.pais = pais
+        self.enfrentamientos_con_colombia = enfrentamientos_con_colombia
 
-class Partido(BaseModel):
-    id: str
-    fecha: date
-    equipo_local: str
-    equipo_visitante: str
-    goles_local: int
-    goles_visitante: int
-    torneo_id: str
-    eliminado: str
-    tarjetas_amarillas_local: int = 0
-    tarjetas_amarillas_visitante: int = 0
-    tarjetas_rojas_local: int = 0
-    tarjetas_rojas_visitante: int = 0
+class Partido:
+    def __init__(self, id: str, fecha: date, equipo_local: str, equipo_visitante: str, goles_local: int, goles_visitante: int, torneo_id: str, eliminado: str, tarjetas_amarillas_local: int = 0, tarjetas_amarillas_visitante: int = 0, tarjetas_rojas_local: int = 0, tarjetas_rojas_visitante: int = 0):
+        self.id = id
+        self.fecha = fecha
+        self.equipo_local = equipo_local
+        self.equipo_visitante = equipo_visitante
+        self.goles_local = goles_local
+        self.goles_visitante = goles_visitante
+        self.torneo_id = torneo_id
+        self.eliminado = eliminado
+        self.tarjetas_amarillas_local = tarjetas_amarillas_local
+        self.tarjetas_amarillas_visitante = tarjetas_amarillas_visitante
+        self.tarjetas_rojas_local = tarjetas_rojas_local
+        self.tarjetas_rojas_visitante = tarjetas_rojas_visitante
 
-class Torneo(BaseModel):
-    id: str
-    nombre: str
-    anio: int
-    pais_anfitrion: str
-    estado: str
-    eliminado: str
+class Torneo:
+    def __init__(self, id: str, nombre: str, anio: int, pais_anfitrion: str, estado: str, eliminado: str):
+        self.id = id
+        self.nombre = nombre
+        self.anio = anio
+        self.pais_anfitrion = pais_anfitrion
+        self.estado = estado
+        self.eliminado = eliminado
 
-class Jugador(BaseModel):
-    id: str
-    numero: int
-    nombre: str
-    posicion: str
-    goles: int
-    asistencias: int
-    año: int
-    activo: bool
-    tarjetas_amarillas: int = 0
-    tarjetas_rojas: int = 0
-    fecha_nacimiento: date
-    equipo: str
+class Jugador:
+    def __init__(self, id: str, numero: int, nombre: str, posicion: str, goles: int, asistencias: int, año: int, activo: bool, fecha_nacimiento: date, equipo: str, tarjetas_amarillas: int = 0, tarjetas_rojas: int = 0):
+        self.id = id
+        self.numero = numero
+        self.nombre = nombre
+        self.posicion = posicion
+        self.goles = goles
+        self.asistencias = asistencias
+        self.año = año
+        self.activo = activo
+        self.tarjetas_amarillas = tarjetas_amarillas
+        self.tarjetas_rojas = tarjetas_rojas
+        self.fecha_nacimiento = fecha_nacimiento
+        self.equipo = equipo
 
-class Plantilla(BaseModel):
-    id: str
-    equipo_id: str
-    nombre: str
-    posicion: str
-    año: int
+class Plantilla:
+    def __init__(self, id: str, equipo_id: str, nombre: str, posicion: str, año: int):
+        self.id = id
+        self.equipo_id = equipo_id
+        self.nombre = nombre
+        self.posicion = posicion
+        self.año = año
 
 # Operaciones para leer datos con Pandas
 class EquipoOps:
     def get_all(self) -> List[Equipo]:
         df = pd.read_csv("data/equipos.csv")
-        equipos = []
-        for _, row in df.iterrows():
-            equipo = Equipo(
-                id=str(row["id"]),
-                nombre=row["nombre"],
-                pais=row["pais"],
-                enfrentamientos_con_colombia=int(row["enfrentamientos_con_colombia"])
-            )
-            equipos.append(equipo)
-        return equipos
+        return [Equipo(str(row["id"]), row["nombre"], row["pais"], int(row["enfrentamientos_con_colombia"])) for _, row in df.iterrows()]
 
 class PartidoOps:
     def get_all(self) -> List[Partido]:
         df = pd.read_csv("data/partidos.csv")
-        partidos = []
-        for _, row in df.iterrows():
-            partido = Partido(
-                id=str(row["id"]),
-                fecha=date.fromisoformat(row["fecha"]),
-                equipo_local=row["equipo_local"],
-                equipo_visitante=row["equipo_visitante"],
-                goles_local=int(row["goles_local"]),
-                goles_visitante=int(row["goles_visitante"]),
-                torneo_id=row["torneo_id"],
-                eliminado=row["eliminado"],
-                tarjetas_amarillas_local=int(row["tarjetas_amarillas_local"]),
-                tarjetas_amarillas_visitante=int(row["tarjetas_amarillas_visitante"]),
-                tarjetas_rojas_local=int(row["tarjetas_rojas_local"]),
-                tarjetas_rojas_visitante=int(row["tarjetas_rojas_visitante"])
-            )
-            partidos.append(partido)
-        return partidos
+        return [Partido(
+            str(row["id"]),
+            date.fromisoformat(row["fecha"]),
+            row["equipo_local"],
+            row["equipo_visitante"],
+            int(row["goles_local"]),
+            int(row["goles_visitante"]),
+            row["torneo_id"],
+            row["eliminado"],
+            int(row["tarjetas_amarillas_local"]),
+            int(row["tarjetas_amarillas_visitante"]),
+            int(row["tarjetas_rojas_local"]),
+            int(row["tarjetas_rojas_visitante"])
+        ) for _, row in df.iterrows()]
 
 class TorneoOps:
     def get_all(self) -> List[Torneo]:
@@ -115,15 +101,14 @@ class TorneoOps:
             print("Encabezados de torneos.csv:", df.columns.tolist())  # Log para depurar encabezados
             for _, row in df.iterrows():
                 print("Fila de torneos.csv:", row.to_dict())  # Log para depurar cada fila
-                # Manejar 'N/A' en pais_anfitrion convirtiéndolo a una cadena vacía si es necesario
                 pais_anfitrion = row["pais_anfitrion"] if pd.notna(row["pais_anfitrion"]) else ""
                 torneo = Torneo(
-                    id=str(row["id"]),
-                    nombre=row["nombre"],
-                    anio=int(row["anio"]),
-                    pais_anfitrion=pais_anfitrion,
-                    estado=row["estado"],
-                    eliminado=row["eliminado"]
+                    str(row["id"]),
+                    row["nombre"],
+                    int(row["anio"]),
+                    pais_anfitrion,
+                    row["estado"],
+                    row["eliminado"]
                 )
                 torneos.append(torneo)
         except FileNotFoundError:
@@ -139,39 +124,31 @@ class TorneoOps:
 class JugadorOps:
     def get_all(self) -> List[Jugador]:
         df = pd.read_csv("data/jugadores.csv")
-        jugadores = []
-        for _, row in df.iterrows():
-            jugador = Jugador(
-                id=str(row["id"]),
-                numero=int(row["numero"]),
-                nombre=row["nombre"],
-                posicion=row["posicion"],
-                goles=int(row["goles"]),
-                asistencias=int(row["asistencias"]),
-                año=int(row["año"]),
-                activo=row["activo"].lower() == "true",
-                tarjetas_amarillas=int(row["tarjetas_amarillas"]),
-                tarjetas_rojas=int(row["tarjetas_rojas"]),
-                fecha_nacimiento=date.fromisoformat(row["fecha_nacimiento"]),
-                equipo=row["equipo"]
-            )
-            jugadores.append(jugador)
-        return jugadores
+        return [Jugador(
+            str(row["id"]),
+            int(row["numero"]),
+            row["nombre"],
+            row["posicion"],
+            int(row["goles"]),
+            int(row["asistencias"]),
+            int(row["año"]),
+            row["activo"].lower() == "true",
+            date.fromisoformat(row["fecha_nacimiento"]),
+            row["equipo"],
+            int(row["tarjetas_amarillas"]),
+            int(row["tarjetas_rojas"])
+        ) for _, row in df.iterrows()]
 
 class PlantillaOps:
     def get_all(self) -> List[Plantilla]:
-        df = pd.read_csv("data/plantilla.csv")  # Nota: Asegúrate de que el nombre del archivo sea correcto
-        plantillas = []
-        for _, row in df.iterrows():
-            plantilla = Plantilla(
-                id=str(row["id"]),
-                equipo_id=str(row["equipo_id"]),
-                nombre=row["nombre"],
-                posicion=row["posicion"],
-                año=int(row["año"])
-            )
-            plantillas.append(plantilla)
-        return plantillas
+        df = pd.read_csv("data/plantilla.csv")
+        return [Plantilla(
+            str(row["id"]),
+            str(row["equipo_id"]),
+            row["nombre"],
+            row["posicion"],
+            int(row["año"])
+        ) for _, row in df.iterrows()]
 
 # Instancias de operaciones
 equipo_ops = EquipoOps()
@@ -186,33 +163,41 @@ def validate_year(year: int):
         raise HTTPException(status_code=400, detail="El año debe estar entre 2021 y 2024")
 
 # Endpoints
-@app.get("/equipos/", response_model=List[Equipo])
-async def get_equipos():
-    return equipo_ops.get_all()
+@app.get("/", response_class=HTMLResponse)
+async def read_index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get("/partidos/", response_model=List[Partido])
-async def get_partidos():
-    return partido_ops.get_all()
+@app.get("/equipos/", response_class=HTMLResponse)
+async def get_equipos(request: Request):
+    equipos = equipo_ops.get_all()
+    return templates.TemplateResponse("equipos.html", {"request": request, "equipos": equipos})
 
-@app.get("/torneos/", response_model=List[Torneo])
-async def get_torneos():
-    return torneo_ops.get_all()
+@app.get("/partidos/", response_class=HTMLResponse)
+async def get_partidos(request: Request):
+    partidos = partido_ops.get_all()
+    return templates.TemplateResponse("partidos.html", {"request": request, "partidos": partidos})
 
-@app.get("/jugadores/", response_model=List[Jugador])
-async def get_jugadores(ano: int = None):
+@app.get("/torneos/", response_class=HTMLResponse)
+async def get_torneos(request: Request):
+    torneos = torneo_ops.get_all()
+    return templates.TemplateResponse("torneos.html", {"request": request, "torneos": torneos})
+
+@app.get("/jugadores/", response_class=HTMLResponse)
+async def get_jugadores(request: Request, ano: int = None):
     if ano:
         validate_year(ano)
     jugadores = jugador_ops.get_all()
     if ano:
         jugadores = [j for j in jugadores if j.año == ano]
-    return jugadores
+    return templates.TemplateResponse("jugadores.html", {"request": request, "jugadores": jugadores})
 
-@app.get("/plantillas/", response_model=List[Plantilla])
-async def get_plantillas():
-    return plantilla_ops.get_all()
+@app.get("/plantillas/", response_class=HTMLResponse)
+async def get_plantillas(request: Request):
+    plantillas = plantilla_ops.get_all()
+    return templates.TemplateResponse("plantillas.html", {"request": request, "plantillas": plantillas})
 
-@app.get("/estadisticas/completa/")
-async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
+@app.get("/estadisticas/completa/", response_class=HTMLResponse)
+async def get_estadisticas_completa(request: Request, torneo_id: str = None, ano: int = None):
     if ano:
         validate_year(ano)
     partidos = partido_ops.get_all()
@@ -272,7 +257,7 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
     tarjetas_rojas = tarjetas_rojas_partidos + tarjetas_rojas_jugadores
 
     if total_partidos == 0:
-        return {
+        estadisticas = {
             "message": f"No se encontraron partidos para la Selección Colombia con torneo_id={torneo_id} y año={ano}",
             "total_partidos": 0,
             "goles_anotados": 0,
@@ -284,17 +269,18 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
             "derrotas": 0,
             "promedio_goles_por_partido": 0
         }
+    else:
+        promedio_goles = goles_anotados / total_partidos if total_partidos > 0 else 0
+        estadisticas = {
+            "total_partidos": total_partidos,
+            "goles_anotados": goles_anotados,
+            "goles_recibidos": goles_recibidos,
+            "tarjetas_amarillas": tarjetas_amarillas,
+            "tarjetas_rojas": tarjetas_rojas,
+            "victorias": victorias,
+            "empates": empates,
+            "derrotas": derrotas,
+            "promedio_goles_por_partido": round(promedio_goles, 2)
+        }
 
-    promedio_goles = goles_anotados / total_partidos if total_partidos > 0 else 0
-
-    return {
-        "total_partidos": total_partidos,
-        "goles_anotados": goles_anotados,
-        "goles_recibidos": goles_recibidos,
-        "tarjetas_amarillas": tarjetas_amarillas,
-        "tarjetas_rojas": tarjetas_rojas,
-        "victorias": victorias,
-        "empates": empates,
-        "derrotas": derrotas,
-        "promedio_goles_por_partido": round(promedio_goles, 2)
-    }
+    return templates.TemplateResponse("estadisticas.html", {"request": request, "estadisticas": estadisticas, "ano": ano, "torneo_id": torneo_id})

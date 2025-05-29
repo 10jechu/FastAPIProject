@@ -11,22 +11,28 @@
     <h1>Selección Colombia 2021 - 2024</h1>
     <nav>
       <ul>
-        <li><a href="/static/index.html">Inicio</a></li>
-        <li><a href="/static/equipos.html">Equipos</a></li>
-        <li><a href="/static/jugadores.html">Jugadores</a></li>
-        <li><a href="/static/partidos.html">Partidos</a></li>
-        <li><a href="/static/torneos.html">Torneos</a></li>
-        <li><a href="/static/plantillas.html">Plantillas Rivales</a></li>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/equipos/">Equipos</a></li>
+        <li><a href="/jugadores/">Jugadores</a></li>
+        <li><a href="/partidos/">Partidos</a></li>
+        <li><a href="/torneos/">Torneos</a></li>
+        <li><a href="/plantillas/">Plantillas Rivales</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <section>
-      <h2>Jugadores Rivales de la Selección Colombia</h2>
-      <div id="plantillas">
-        <p>Cargando plantillas...</p>
-      </div>
+      <h2>Plantillas Rivales</h2>
+      {% if plantillas %}
+        <ul>
+          {% for plantilla in plantillas %}
+            <li>{{ plantilla.nombre }} ({{ plantilla.posicion }}, Equipo: {{ plantilla.equipo_id }}, Año: {{ plantilla.año }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No se encontraron plantillas.</p>
+      {% endif %}
     </section>
   </main>
 
@@ -34,29 +40,5 @@
     <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
     <p>Universidad Católica de Colombia</p>
   </footer>
-
-  <script>
-    async function loadPlantillas() {
-      const plantillasDiv = document.getElementById('plantillas');
-      const url = 'https://fastapiproject-dap2.onrender.com/plantillas/';
-      
-      try {
-        const response = await fetch(url);
-        const plantillas = await response.json();
-        if (plantillas.length === 0) {
-          plantillasDiv.innerHTML = '<p>No se encontraron plantillas.</p>';
-        } else {
-          plantillasDiv.innerHTML = '<ul>' + plantillas.map(p => 
-            `<li>${p.nombre} (${p.posicion}) - Equipo: ${p.equipo_id}, Año: ${p.año}</li>`
-          ).join('') + '</ul>';
-        }
-      } catch (error) {
-        plantillasDiv.innerHTML = `<p>Error al cargar las plantillas: ${error.message}</p>`;
-      }
-    }
-
-    // Cargar plantillas al iniciar
-    loadPlantillas();
-  </script>
 </body>
 </html>
