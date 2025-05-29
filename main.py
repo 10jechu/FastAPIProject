@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from datetime import date
-import csv
+import pandas as pd
 from typing import List, Dict
 import os
 
@@ -60,54 +60,67 @@ class Jugador(BaseModel):
     activo: bool
     tarjetas_amarillas: int = 0
     tarjetas_rojas: int = 0
+    fecha_nacimiento: date
+    equipo: str
 
-# Operaciones para leer datos
+class Plantilla(BaseModel):
+    id: str
+    nombre: str
+    equipo_id: str
+    partido_id: str
+    posicion: str
+    goles: int
+    asistencias: int
+    tarjetas_amarillas: int = 0
+    tarjetas_rojas: int = 0
+
+# Operaciones para leer datos con Pandas
 class EquipoOps:
     def get_all(self) -> List[Equipo]:
+        df = pd.read_csv("data/equipos.csv")
         equipos = []
-        with open("data/equipos.csv", newline="", encoding="utf-8") as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                equipo = Equipo(
-                    id=row["id"],
-                    nombre=row["nombre"],
-                    pais=row["pais"],
-                    enfrentamientos_con_colombia=int(row["enfrentamientos_con_colombia"])
-                )
-                equipos.append(equipo)
+        for _, row in df.iterrows():
+            equipo = Equipo(
+                id=str(row["id"]),
+                nombre=row["nombre"],
+                pais=row["pais"],
+                enfrentamientos_con_colombia=int(row["enfrentamientos_con_colombia"])
+            )
+            equipos.append(equipo)
         return equipos
 
 class PartidoOps:
     def get_all(self) -> List[Partido]:
+        df = pd.read_csv("data/partidos.csv")
         partidos = []
-        with open("data/partidos.csv", newline="", encoding="utf-8") as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                partido = Partido(
-                    id=row["id"],
-                    fecha=date.fromisoformat(row["fecha"]),
-                    equipo_local=row["equipo_local"],
-                    equipo_visitante=row["equipo_visitante"],
-                    goles_local=int(row["goles_local"]),
-                    goles_visitante=int(row["goles_visitante"]),
-                    torneo_id=row["torneo_id"],
-                    eliminado=row["eliminado"],
-                    tarjetas_amarillas_local=int(row["tarjetas_amarillas_local"]),
-                    tarjetas_amarillas_visitante=int(row["tarjetas_amarillas_visitante"]),
-                    tarjetas_rojas_local=int(row["tarjetas_rojas_local"]),
-                    tarjetas_rojas_visitante=int(row["tarjetas_rojas_visitante"])
-                )
-                partidos.append(partido)
+        for _, row in df.iterrows():
+            partido = Partido(
+                id=str(row["id"]),
+                fecha=date.fromisoformat(row["fecha"]),
+                equipo_local=row["equipo_local"],
+                equipo_visitante=row["equipo_visitante"],
+                goles_local=int(row["goles_local"]),
+                goles_visitante=int(row["goles_visitante"]),
+                torneo_id=row["torneo_id"],
+                eliminado=row["eliminado"],
+                tarjetas_amarillas_local=int(row["tarjetas_amarillas_local"]),
+                tarjetas_amarillas_visitante=int(row["tarjetas_amarillas_visitante"]),
+                tarjetas_rojas_local=int(row["tarjetas_rojas_local"]),
+                tarjetas_rojas_visitante=int(row["tarjetas_rojas_visitante"])
+            )
+            partidos.append(partido)
         return partidos
 
 class TorneoOps:
     def get_all(self) -> List[Torneo]:
         torneos = []
-        with open("data/torneos.csv", newline="", encoding="utf-8") as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
+        try:
+            df = pd.read_csv("data/torneos.csv")
+            print("Encabezados de torneos.csv:", df.columns.tolist())  # Log para depurar encabezados
+            for _, row in df.iterrows():
+                print("Fila de torneos.csv:", row.to_dict())  # Log para depurar cada fila
                 torneo = Torneo(
-                    id=row["id"],
+                    id=str(row["id"]),
                     nombre=row["nombre"],
                     anio=int(row["anio"]),
                     pais_anfitrion=row["pais_anfitrion"],
@@ -115,34 +128,63 @@ class TorneoOps:
                     eliminado=row["eliminado"]
                 )
                 torneos.append(torneo)
+        except FileNotFoundError:
+            raise HTTPException(status_code=500, detail="Archivo torneos.csv no encontrado")
+        except KeyError as e:
+            raise HTTPException(status_code=500, detail=f"Error en torneos.csv: Falta la columna {str(e)}")
+        except ValueError as e:
+            raise HTTPException(status_code=500, detail=f"Error en torneos.csv: {str(e)}")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error al leer torneos.csv: {str(e)}")
         return torneos
 
 class JugadorOps:
     def get_all(self) -> List[Jugador]:
+        df = pd.read_csv("data/jugadores.csv")
         jugadores = []
-        with open("data/jugadores.csv", newline="", encoding="utf-8") as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                jugador = Jugador(
-                    id=row["id"],
-                    numero=int(row["numero"]),
-                    nombre=row["nombre"],
-                    posicion=row["posicion"],
-                    goles=int(row["goles"]),
-                    asistencias=int(row["asistencias"]),
-                    año=int(row["año"]),
-                    activo=row["activo"].lower() == "true",
-                    tarjetas_amarillas=int(row["tarjetas_amarillas"]),
-                    tarjetas_rojas=int(row["tarjetas_rojas"])
-                )
-                jugadores.append(jugador)
+        for _, row in df.iterrows():
+            jugador = Jugador(
+                id=str(row["id"]),
+                numero=int(row["numero"]),
+                nombre=row["nombre"],
+                posicion=row["posicion"],
+                goles=int(row["goles"]),
+                asistencias=int(row["asistencias"]),
+                año=int(row["año"]),
+                activo=row["activo"].lower() == "true",
+                tarjetas_amarillas=int(row["tarjetas_amarillas"]),
+                tarjetas_rojas=int(row["tarjetas_rojas"]),
+                fecha_nacimiento=date.fromisoformat(row["fecha_nacimiento"]),
+                equipo=row["equipo"]
+            )
+            jugadores.append(jugador)
         return jugadores
+
+class PlantillaOps:
+    def get_all(self) -> List[Plantilla]:
+        df = pd.read_csv("data/plantillas.csv")
+        plantillas = []
+        for _, row in df.iterrows():
+            plantilla = Plantilla(
+                id=str(row["id"]),
+                nombre=row["nombre"],
+                equipo_id=row["equipo_id"],
+                partido_id=row["partido_id"],
+                posicion=row["posicion"],
+                goles=int(row["goles"]),
+                asistencias=int(row["asistencias"]),
+                tarjetas_amarillas=int(row["tarjetas_amarillas"]),
+                tarjetas_rojas=int(row["tarjetas_rojas"])
+            )
+            plantillas.append(plantilla)
+        return plantillas
 
 # Instancias de operaciones
 equipo_ops = EquipoOps()
 partido_ops = PartidoOps()
 torneo_ops = TorneoOps()
 jugador_ops = JugadorOps()
+plantilla_ops = PlantillaOps()
 
 # Validaciones
 def validate_year(year: int):
@@ -171,6 +213,10 @@ async def get_jugadores(ano: int = None):
         jugadores = [j for j in jugadores if j.año == ano]
     return jugadores
 
+@app.get("/plantillas/", response_model=List[Plantilla])
+async def get_plantillas():
+    return plantilla_ops.get_all()
+
 @app.get("/estadisticas/completa/")
 async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
     if ano:
@@ -178,7 +224,6 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
     partidos = partido_ops.get_all()
     jugadores = jugador_ops.get_all()
     
-    # Añadir log para depurar los partidos cargados
     print(f"Total partidos cargados: {len(partidos)}")
     for p in partidos:
         print(f"Partido ID: {p.id}, Fecha: {p.fecha}, Año: {p.fecha.year}, Local: {p.equipo_local}, Visitante: {p.equipo_visitante}")
@@ -188,7 +233,6 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
     if ano:
         partidos = [p for p in partidos if p.fecha.year == ano]
 
-    # Añadir log después del filtro
     print(f"Partidos después del filtro (año={ano}, torneo_id={torneo_id}): {len(partidos)}")
 
     total_partidos = 0
