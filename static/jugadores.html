@@ -23,6 +23,13 @@
   <main>
     <section>
       <h2>Jugadores de la Selección Colombia</h2>
+      <label for="year">Selecciona un año (2021-2024):</label>
+      <select id="year" onchange="loadJugadores()">
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+      </select>
       <div id="jugadores">
         <p>Cargando jugadores...</p>
       </div>
@@ -36,13 +43,18 @@
 
   <script>
     async function loadJugadores() {
+      const year = document.getElementById('year').value;
       const jugadoresDiv = document.getElementById('jugadores');
-      const url = 'https://fastapiproject-dap2.onrender.com/jugadores/';
+      const url = `https://fastapiproject-dap2.onrender.com/jugadores/?ano=${year}`;
       
       try {
         const response = await fetch(url);
         const jugadores = await response.json();
-        jugadoresDiv.innerHTML = '<ul>' + jugadores.map(j => `<li>${j.nombre} (#${j.numero}) - Posición: ${j.posicion}, Goles: ${j.goles}</li>`).join('') + '</ul>';
+        if (jugadores.length === 0) {
+          jugadoresDiv.innerHTML = `<p>No se encontraron jugadores para el año ${year}.</p>`;
+        } else {
+          jugadoresDiv.innerHTML = '<ul>' + jugadores.map(j => `<li>${j.nombre} (#${j.numero}) - Posición: ${j.posicion}, Goles: ${j.goles}</li>`).join('') + '</ul>';
+        }
       } catch (error) {
         jugadoresDiv.innerHTML = `<p>Error al cargar los jugadores: ${error.message}</p>`;
       }

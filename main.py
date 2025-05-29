@@ -163,8 +163,13 @@ async def get_torneos():
     return torneo_ops.get_all()
 
 @app.get("/jugadores/", response_model=List[Jugador])
-async def get_jugadores():
-    return jugador_ops.get_all()
+async def get_jugadores(ano: int = None):
+    if ano:
+        validate_year(ano)
+    jugadores = jugador_ops.get_all()
+    if ano:
+        jugadores = [j for j in jugadores if j.año == ano]
+    return jugadores
 
 @app.get("/estadisticas/completa/")
 async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
@@ -173,11 +178,18 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
     partidos = partido_ops.get_all()
     jugadores = jugador_ops.get_all()
     
+    # Añadir log para depurar los partidos cargados
+    print(f"Total partidos cargados: {len(partidos)}")
+    for p in partidos:
+        print(f"Partido ID: {p.id}, Fecha: {p.fecha}, Año: {p.fecha.year}, Local: {p.equipo_local}, Visitante: {p.equipo_visitante}")
+
     if torneo_id:
         partidos = [p for p in partidos if p.torneo_id == torneo_id]
     if ano:
         partidos = [p for p in partidos if p.fecha.year == ano]
-        jugadores = [j for j in jugadores if j.año == ano]
+
+    # Añadir log después del filtro
+    print(f"Partidos después del filtro (año={ano}, torneo_id={torneo_id}): {len(partidos)}")
 
     total_partidos = 0
     goles_anotados = 0
