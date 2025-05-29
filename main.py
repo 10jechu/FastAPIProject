@@ -132,7 +132,7 @@ class JugadorOps:
             int(row["goles"]),
             int(row["asistencias"]),
             int(row["año"]),
-            row["activo"].lower() == "true",
+            bool(row["activo"]),  # Convertir directamente a booleano
             date.fromisoformat(row["fecha_nacimiento"]),
             row["equipo"],
             int(row["tarjetas_amarillas"]),
