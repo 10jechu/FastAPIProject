@@ -1,231 +1,170 @@
-from fastapi import FastAPI, HTTPException
-from typing import List
-from models.partido import Partido
-from models.jugador import Jugador
-from models.torneo import Torneo
-from models.equipo import Equipo
-from models.plantilla import Plantilla
-from operations.partido_ops import PartidoOps
-from operations.jugador_ops import JugadorOps
-from operations.torneo_ops import TorneoOps
-from operations.equipo_ops import EquipoOps
-from operations.plantilla_ops import PlantillaOps
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+from datetime import date
+import csv
+from typing import List, Dict
 import os
 
 app = FastAPI()
 
-# Rutas a los CSVs usando rutas relativas al directorio del script
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PARTIDOS_CSV = os.path.join(BASE_DIR, "data", "partidos.csv")
-JUGADORES_CSV = os.path.join(BASE_DIR, "data", "jugadores.csv")
-TORNEOS_CSV = os.path.join(BASE_DIR, "data", "torneos.csv")
-EQUIPOS_CSV = os.path.join(BASE_DIR, "data", "equipos.csv")
-PLANTILLAS_CSV = os.path.join(BASE_DIR, "data", "plantillas.csv")
+# Monta la carpeta static para servir archivos HTML, CSS y JS
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Instancias de operaciones
-partido_ops = PartidoOps(PARTIDOS_CSV)
-jugador_ops = JugadorOps(JUGADORES_CSV)
-torneo_ops = TorneoOps(TORNEOS_CSV)
-equipo_ops = EquipoOps(EQUIPOS_CSV)
-plantilla_ops = PlantillaOps(PLANTILLAS_CSV, equipo_ops)
+# Define la ruta raíz para servir index.html
+@app.get("/", response_class=FileResponse)
+async def read_index():
+    return FileResponse("static/index.html")
 
-# ID de la Selección Colombia
+# Constantes
 COLOMBIA_ID = "Colombia"
 
+# Modelos
+class Equipo(BaseModel):
+    id: str
+    nombre: str
+    pais: str
+    enfrentamientos_con_colombia: int
+
+class Partido(BaseModel):
+    id: str
+    fecha: date
+    equipo_local: str
+    equipo_visitante: str
+    goles_local: int
+    goles_visitante: int
+    torneo_id: str
+    eliminado: str
+    tarjetas_amarillas_local: int = 0
+    tarjetas_amarillas_visitante: int = 0
+    tarjetas_rojas_local: int = 0
+    tarjetas_rojas_visitante: int = 0
+
+class Torneo(BaseModel):
+    id: str
+    nombre: str
+    anio: int
+    pais_anfitrion: str
+    estado: str
+    eliminado: str
+
+class Jugador(BaseModel):
+    id: str
+    numero: int
+    nombre: str
+    posicion: str
+    goles: int
+    asistencias: int
+    año: int
+    activo: bool
+    tarjetas_amarillas: int = 0
+    tarjetas_rojas: int = 0
+
+# Operaciones para leer datos
+class EquipoOps:
+    def get_all(self) -> List[Equipo]:
+        equipos = []
+        with open("data/equipos.csv", newline="", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                equipo = Equipo(
+                    id=row["id"],
+                    nombre=row["nombre"],
+                    pais=row["pais"],
+                    enfrentamientos_con_colombia=int(row["enfrentamientos_con_colombia"])
+                )
+                equipos.append(equipo)
+        return equipos
+
+class PartidoOps:
+    def get_all(self) -> List[Partido]:
+        partidos = []
+        with open("data/partidos.csv", newline="", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                partido = Partido(
+                    id=row["id"],
+                    fecha=date.fromisoformat(row["fecha"]),
+                    equipo_local=row["equipo_local"],
+                    equipo_visitante=row["equipo_visitante"],
+                    goles_local=int(row["goles_local"]),
+                    goles_visitante=int(row["goles_visitante"]),
+                    torneo_id=row["torneo_id"],
+                    eliminado=row["eliminado"],
+                    tarjetas_amarillas_local=int(row["tarjetas_amarillas_local"]),
+                    tarjetas_amarillas_visitante=int(row["tarjetas_amarillas_visitante"]),
+                    tarjetas_rojas_local=int(row["tarjetas_rojas_local"]),
+                    tarjetas_rojas_visitante=int(row["tarjetas_rojas_visitante"])
+                )
+                partidos.append(partido)
+        return partidos
+
+class TorneoOps:
+    def get_all(self) -> List[Torneo]:
+        torneos = []
+        with open("data/torneos.csv", newline="", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                torneo = Torneo(
+                    id=row["id"],
+                    nombre=row["nombre"],
+                    anio=int(row["anio"]),
+                    pais_anfitrion=row["pais_anfitrion"],
+                    estado=row["estado"],
+                    eliminado=row["eliminado"]
+                )
+                torneos.append(torneo)
+        return torneos
+
+class JugadorOps:
+    def get_all(self) -> List[Jugador]:
+        jugadores = []
+        with open("data/jugadores.csv", newline="", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                jugador = Jugador(
+                    id=row["id"],
+                    numero=int(row["numero"]),
+                    nombre=row["nombre"],
+                    posicion=row["posicion"],
+                    goles=int(row["goles"]),
+                    asistencias=int(row["asistencias"]),
+                    año=int(row["año"]),
+                    activo=row["activo"].lower() == "true",
+                    tarjetas_amarillas=int(row["tarjetas_amarillas"]),
+                    tarjetas_rojas=int(row["tarjetas_rojas"])
+                )
+                jugadores.append(jugador)
+        return jugadores
+
+# Instancias de operaciones
+equipo_ops = EquipoOps()
+partido_ops = PartidoOps()
+torneo_ops = TorneoOps()
+jugador_ops = JugadorOps()
+
+# Validaciones
 def validate_year(year: int):
-    if not (2021 <= year <= 2024):
-        raise HTTPException(status_code=400, detail="Hola, solo puedes ingresar a datos del 2021 hasta el 2024 de la Selección Colombia")
+    if year < 2021 or year > 2024:
+        raise HTTPException(status_code=400, detail="El año debe estar entre 2021 y 2024")
 
-@app.get("/")
-async def root():
-    return {"message": "Hola, FastAPI funciona"}
-
-# Endpoints para Partido
-@app.get("/partidos/", response_model=List[Partido])
-async def get_all_partidos():
-    return partido_ops.get_all()
-
-@app.get("/partidos/{partido_id}", response_model=Partido)
-async def get_partido(partido_id: str):
-    return partido_ops.get_by_id(partido_id)
-
-@app.get("/partidos/filter/{ano}", response_model=List[Partido])
-async def get_partidos_by_year(ano: int):
-    validate_year(ano)
-    partidos = partido_ops.get_all()
-    return [partido for partido in partidos if partido.fecha.year == ano]
-
-@app.post("/partidos/", response_model=Partido)
-async def create_partido(partido: Partido):
-    return partido_ops.create(partido)
-
-@app.put("/partidos/{partido_id}", response_model=Partido)
-async def update_partido(partido_id: str, partido: Partido):
-    return partido_ops.update(partido_id, partido)
-
-@app.delete("/partidos/{partido_id}")
-async def delete_partido(partido_id: str):
-    partido_ops.delete(partido_id)
-    return {"message": f"Partido {partido_id} deleted"}
-
-# Endpoints para Jugador
-@app.get("/jugadores/", response_model=List[Jugador])
-async def get_all_jugadores():
-    return jugador_ops.get_all()
-
-@app.get("/jugadores/filter/{ano}", response_model=List[Jugador])
-async def get_jugadores_by_year(ano: int):
-    validate_year(ano)
-    return jugador_ops.get_by_year(ano)
-
-@app.get("/jugadores/{jugador_id}", response_model=Jugador)
-async def get_jugador(jugador_id: int):
-    return jugador_ops.get_by_id(jugador_id)
-
-@app.post("/jugadores/", response_model=Jugador)
-async def create_jugador(jugador: Jugador):
-    return jugador_ops.create(jugador)
-
-@app.put("/jugadores/{jugador_id}", response_model=Jugador)
-async def update_jugador(jugador_id: int, jugador: Jugador):
-    return jugador_ops.update(jugador_id, jugador)
-
-@app.delete("/jugadores/{jugador_id}")
-async def delete_jugador(jugador_id: int):
-    jugador_ops.delete(jugador_id)
-    return {"message": f"Jugador {jugador_id} deleted"}
-
-@app.get("/jugadores/{jugador_id}/status")
-async def get_jugador_status(jugador_id: int):
-    try:
-        return jugador_ops.get_jugador_status(jugador_id)
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Jugador con id {jugador_id} no encontrado")
-
-@app.patch("/jugadores/{jugador_id}/toggle-active", response_model=Jugador)
-async def toggle_jugador_active(jugador_id: int):
-    try:
-        return jugador_ops.toggle_active(jugador_id)
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Jugador con id {jugador_id} no encontrado")
-
-# Endpoints para Torneo
-@app.get("/torneos/", response_model=List[Torneo])
-async def get_all_torneos():
-    return torneo_ops.get_all()
-
-@app.get("/torneos/{torneo_id}", response_model=Torneo)
-async def get_torneo(torneo_id: str):
-    return torneo_ops.get_by_id(torneo_id)
-
-@app.post("/torneos/", response_model=Torneo)
-async def create_torneo(torneo: Torneo):
-    return torneo_ops.create(torneo)
-
-@app.put("/torneos/{torneo_id}", response_model=Torneo)
-async def update_torneo(torneo_id: str, torneo: Torneo):
-    return torneo_ops.update(torneo_id, torneo)
-
-@app.delete("/torneos/{torneo_id}")
-async def delete_torneo(torneo_id: str):
-    torneo_ops.delete(torneo_id)
-    return {"message": f"Torneo {torneo_id} deleted"}
-
-# Endpoints para Equipo
+# Endpoints
 @app.get("/equipos/", response_model=List[Equipo])
-async def get_all_equipos():
+async def get_equipos():
     return equipo_ops.get_all()
 
-@app.get("/equipos/{equipo_id}", response_model=Equipo)
-async def get_equipo(equipo_id: str):
-    return equipo_ops.get_by_id(equipo_id)
+@app.get("/partidos/", response_model=List[Partido])
+async def get_partidos():
+    return partido_ops.get_all()
 
-@app.post("/equipos/", response_model=Equipo)
-async def create_equipo(equipo: Equipo):
-    return equipo_ops.create(equipo)
+@app.get("/torneos/", response_model=List[Torneo])
+async def get_torneos():
+    return torneo_ops.get_all()
 
-@app.put("/equipos/{equipo_id}", response_model=Equipo)
-async def update_equipo(equipo_id: str, equipo: Equipo):
-    return equipo_ops.update(equipo_id, equipo)
-
-@app.delete("/equipos/{equipo_id}")
-async def delete_equipo(equipo_id: str):
-    equipo_ops.delete(equipo_id)
-    return {"message": f"Equipo {equipo_id} deleted"}
-
-# Endpoints para Plantilla
-@app.get("/plantillas/", response_model=List[Plantilla])
-async def get_all_plantillas():
-    return plantilla_ops.get_all()
-
-@app.get("/plantillas/{plantilla_id}", response_model=Plantilla)
-async def get_plantilla(plantilla_id: str):
-    return plantilla_ops.get_by_id(plantilla_id)
-
-@app.post("/plantillas/", response_model=Plantilla)
-async def create_plantilla(plantilla: Plantilla):
-    return plantilla_ops.create(plantilla)
-
-@app.put("/plantillas/{plantilla_id}", response_model=Plantilla)
-async def update_plantilla(plantilla_id: str, plantilla: Plantilla):
-    return plantilla_ops.update(plantilla_id, plantilla)
-
-@app.delete("/plantillas/{plantilla_id}")
-async def delete_plantilla(plantilla_id: str):
-    plantilla_ops.delete(plantilla_id)
-    return {"message": f"Plantilla {plantilla_id} deleted"}
-
-# Endpoints de Estadísticas
-@app.get("/estadisticas/partidos-por-torneo/")
-async def get_partidos_por_torneo(torneo_id: str = None):
-    partidos = partido_ops.get_all()
-    torneos = torneo_ops.get_all()
-    torneos_dict = {torneo.id: torneo.nombre for torneo in torneos}
-    estadisticas = {}
-    for partido in partidos:
-        if partido.equipo_local != COLOMBIA_ID and partido.equipo_visitante != COLOMBIA_ID:
-            continue
-        if torneo_id and partido.torneo_id != torneo_id:
-            continue
-        torneo_nombre = torneos_dict.get(partido.torneo_id, "Desconocido")
-        if torneo_nombre not in estadisticas:
-            estadisticas[torneo_nombre] = 0
-        estadisticas[torneo_nombre] += 1
-    return [{"torneo": nombre, "partidos": cantidad} for nombre, cantidad in estadisticas.items()]
-
-@app.get("/estadisticas/goles-por-torneo/")
-async def get_goles_por_torneo(torneo_id: str = None):
-    partidos = partido_ops.get_all()
-    torneos = torneo_ops.get_all()
-    torneos_dict = {torneo.id: torneo.nombre for torneo in torneos}
-    estadisticas = {}
-    for partido in partidos:
-        if partido.equipo_local != COLOMBIA_ID and partido.equipo_visitante != COLOMBIA_ID:
-            continue
-        if torneo_id and partido.torneo_id != torneo_id:
-            continue
-        torneo_nombre = torneos_dict.get(partido.torneo_id, "Desconocido")
-        if torneo_nombre not in estadisticas:
-            estadisticas[torneo_nombre] = {"goles_anotados": 0, "goles_recibidos": 0}
-        if partido.equipo_local == COLOMBIA_ID:
-            estadisticas[torneo_nombre]["goles_anotados"] += partido.goles_local
-            estadisticas[torneo_nombre]["goles_recibidos"] += partido.goles_visitante
-        else:
-            estadisticas[torneo_nombre]["goles_anotados"] += partido.goles_visitante
-            estadisticas[torneo_nombre]["goles_recibidos"] += partido.goles_local
-    return [{"torneo": nombre, "goles_anotados": data["goles_anotados"], "goles_recibidos": data["goles_recibidos"]}
-            for nombre, data in estadisticas.items()]
-
-@app.get("/estadisticas/jugadores/")
-async def get_estadisticas_jugadores(ano: int = None):
-    if ano:
-        validate_year(ano)
-    jugadores = jugador_ops.get_all()
-    if ano:
-        jugadores = [j for j in jugadores if j.año == ano]
-    return [{"nombre": jugador.nombre, "goles": jugador.goles, "asistencias": jugador.asistencias,
-             "tarjetas_amarillas": jugador.tarjetas_amarillas, "tarjetas_rojas": jugador.tarjetas_rojas}
-            for jugador in jugadores]
+@app.get("/jugadores/", response_model=List[Jugador])
+async def get_jugadores():
+    return jugador_ops.get_all()
 
 @app.get("/estadisticas/completa/")
 async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
@@ -249,7 +188,6 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
     empates = 0
     derrotas = 0
 
-    # Estadísticas de partidos
     for partido in partidos:
         if partido.equipo_local != COLOMBIA_ID and partido.equipo_visitante != COLOMBIA_ID:
             continue
@@ -277,13 +215,25 @@ async def get_estadisticas_completa(torneo_id: str = None, ano: int = None):
             else:
                 derrotas += 1
 
-    # Estadísticas de jugadores
     tarjetas_amarillas_jugadores = sum(j.tarjetas_amarillas for j in jugadores if not ano or j.año == ano)
     tarjetas_rojas_jugadores = sum(j.tarjetas_rojas for j in jugadores if not ano or j.año == ano)
 
-    # Totales combinados
     tarjetas_amarillas = tarjetas_amarillas_partidos + tarjetas_amarillas_jugadores
     tarjetas_rojas = tarjetas_rojas_partidos + tarjetas_rojas_jugadores
+
+    if total_partidos == 0:
+        return {
+            "message": f"No se encontraron partidos para la Selección Colombia con torneo_id={torneo_id} y año={ano}",
+            "total_partidos": 0,
+            "goles_anotados": 0,
+            "goles_recibidos": 0,
+            "tarjetas_amarillas": 0,
+            "tarjetas_rojas": 0,
+            "victorias": 0,
+            "empates": 0,
+            "derrotas": 0,
+            "promedio_goles_por_partido": 0
+        }
 
     promedio_goles = goles_anotados / total_partidos if total_partidos > 0 else 0
 
