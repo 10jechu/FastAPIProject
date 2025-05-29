@@ -185,7 +185,12 @@ class PartidoOps:
             pd.to_datetime(row["fecha"]).date(),
             int(row["goles_local"]),
             int(row["goles_visitante"]),
-            int(row["torneo_id"])
+            int(row["torneo_id"]),
+            row["eliminado"],
+            int(row["tarjetas_amarillas_local"]),
+            int(row["tarjetas_amarillas_visitante"]),
+            int(row["tarjetas_rojas_local"]),
+            int(row["tarjetas_rojas_visitante"])
         ) for _, row in self.df.iterrows()]
 
     def get_by_year(self, year: int) -> List[Partido]:
