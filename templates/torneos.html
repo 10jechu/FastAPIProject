@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Torneos</h1>
+        <h1>Selección Colombia - Torneos</h1>
         <nav>
             <a href="/">Inicio</a>
             <a href="/equipos/">Equipos</a>
@@ -36,13 +36,14 @@
                 {% for torneo in torneos %}
                 <tr>
                     <td>{{ torneo.id }}</td>
-                    <td>{{ torneo.nombre }}</td>
-                    <td>{{ torneo.fecha_inicio }}</td>
-                    <td>{{ torneo.fecha_fin }}</td>
+                    <td><a href="/torneos/{{ torneo.id }}">{{ torneo.nombre or 'N/A' }}</a></td>
+                    <td>{{ torneo.fecha_inicio or 'N/A' }}</td>
+                    <td>{{ torneo.fecha_fin or 'N/A' }}</td>
                     <td>{{ torneo.campeon or 'N/A' }}</td>
                     <td>
                         <a href="/torneos/{{ torneo.id }}/edit">Editar</a>
-                        <form action="/torneos/{{ torneo.id }}/?_method=DELETE" method="POST" style="display:inline;">
+                        <form action="/torneos/{{ torneo.id }}/" method="POST" style="display:inline;">
+                            <input type="hidden" name="method" value="DELETE">
                             <button type="submit">Eliminar</button>
                         </form>
                     </td>

@@ -29,8 +29,8 @@ templates = Jinja2Templates(directory="templates")
 
 # Validar años
 def validate_year(year: int):
-    if year not in range(2021, 2025):
-        raise HTTPException(status_code=400, detail="El año debe estar entre 2021 y 2024")
+    if year not in range(2021, 2026):
+        raise HTTPException(status_code=400, detail="El año debe estar entre 2021 y 2025")
 
 # Extraer edad y fecha de nacimiento
 def extract_age(f_nacim_edad: str) -> tuple[str, int]:
@@ -92,8 +92,8 @@ class EquipoOps:
 
     def create(self, equipo: Equipo) -> dict:
         try:
-            if equipo.id in self.df["id"].values:
-                raise DuplicateException("Equipo", equipo.id)
+            if str(equipo.id) in self.df["id"].values:
+                raise DuplicateException("Equipo", str(equipo.id))
             equipo_dict = equipo.dict()
             new_df = pd.DataFrame([equipo_dict])
             self.df = pd.concat([self.df, new_df], ignore_index=True)
@@ -310,7 +310,7 @@ class PartidoOps:
 
     def get_by_id(self, partido_id: str) -> dict:
         try:
-            partido = self.df[self.df["id"] == partido_id].to_dict(orient='records')
+            partido = self.df[self.df["id"].astype(str) == str(partido_id)].to_dict(orient='records')
             if not partido:
                 raise NotFoundException("Partido", partido_id)
             return partido[0]
@@ -331,8 +331,8 @@ class PartidoOps:
 
     def create(self, partido: Partido) -> dict:
         try:
-            if partido.id in self.df["id"].values:
-                raise DuplicateException("Partido", partido.id)
+            if str(partido.id) in self.df["id"].astype(str).values:
+                raise DuplicateException("Partido", str(partido.id))
             partido_dict = partido.dict()
             new_df = pd.DataFrame([partido_dict])
             self.df = pd.concat([self.df, new_df], ignore_index=True)
@@ -351,12 +351,12 @@ class PartidoOps:
 
     def update(self, partido_id: str, updated_partido: Partido) -> dict:
         try:
-            if partido_id not in self.df["id"].values:
+            if partido_id not in self.df["id"].astype(str).values:
                 raise NotFoundException("Partido", partido_id)
-            original = self.df[self.df["id"] == partido_id].to_dict(orient='records')[0]
+            original = self.df[self.df["id"].astype(str) == partido_id].to_dict(orient='records')[0]
             updated_partido_dict = updated_partido.dict()
             updated_partido_dict["id"] = partido_id
-            self.df.loc[self.df["id"] == partido_id] = updated_partido_dict
+            self.df.loc[self.df["id"].astype(str) == partido_id] = updated_partido_dict
             self.df.to_csv(self.csv_file, index=False)
             history_df = pd.DataFrame([original])
             history_df["action"] = "update"
@@ -372,10 +372,10 @@ class PartidoOps:
 
     def delete(self, partido_id: str) -> None:
         try:
-            if partido_id not in self.df["id"].values:
+            if partido_id not in self.df["id"].astype(str).values:
                 raise NotFoundException("Partido", partido_id)
-            partido = self.df[self.df["id"] == partido_id].to_dict(orient='records')[0]
-            self.df = self.df[self.df["id"] != partido_id]
+            partido = self.df[self.df["id"].astype(str) == partido_id].to_dict(orient='records')[0]
+            self.df = self.df[self.df["id"].astype(str) != partido_id]
             self.df.to_csv(self.csv_file, index=False)
             history_df = pd.DataFrame([partido])
             history_df["action"] = "delete"
@@ -389,7 +389,7 @@ class PartidoOps:
             raise RuntimeError(f"Error al eliminar partido {partido_id}: {str(e)}") from e
 
 class TorneoOps:
-    def __init__(self, csv_file: str = "data/torneos.csv", history_file: str = "data/torneos_history.csv"):
+    def __init__(self, csv_file: str, history_file: str = "data/torneos_history.csv"):
         self.csv_file = csv_file
         self.history_file = history_file
         try:
@@ -399,7 +399,7 @@ class TorneoOps:
                 if col not in self.df.columns:
                     self.df[col] = None
             if not pd.io.common.file_exists(history_file):
-                pd.DataFrame(columns=expected_columns + ["action", "timestamp"]).to_csv(history_file, index=False)
+                pd.DataFrame(columns=["id", "nombre", "fecha_inicio", "fecha_fin", "campeon", "action", "timestamp"]).to_csv(history_file, index=False)
         except FileNotFoundError:
             logger.warning(f"File {csv_file} not found, creating empty DataFrame")
             self.df = pd.DataFrame(columns=["id", "nombre", "fecha_inicio", "fecha_fin", "campeon"])
@@ -423,7 +423,7 @@ class TorneoOps:
     def create(self, torneo: Torneo) -> dict:
         try:
             if torneo.id in self.df["id"].values:
-                raise DuplicateException("Torneo", str(torneo_id))
+                raise DuplicateException("Torneo", str(torneo.id))
             torneo_dict = torneo.dict()
             new_df = pd.DataFrame([torneo_dict])
             self.df = pd.concat([self.df, new_df], ignore_index=True)
@@ -480,7 +480,7 @@ class TorneoOps:
             raise RuntimeError(f"Error al eliminar torneo {torneo_id}: {str(e)}") from e
 
 class PlantillaOps:
-    def __init__(self, csv_file: str = "data/plantilla.csv", history_file: str = "data/plantilla_history.csv"):
+    def __init__(self, csv_file: str, history_file: str = "data/plantillas_history.csv"):
         self.csv_file = csv_file
         self.history_file = history_file
         try:
@@ -490,7 +490,7 @@ class PlantillaOps:
                 if col not in self.df.columns:
                     self.df[col] = None
             if not pd.io.common.file_exists(history_file):
-                pd.DataFrame(columns=expected_columns + ["action", "timestamp"]).to_csv(history_file, index=False)
+                pd.DataFrame(columns=["id", "torneo_id", "equipo_id", "jugador_id", "action", "timestamp"]).to_csv(history_file, index=False)
         except FileNotFoundError:
             logger.warning(f"File {csv_file} not found, creating empty DataFrame")
             self.df = pd.DataFrame(columns=["id", "torneo_id", "equipo_id", "jugador_id"])
@@ -570,22 +570,19 @@ class PlantillaOps:
             logger.error(f"Error deleting plantilla {plantilla_id}: {str(e)}")
             raise RuntimeError(f"Error al eliminar plantilla {plantilla_id}: {str(e)}") from e
 
-# Instancias de operaciones con DataFrames precargados
+# Instancias de operaciones
 equipo_ops = EquipoOps("data/equipos.csv")
 jugador_ops = JugadorOps("data/jugadores.csv")
 partido_ops = PartidoOps("data/partidos.csv")
-torneo_ops = TorneoOps()
-plantilla_ops = PlantillaOps()
+torneo_ops = TorneoOps("data/torneos.csv")
+plantilla_ops = PlantillaOps("data/plantilla.csv")
 
-# Endpoints
+# Rutas
 @app.get("/", response_class=HTMLResponse)
-async def read_index(request: Request):
-    try:
-        return templates.TemplateResponse("index.html", {"request": request})
-    except Exception as e:
-        logger.error(f"Error in read_index: {str(e)}", exc_info=True)
-        raise HTTPException(status_code=500, detail=str(e))
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
+# Equipos
 @app.get("/equipos/", response_class=HTMLResponse)
 async def get_equipos(request: Request):
     try:
@@ -599,8 +596,7 @@ async def get_equipos(request: Request):
 async def get_equipo(request: Request, equipo_id: str):
     try:
         equipo = equipo_ops.get_by_id(equipo_id)
-        logger.info(f"Cargando detalles de equipo ID {equipo_id}: {equipo}")
-        return templates.TemplateResponse("equipodetalle.html", {"request": request, "equipo": equipo})
+        return templates.TemplateResponse("equipo_detail.html", {"request": request, "equipo": equipo})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
@@ -608,7 +604,13 @@ async def get_equipo(request: Request, equipo_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/equipos/")
-async def create_equipo(request: Request, id: str = Form(...), nombre: str = Form(...), pais: str = Form(...), enfrentamientos_con_colombia: int = Form(...)):
+async def create_equipo(
+    request: Request,
+    id: str = Form(...),
+    nombre: str = Form(...),
+    pais: str = Form(...),
+    enfrentamientos_con_colombia: int = Form(...)
+):
     try:
         equipo = Equipo(id=id, nombre=nombre, pais=pais, enfrentamientos_con_colombia=enfrentamientos_con_colombia)
         equipo_ops.create(equipo)
@@ -619,46 +621,50 @@ async def create_equipo(request: Request, id: str = Form(...), nombre: str = For
         logger.error(f"Error in create_equipo: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.put("/equipos/{equipo_id}")
-async def update_equipo(equipo_id: str, request: Request, nombre: str = Form(None), pais: str = Form(None), enfrentamientos_con_colombia: int = Form(None)):
+@app.post("/equipos/{equipo_id}/")
+async def handle_equipo_methods(
+    request: Request,
+    equipo_id: str,
+    method: str = Form(None),
+    id: str = Form(None),
+    nombre: str = Form(None),
+    pais: str = Form(None),
+    enfrentamientos_con_colombia: int = Form(None)
+):
     try:
-        updated_equipo = Equipo(id=equipo_id, nombre=nombre or "", pais=pais or "", enfrentamientos_con_colombia=enfrentamientos_con_colombia or 0)
-        equipo_ops.update(equipo_id, updated_equipo)
-        return RedirectResponse(url="/equipos/", status_code=303)
+        if method == "PUT":
+            equipo = Equipo(
+                id=equipo_id,
+                nombre=nombre or "",
+                pais=pais or "",
+                enfrentamientos_con_colombia=enfrentamientos_con_colombia or 0
+            )
+            equipo_ops.update(equipo_id, equipo)
+            return RedirectResponse(url="/equipos/", status_code=303)
+        elif method == "DELETE":
+            equipo_ops.delete(equipo_id)
+            return RedirectResponse(url="/equipos/", status_code=303)
+        else:
+            raise HTTPException(status_code=400, detail="Método no soportado")
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in update_equipo: {str(e)}", exc_info=True)
+        logger.error(f"Error in handle_equipo_methods: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.delete("/equipos/{equipo_id}")
-async def delete_equipo(equipo_id: str):
-    try:
-        equipo_ops.delete(equipo_id)
-        return RedirectResponse(url="/equipos/", status_code=303)
-    except NotFoundException as e:
-        raise HTTPException(status_code=404, detail=str(e.detail))
-    except Exception as e:
-        logger.error(f"Error in delete_equipo: {str(e)}", exc_info=True)
-        raise HTTPException(status_code=500, detail=str(e))
-
+# Jugadores
 @app.get("/jugadores/", response_class=HTMLResponse)
-async def get_jugadores(request: Request, anio: int = None, page: int = 1):
+async def get_jugadores(request: Request, page: int = 1, anio: int = None):
     try:
         per_page = 10
         jugadores, total = jugador_ops.get_paginated(page, per_page, anio)
         total_pages = (total + per_page - 1) // per_page
-        logger.info(f"Total jugadores: {total}, Páginas: {total_pages}")
         return templates.TemplateResponse(
             "jugadores.html",
-            {
-                "request": request,
-                "jugadores": jugadores,
-                "anio": anio,
-                "page": page,
-                "total_pages": total_pages
-            }
+            {"request": request, "jugadores": jugadores, "page": page, "total_pages": total_pages, "anio": anio}
         )
+    except HTTPException as e:
+        raise
     except Exception as e:
         logger.error(f"Error in get_jugadores: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
@@ -667,8 +673,7 @@ async def get_jugadores(request: Request, anio: int = None, page: int = 1):
 async def get_jugador(request: Request, jugador_id: int):
     try:
         jugador = jugador_ops.get_by_id(jugador_id)
-        logger.info(f"Cargando detalles de jugador ID {jugador_id}: {jugador}")
-        return templates.TemplateResponse("jugadordetalle.html", {"request": request, "jugador": jugador})
+        return templates.TemplateResponse("jugador_detail.html", {"request": request, "jugador": jugador})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
@@ -676,14 +681,14 @@ async def get_jugador(request: Request, jugador_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/jugadores/{jugador_id}/edit", response_class=HTMLResponse)
-async def edit_jugador(request: Request, jugador_id: int):
+async def edit_jugador_form(request: Request, jugador_id: int):
     try:
         jugador = jugador_ops.get_by_id(jugador_id)
         return templates.TemplateResponse("jugadores_edit.html", {"request": request, "jugador": jugador})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in edit_jugador: {str(e)}", exc_info=True)
+        logger.error(f"Error in edit_jugador_form: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/jugadores/")
@@ -700,7 +705,7 @@ async def create_jugador(
     Numero_de_camisa: str = Form(None),
     anio: int = Form(...),
     posicion: str = Form(...),
-    activo: bool = Form(...)
+    activo: bool = Form(True)
 ):
     try:
         jugador = Jugador(
@@ -710,8 +715,8 @@ async def create_jugador(
             Club=Club,
             Altura=Altura,
             Pie=Pie,
-            Partidos_con_la_seleccion=Partidos_con_la_seleccion,
-            Goles=Goles,
+            Partidos_con_la_seleccion=Partidos_con_la_seleccion or 0,
+            Goles=Goles or 0,
             Numero_de_camisa=Numero_de_camisa,
             anio=anio,
             posicion=posicion,
@@ -729,7 +734,7 @@ async def create_jugador(
 async def handle_jugador_methods(
     request: Request,
     jugador_id: int,
-    _method: str = Form(None),
+    method: str = Form(None),
     id: int = Form(None),
     Jugadores: str = Form(None),
     F_Nacim_Edad: str = Form(None),
@@ -744,24 +749,24 @@ async def handle_jugador_methods(
     activo: bool = Form(None)
 ):
     try:
-        if _method == "PUT":
+        if method == "PUT":
             jugador = Jugador(
                 id=jugador_id,
                 Jugadores=Jugadores or "",
                 F_Nacim_Edad=F_Nacim_Edad or "",
                 Club=Club or "",
-                Altura=Altura,
-                Pie=Pie,
-                Partidos_con_la_seleccion=Partidos_con_la_seleccion,
-                Goles=Goles,
-                Numero_de_camisa=Numero_de_camisa,
+                Altura=Altura if Altura else None,
+                Pie=Pie if Pie else None,
+                Partidos_con_la_seleccion=Partidos_con_la_seleccion if Partidos_con_la_seleccion is not None else 0,
+                Goles=Goles if Goles is not None else 0,
+                Numero_de_camisa=Numero_de_camisa if Numero_de_camisa else None,
                 anio=anio or 0,
                 posicion=posicion or "",
                 activo=activo if activo is not None else True
             )
             jugador_ops.update(jugador_id, jugador)
             return RedirectResponse(url="/jugadores/", status_code=303)
-        elif _method == "DELETE":
+        elif method == "DELETE":
             jugador_ops.delete(jugador_id)
             return RedirectResponse(url="/jugadores/", status_code=303)
         else:
@@ -772,35 +777,36 @@ async def handle_jugador_methods(
         logger.error(f"Error in handle_jugador_methods: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
+# Partidos
 @app.get("/partidos/", response_class=HTMLResponse)
 async def get_partidos(request: Request):
     try:
         partidos = partido_ops.get_all()
         return templates.TemplateResponse("partidos.html", {"request": request, "partidos": partidos})
     except Exception as e:
-        logger.error(f"Error in get_partidos: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_partidos: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/partidos/{partido_id}", response_class=HTMLResponse)
 async def get_partido(request: Request, partido_id: str):
     try:
         partido = partido_ops.get_by_id(partido_id)
-        return templates.TemplateResponse("partidodetalle.html", {"request": request, "partido": partido})
+        return templates.TemplateResponse("partido_detail.html", {"request": request, "partido": partido})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in get_partido: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_partido: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/partidos/{partido_id}/edit", response_class=HTMLResponse)
-async def edit_partido(request: Request, partido_id: str):
+async def edit_partido_form(request: Request, partido_id: str):
     try:
         partido = partido_ops.get_by_id(partido_id)
         return templates.TemplateResponse("partidos_edit.html", {"request": request, "partido": partido})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in edit_partido: {str(e)}", exc_info=True)
+        logger.error(f"Error in edit_partido_form: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/partidos/")
@@ -812,7 +818,7 @@ async def create_partido(
     equipo_visitante: str = Form(...),
     goles_local: int = Form(...),
     goles_visitante: int = Form(...),
-    torneo_id: int = Form(...),
+    torneo_id: str = Form(...),
     eliminado: str = Form(None),
     tarjetas_amarillas_local: int = Form(None),
     tarjetas_amarillas_visitante: int = Form(None),
@@ -829,31 +835,31 @@ async def create_partido(
             goles_visitante=goles_visitante,
             torneo_id=torneo_id,
             eliminado=eliminado,
-            tarjetas_amarillas_local=tarjetas_amarillas_local,
-            tarjetas_amarillas_visitante=tarjetas_amarillas_visitante,
-            tarjetas_rojas_local=tarjetas_rojas_local,
-            tarjetas_rojas_visitante=tarjetas_rojas_visitante
+            tarjetas_amarillas_local=tarjetas_amarillas_local or 0,
+            tarjetas_amarillas_visitante=tarjetas_amarillas_visitante or 0,
+            tarjetas_rojas_local=tarjetas_rojas_local or 0,
+            tarjetas_rojas_visitante=tarjetas_rojas_visitante or 0
         )
         partido_ops.create(partido)
         return RedirectResponse(url="/partidos/", status_code=303)
     except DuplicateException as e:
         raise HTTPException(status_code=400, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in create_partido: {str(e)}", exc_info=True)
+        logger.error(f"Error in create_partido: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/partidos/{partido_id}/")
 async def handle_partido_methods(
     request: Request,
     partido_id: str,
-    _method: str = Form(None),
+    method: str = Form(None),
     id: str = Form(None),
     fecha: str = Form(None),
     equipo_local: str = Form(None),
     equipo_visitante: str = Form(None),
     goles_local: int = Form(None),
     goles_visitante: int = Form(None),
-    torneo_id: int = Form(None),
+    torneo_id: str = Form(None),
     eliminado: str = Form(None),
     tarjetas_amarillas_local: int = Form(None),
     tarjetas_amarillas_visitante: int = Form(None),
@@ -861,24 +867,24 @@ async def handle_partido_methods(
     tarjetas_rojas_visitante: int = Form(None)
 ):
     try:
-        if _method == "PUT":
+        if method == "PUT":
             partido = Partido(
                 id=partido_id,
-                fecha=fecha,
-                equipo_local=equipo_local,
-                equipo_visitante=equipo_visitante,
-                goles_local=goles_local,
-                goles_visitante=goles_visitante,
-                torneo_id=torneo_id,
+                fecha=fecha or "",
+                equipo_local=equipo_local or "",
+                equipo_visitante=equipo_visitante or "",
+                goles_local=goles_local or 0,
+                goles_visitante=goles_visitante or 0,
+                torneo_id=torneo_id or "",
                 eliminado=eliminado,
-                tarjetas_amarillas_local=tarjetas_amarillas_local,
-                tarjetas_amarillas_visitante=tarjetas_amarillas_visitante,
-                tarjetas_rojas_local=tarjetas_rojas_local,
-                tarjetas_rojas_visitante=tarjetas_rojas_visitante
+                tarjetas_amarillas_local=tarjetas_amarillas_local or 0,
+                tarjetas_amarillas_visitante=tarjetas_amarillas_visitante or 0,
+                tarjetas_rojas_local=tarjetas_rojas_local or 0,
+                tarjetas_rojas_visitante=tarjetas_rojas_visitante or 0
             )
             partido_ops.update(partido_id, partido)
             return RedirectResponse(url="/partidos/", status_code=303)
-        elif _method == "DELETE":
+        elif method == "DELETE":
             partido_ops.delete(partido_id)
             return RedirectResponse(url="/partidos/", status_code=303)
         else:
@@ -886,38 +892,39 @@ async def handle_partido_methods(
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in handle_partido_methods: {str(e)}", exc_info=True)
+        logger.error(f"Error in handle_partido_methods: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Torneos
 @app.get("/torneos/", response_class=HTMLResponse)
 async def get_torneos(request: Request):
     try:
         torneos = torneo_ops.get_all()
         return templates.TemplateResponse("torneos.html", {"request": request, "torneos": torneos})
     except Exception as e:
-        logger.error(f"Error in get_torneos: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_torneos: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/torneos/{torneo_id}", response_class=HTMLResponse)
 async def get_torneo(request: Request, torneo_id: int):
     try:
         torneo = torneo_ops.get_by_id(torneo_id)
-        return templates.TemplateResponse("torneodetalle.html", {"request": request, "torneo": torneo})
+        return templates.TemplateResponse("torneo_detail.html", {"request": request, "torneo": torneo})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in get_torneo: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_torneo: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/torneos/{torneo_id}/edit", response_class=HTMLResponse)
-async def edit_torneo(request: Request, torneo_id: int):
+async def edit_torneo_form(request: Request, torneo_id: int):
     try:
         torneo = torneo_ops.get_by_id(torneo_id)
         return templates.TemplateResponse("torneos_edit.html", {"request": request, "torneo": torneo})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in edit_torneo: {str(e)}", exc_info=True)
+        logger.error(f"Error in edit_torneo_form: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/torneos/")
@@ -930,26 +937,20 @@ async def create_torneo(
     campeon: str = Form(None)
 ):
     try:
-        torneo = Torneo(
-            id=id,
-            nombre=nombre,
-            fecha_inicio=fecha_inicio,
-            fecha_fin=fecha_fin,
-            campeon=campeon
-        )
+        torneo = Torneo(id=id, nombre=nombre, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin, campeon=campeon)
         torneo_ops.create(torneo)
         return RedirectResponse(url="/torneos/", status_code=303)
     except DuplicateException as e:
         raise HTTPException(status_code=400, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in create_torneo: {str(e)}", exc_info=True)
+        logger.error(f"Error in create_torneo: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/torneos/{torneo_id}/")
 async def handle_torneo_methods(
     request: Request,
     torneo_id: int,
-    _method: str = Form(None),
+    method: str = Form(None),
     id: int = Form(None),
     nombre: str = Form(None),
     fecha_inicio: str = Form(None),
@@ -957,17 +958,17 @@ async def handle_torneo_methods(
     campeon: str = Form(None)
 ):
     try:
-        if _method == "PUT":
+        if method == "PUT":
             torneo = Torneo(
                 id=torneo_id,
-                nombre=nombre,
-                fecha_inicio=fecha_inicio,
-                fecha_fin=fecha_fin,
+                nombre=nombre or "",
+                fecha_inicio=fecha_inicio or "",
+                fecha_fin=fecha_fin or "",
                 campeon=campeon
             )
             torneo_ops.update(torneo_id, torneo)
             return RedirectResponse(url="/torneos/", status_code=303)
-        elif _method == "DELETE":
+        elif method == "DELETE":
             torneo_ops.delete(torneo_id)
             return RedirectResponse(url="/torneos/", status_code=303)
         else:
@@ -975,38 +976,39 @@ async def handle_torneo_methods(
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in handle_torneo_methods: {str(e)}", exc_info=True)
+        logger.error(f"Error in handle_torneo_methods: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Plantillas
 @app.get("/plantillas/", response_class=HTMLResponse)
 async def get_plantillas(request: Request):
     try:
         plantillas = plantilla_ops.get_all()
         return templates.TemplateResponse("plantillas.html", {"request": request, "plantillas": plantillas})
     except Exception as e:
-        logger.error(f"Error in get_plantillas: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_plantillas: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/plantillas/{plantilla_id}", response_class=HTMLResponse)
 async def get_plantilla(request: Request, plantilla_id: int):
     try:
         plantilla = plantilla_ops.get_by_id(plantilla_id)
-        return templates.TemplateResponse("plantilladetalle.html", {"request": request, "plantilla": plantilla})
+        return templates.TemplateResponse("plantilla_detail.html", {"request": request, "plantilla": plantilla})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in get_plantilla: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_plantilla: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/plantillas/{plantilla_id}/edit", response_class=HTMLResponse)
-async def edit_plantilla(request: Request, plantilla_id: int):
+async def edit_plantilla_form(request: Request, plantilla_id: int):
     try:
         plantilla = plantilla_ops.get_by_id(plantilla_id)
         return templates.TemplateResponse("plantillas_edit.html", {"request": request, "plantilla": plantilla})
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in edit_plantilla: {str(e)}", exc_info=True)
+        logger.error(f"Error in edit_plantilla_form: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/plantillas/")
@@ -1018,41 +1020,36 @@ async def create_plantilla(
     jugador_id: int = Form(...)
 ):
     try:
-        plantilla = Plantilla(
-            id=id,
-            torneo_id=torneo_id,
-            equipo_id=equipo_id,
-            jugador_id=jugador_id
-        )
+        plantilla = Plantilla(id=id, torneo_id=torneo_id, equipo_id=equipo_id, jugador_id=jugador_id)
         plantilla_ops.create(plantilla)
         return RedirectResponse(url="/plantillas/", status_code=303)
     except DuplicateException as e:
         raise HTTPException(status_code=400, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in create_plantilla: {str(e)}", exc_info=True)
+        logger.error(f"Error in create_plantilla: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/plantillas/{plantilla_id}/")
 async def handle_plantilla_methods(
     request: Request,
     plantilla_id: int,
-    _method: str = Form(None),
+    method: str = Form(None),
     id: int = Form(None),
     torneo_id: int = Form(None),
     equipo_id: str = Form(None),
     jugador_id: int = Form(None)
 ):
     try:
-        if _method == "PUT":
+        if method == "PUT":
             plantilla = Plantilla(
                 id=plantilla_id,
-                torneo_id=torneo_id,
-                equipo_id=equipo_id,
-                jugador_id=jugador_id
+                torneo_id=torneo_id or 0,
+                equipo_id=equipo_id or "",
+                jugador_id=jugador_id or 0
             )
             plantilla_ops.update(plantilla_id, plantilla)
             return RedirectResponse(url="/plantillas/", status_code=303)
-        elif _method == "DELETE":
+        elif method == "DELETE":
             plantilla_ops.delete(plantilla_id)
             return RedirectResponse(url="/plantillas/", status_code=303)
         else:
@@ -1060,9 +1057,10 @@ async def handle_plantilla_methods(
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in handle_plantilla_methods: {str(e)}", exc_info=True)
+        logger.error(f"Error in handle_plantilla_methods: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Estadísticas
 @app.get("/estadisticas/completa/", response_class=HTMLResponse)
 async def get_full_stats(request: Request, anio: int = None):
     try:
@@ -1105,7 +1103,8 @@ async def get_full_stats(request: Request, anio: int = None):
             }]
         }
 
-        fechas = [p["fecha"] for p in partidos]
+        # Convertir fechas a strings
+        fechas = [str(p["fecha"]) if pd.notnull(p["fecha"]) else "N/A" for p in partidos]
         goles_anotados_lista = [
             p["goles_local"] if p["equipo_local"].lower() == "colombia" else p["goles_visitante"]
             for p in partidos

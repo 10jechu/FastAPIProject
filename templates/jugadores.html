@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Jugadores</h1>
+        <h1>Selección Colombia - Jugadores</h1>
         <nav>
             <a href="/">Inicio</a>
             <a href="/equipos/">Equipos</a>
@@ -23,7 +23,7 @@
         <h2>Lista de Jugadores</h2>
         <form action="/jugadores/" method="GET">
             <label for="anio">Filtrar por Año:</label>
-            <input type="number" id="anio" name="anio" value="{{ anio or '' }}" min="2021" max="2024">
+            <input type="number" id="anio" name="anio" min="2021" max="2024" value="{{ anio or '' }}">
             <button type="submit">Filtrar</button>
         </form>
         <table>
@@ -31,13 +31,14 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Fecha Nacimiento (Edad)</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Edad</th>
                     <th>Club</th>
                     <th>Altura</th>
                     <th>Pie</th>
-                    <th>Partidos Selección</th>
+                    <th>Partidos</th>
                     <th>Goles</th>
-                    <th>Número Camisa</th>
+                    <th>Número de Camisa</th>
                     <th>Año</th>
                     <th>Posición</th>
                     <th>Activo</th>
@@ -49,19 +50,21 @@
                 <tr>
                     <td>{{ jugador.id }}</td>
                     <td><a href="/jugadores/{{ jugador.id }}">{{ jugador.Jugadores }}</a></td>
-                    <td>{{ jugador.fecha_nacimiento }} ({{ jugador.edad or 'N/A' }})</td>
+                    <td>{{ jugador.fecha_nacimiento }}</td>
+                    <td>{{ jugador.edad or 'N/A' }}</td>
                     <td>{{ jugador.Club }}</td>
                     <td>{{ jugador.Altura or 'N/A' }}</td>
                     <td>{{ jugador.Pie or 'N/A' }}</td>
-                    <td>{{ jugador.Partidos_con_la_seleccion or 'N/A' }}</td>
-                    <td>{{ jugador.Goles or 'N/A' }}</td>
+                    <td>{{ jugador.Partidos_con_la_seleccion or 0 }}</td>
+                    <td>{{ jugador.Goles or 0 }}</td>
                     <td>{{ jugador.Numero_de_camisa }}</td>
                     <td>{{ jugador.anio }}</td>
                     <td>{{ jugador.posicion }}</td>
                     <td>{{ 'Sí' if jugador.activo else 'No' }}</td>
                     <td>
                         <a href="/jugadores/{{ jugador.id }}/edit">Editar</a>
-                        <form action="/jugadores/{{ jugador.id }}/?_method=DELETE" method="POST" style="display:inline;">
+                        <form action="/jugadores/{{ jugador.id }}/" method="POST" style="display:inline;">
+                            <input type="hidden" name="method" value="DELETE">
                             <button type="submit">Eliminar</button>
                         </form>
                     </td>
@@ -71,11 +74,11 @@
         </table>
         <div class="pagination">
             {% if page > 1 %}
-                <a href="/jugadores/?page={{ page - 1 }}{% if anio %}&anio={{ anio }}{% endif %}">Anterior</a>
+            <a href="/jugadores/?page={{ page - 1 }}{% if anio %}&anio={{ anio }}{% endif %}">Anterior</a>
             {% endif %}
             <span>Página {{ page }} de {{ total_pages }}</span>
             {% if page < total_pages %}
-                <a href="/jugadores/?page={{ page + 1 }}{% if anio %}&anio={{ anio }}{% endif %}">Siguiente</a>
+            <a href="/jugadores/?page={{ page + 1 }}{% if anio %}&anio={{ anio }}{% endif %}">Siguiente</a>
             {% endif %}
         </div>
 
@@ -85,11 +88,11 @@
             <input type="number" id="id" name="id" required><br>
             <label for="Jugadores">Nombre:</label><br>
             <input type="text" id="Jugadores" name="Jugadores" required><br>
-            <label for="F_Nacim_Edad">Fecha Nacimiento (Edad):</label><br>
-            <input type="text" id="F_Nacim_Edad" name="F_Nacim_Edad" placeholder="YYYY-MM-DD (Edad)" required><br>
+            <label for="F_Nacim_Edad">Fecha de Nacimiento/Edad (DD/MM/YYYY (edad)):</label><br>
+            <input type="text" id="F_Nacim_Edad" name="F_Nacim_Edad" required><br>
             <label for="Club">Club:</label><br>
             <input type="text" id="Club" name="Club" required><br>
-            <label for="Altura">Altura:</label><br>
+            <label for="Altura">Altura (m):</label><br>
             <input type="text" id="Altura" name="Altura"><br>
             <label for="Pie">Pie:</label><br>
             <input type="text" id="Pie" name="Pie"><br>
@@ -104,9 +107,9 @@
             <label for="posicion">Posición:</label><br>
             <input type="text" id="posicion" name="posicion" required><br>
             <label for="activo">Activo:</label><br>
-            <select id="activo" name="activo">
-                <option value="True">Sí</option>
-                <option value="False">No</option>
+            <select id="activo" name="activo" required>
+                <option value="true">Sí</option>
+                <option value="false">No</option>
             </select><br><br>
             <button type="submit">Guardar</button>
         </form>

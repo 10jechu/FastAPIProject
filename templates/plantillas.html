@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Plantillas</h1>
+        <h1>Selección Colombia - Plantillas</h1>
         <nav>
             <a href="/">Inicio</a>
             <a href="/equipos/">Equipos</a>
@@ -35,12 +35,13 @@
                 {% for plantilla in plantillas %}
                 <tr>
                     <td>{{ plantilla.id }}</td>
-                    <td>{{ plantilla.torneo_id }}</td>
-                    <td>{{ plantilla.equipo_id }}</td>
-                    <td>{{ plantilla.jugador_id }}</td>
+                    <td>{{ plantilla.torneo_id or 'N/A' }}</td>
+                    <td>{{ plantilla.equipo_id or 'N/A' }}</td>
+                    <td>{{ plantilla.jugador_id or 'N/A' }}</td>
                     <td>
                         <a href="/plantillas/{{ plantilla.id }}/edit">Editar</a>
-                        <form action="/plantillas/{{ plantilla.id }}/?_method=DELETE" method="POST" style="display:inline;">
+                        <form action="/plantillas/{{ plantilla.id }}/" method="POST" style="display:inline;">
+                            <input type="hidden" name="method" value="DELETE">
                             <button type="submit">Eliminar</button>
                         </form>
                     </td>
