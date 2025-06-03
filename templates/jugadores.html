@@ -1,54 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jugadores - Selección Colombia 2021-2024</title>
-  <link rel="stylesheet" href="/static/estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugadores</title>
+    <link rel="stylesheet" href="/static/estilos.css">
 </head>
 <body>
-  <header>
-    <h1>Selección Colombia 2021 - 2024</h1>
-    <nav>
-      <ul>
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/equipos/">Equipos</a></li>
-        <li><a href="/jugadores/">Jugadores</a></li>
-        <li><a href="/partidos/">Partidos</a></li>
-        <li><a href="/torneos/">Torneos</a></li>
-        <li><a href="/plantillas/">Plantillas Rivales</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section>
-      <h2>Jugadores</h2>
-      <form method="get" action="/jugadores/">
-        <label for="ano">Filtrar por año (2021-2024):</label>
-        <select name="ano" id="ano" onchange="this.form.submit()">
-          <option value="">Todos</option>
-          <option value="2021">2021</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-          <option value="2024">2024</option>
-        </select>
-      </form>
-      {% if jugadores %}
-        <ul>
-          {% for jugador in jugadores %}
-            <li>{{ jugador.nombre }} ({{ jugador.posicion }}, Goles: {{ jugador.goles }}, Año: {{ jugador.año }})</li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No se encontraron jugadores.</p>
-      {% endif %}
-    </section>
-  </main>
-
-  <footer>
-    <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
-    <p>Universidad Católica de Colombia</p>
-  </footer>
+    <header>
+        <h1>Selección Colombia 2021-2024</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Lista de Jugadores</h2>
+        <form method="get" action="/jugadores/">
+            <label for="ano">Filtrar por Año:</label>
+            <select name="ano" id="ano">
+                <option value="">Todos</option>
+                <option value="2021" {% if ano == 2021 %}selected{% endif %}>2021</option>
+                <option value="2022" {% if ano == 2022 %}selected{% endif %}>2022</option>
+                <option value="2023" {% if ano == 2023 %}selected{% endif %}>2023</option>
+                <option value="2024" {% if ano == 2024 %}selected{% endif %}>2024</option>
+            </select>
+            <button type="submit">Filtrar</button>
+        </form>
+        {% if jugadores %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Número</th>
+                    <th>Nombre</th>
+                    <th>Posición</th>
+                    <th>Goles</th>
+                    <th>Asistencias</th>
+                    <th>Año</th>
+                    <th>Activo</th>
+                    <th>Tarjetas Amarillas</th>
+                    <th>Tarjetas Rojas</th>
+                    <th>Imagen</th>
+                </tr>
+                {% for jugador in jugadores %}
+                    <tr>
+                        <td data-label="ID">{{ jugador.id }}</td>
+                        <td data-label="Número">{{ jugador.numero }}</td>
+                        <td data-label="Nombre"><a href="/jugadores/{{ jugador.id }}">{{ jugador.nombre }}</a></td>
+                        <td data-label="Posición">{{ jugador.posicion }}</td>
+                        <td data-label="Goles">{{ jugador.goles }}</td>
+                        <td data-label="Asistencias">{{ jugador.asistencias }}</td>
+                        <td data-label="Año">{{ jugador.año }}</td>
+                        <td data-label="Activo">{{ "Sí" if jugador.activo else "No" }}</td>
+                        <td data-label="Tarjetas Amarillas">{{ jugador.tarjetas_amarillas }}</td>
+                        <td data-label="Tarjetas Rojas">{{ jugador.tarjetas_rojas }}</td>
+                        <td data-label="Imagen"><img src="/static/jugadores/{{ jugador.nombre|lower|replace(' ', '_') }}.jpg" alt="{{ jugador.nombre }}" onerror="this.src='https://via.placeholder.com/100?text={{ jugador.nombre }}'"></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No se encontraron jugadores para el año seleccionado.</p>
+        {% endif %}
+    </main>
+    <footer>
+        <p>© 2025 Selección Colombia - Universidad Católica</p>
+    </footer>
 </body>
 </html>

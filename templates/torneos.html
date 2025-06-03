@@ -1,44 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Torneos - Selección Colombia 2021-2024</title>
-  <link rel="stylesheet" href="/static/estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneos</title>
+    <link rel="stylesheet" href="/static/estilos.css">
 </head>
 <body>
-  <header>
-    <h1>Selección Colombia 2021 - 2024</h1>
-    <nav>
-      <ul>
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/equipos/">Equipos</a></li>
-        <li><a href="/jugadores/">Jugadores</a></li>
-        <li><a href="/partidos/">Partidos</a></li>
-        <li><a href="/torneos/">Torneos</a></li>
-        <li><a href="/plantillas/">Plantillas Rivales</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section>
-      <h2>Torneos</h2>
-      {% if torneos %}
-        <ul>
-          {% for torneo in torneos %}
-            <li>{{ torneo.nombre }} ({{ torneo.anio }}, País: {{ torneo.pais_anfitrion }}, Estado: {{ torneo.estado }})</li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No se encontraron torneos.</p>
-      {% endif %}
-    </section>
-  </main>
-
-  <footer>
-    <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
-    <p>Universidad Católica de Colombia</p>
-  </footer>
+    <header>
+        <h1>Selección Colombia 2021-2024</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Lista de Torneos</h2>
+        {% if torneos %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Año</th>
+                    <th>País Anfitrión</th>
+                    <th>Estado</th>
+                    <th>Eliminado</th>
+                </tr>
+                {% for torneo in torneos %}
+                    <tr>
+                        <td data-label="ID">{{ torneo.id }}</td>
+                        <td data-label="Nombre">{{ torneo.nombre }}</td>
+                        <td data-label="Año">{{ torneo.anio }}</td>
+                        <td data-label="País Anfitrión">{{ torneo.pais_anfitrion if torneo.pais_anfitrion else "No especificado" }}</td>
+                        <td data-label="Estado">{{ torneo.estado }}</td>
+                        <td data-label="Eliminado">{{ torneo.eliminado }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No se encontraron torneos.</p>
+        {% endif %}
+    </main>
+    <footer>
+        <p>© 2025 Selección Colombia - Universidad Católica</p>
+    </footer>
 </body>
 </html>

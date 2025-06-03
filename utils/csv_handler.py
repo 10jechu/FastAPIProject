@@ -2,6 +2,7 @@ import csv
 from typing import List, Dict, Any, TypeVar, Type
 from datetime import date
 import logging
+import os
 
 T = TypeVar('T')
 
@@ -11,6 +12,10 @@ logger = logging.getLogger(__name__)
 class CSVHandler:
     def __init__(self, file_path: str):
         self.file_path = file_path
+        if not os.path.exists(file_path):
+            logger.warning(f"File not found: {file_path}, creating empty file")
+            with open(file_path, 'w', newline='', encoding='utf-8') as csvfile:
+                pass  # Crea el archivo vacío
 
     def read_all(self, model: Type[T]) -> List[T]:
         records = []
@@ -35,7 +40,7 @@ class CSVHandler:
             logger.warning(f"No records to write to {self.file_path}")
             return
         with open(self.file_path, 'w', newline='', encoding='utf-8') as csvfile:
-            fieldnames = records[0].keys()
+            fieldnames = records[0].keys() if records else []
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(records)
@@ -51,9 +56,11 @@ class CSVHandler:
                 logger.warning(f"Field {key} in {self.file_path} not found in model {model.__name__}, ignoring")
                 continue
 
-            if not value:
+            if not value and value != 0:
                 if expected_type == int:
                     converted_row[key] = 0
+                elif expected_type == bool:
+                    converted_row[key] = False
                 else:
                     converted_row[key] = None
                 continue

@@ -1,44 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Partidos - Selección Colombia 2021-2024</title>
-  <link rel="stylesheet" href="/static/estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partidos</title>
+    <link rel="stylesheet" href="/static/estilos.css">
 </head>
 <body>
-  <header>
-    <h1>Selección Colombia 2021 - 2024</h1>
-    <nav>
-      <ul>
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/equipos/">Equipos</a></li>
-        <li><a href="/jugadores/">Jugadores</a></li>
-        <li><a href="/partidos/">Partidos</a></li>
-        <li><a href="/torneos/">Torneos</a></li>
-        <li><a href="/plantillas/">Plantillas Rivales</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section>
-      <h2>Partidos</h2>
-      {% if partidos %}
-        <ul>
-          {% for partido in partidos %}
-            <li>{{ partido.equipo_local }} vs {{ partido.equipo_visitante }} ({{ partido.fecha.strftime('%Y-%m-%d') }}, Goles: {{ partido.goles_local }} - {{ partido.goles_visitante }})</li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No se encontraron partidos.</p>
-      {% endif %}
-    </section>
-  </main>
-
-  <footer>
-    <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
-    <p>Universidad Católica de Colombia</p>
-  </footer>
+    <header>
+        <h1>Selección Colombia 2021-2024</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Lista de Partidos</h2>
+        {% if partidos %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Equipo Local</th>
+                    <th>Equipo Visitante</th>
+                    <th>Goles Local</th>
+                    <th>Goles Visitante</th>
+                    <th>Torneo ID</th>
+                    <th>Eliminado</th>
+                    <th>Tarjetas Amarillas Local</th>
+                    <th>Tarjetas Amarillas Visitante</th>
+                    <th>Tarjetas Rojas Local</th>
+                    <th>Tarjetas Rojas Visitante</th>
+                </tr>
+                {% for partido in partidos %}
+                    <tr>
+                        <td data-label="ID">{{ partido.id }}</td>
+                        <td data-label="Fecha">{{ partido.fecha }}</td>
+                        <td data-label="Equipo Local">{{ partido.equipo_local }}</td>
+                        <td data-label="Equipo Visitante">{{ partido.equipo_visitante }}</td>
+                        <td data-label="Goles Local">{{ partido.goles_local }}</td>
+                        <td data-label="Goles Visitante">{{ partido.goles_visitante }}</td>
+                        <td data-label="Torneo ID">{{ partido.torneo_id }}</td>
+                        <td data-label="Eliminado">{{ partido.eliminado }}</td>
+                        <td data-label="Tarjetas Amarillas Local">{{ partido.tarjetas_amarillas_local }}</td>
+                        <td data-label="Tarjetas Amarillas Visitante">{{ partido.tarjetas_amarillas_visitante }}</td>
+                        <td data-label="Tarjetas Rojas Local">{{ partido.tarjetas_rojas_local }}</td>
+                        <td data-label="Tarjetas Rojas Visitante">{{ partido.tarjetas_rojas_visitante }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No se encontraron partidos.</p>
+        {% endif %}
+    </main>
+    <footer>
+        <p>© 2025 Selección Colombia - Universidad Católica</p>
+    </footer>
 </body>
 </html>

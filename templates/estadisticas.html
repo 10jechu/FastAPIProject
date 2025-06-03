@@ -1,55 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estadísticas - Selección Colombia 2021-2024</title>
-  <link rel="stylesheet" href="/static/estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas</title>
+    <link rel="stylesheet" href="/static/estilos.css">
 </head>
 <body>
-  <header>
-    <h1>Selección Colombia 2021 - 2024</h1>
-    <nav>
-      <ul>
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/equipos/">Equipos</a></li>
-        <li><a href="/jugadores/">Jugadores</a></li>
-        <li><a href="/partidos/">Partidos</a></li>
-        <li><a href="/torneos/">Torneos</a></li>
-        <li><a href="/plantillas/">Plantillas Rivales</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section>
-      <h2>Estadísticas Completas</h2>
-      <form method="get" action="/estadisticas/completa/">
-        <label for="ano">Selecciona un año (2021-2024):</label>
-        <select name="ano" id="ano" onchange="this.form.submit()">
-          <option value="2021">2021</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-          <option value="2024">2024</option>
-        </select>
-      </form>
-      {% if estadisticas.message %}
-        <p>{{ estadisticas.message }}</p>
-      {% else %}
-        <p><strong>Total Partidos:</strong> {{ estadisticas.total_partidos }}</p>
-        <p><strong>Goles Anotados:</strong> {{ estadisticas.goles_anotados }}</p>
-        <p><strong>Goles Recibidos:</strong> {{ estadisticas.goles_recibidos }}</p>
-        <p><strong>Promedio Goles por Partido:</strong> {{ estadisticas.promedio_goles_por_partido }}</p>
-        <p><strong>Victorias:</strong> {{ estadisticas.victorias }}</p>
-        <p><strong>Empates:</strong> {{ estadisticas.empates }}</p>
-        <p><strong>Derrotas:</strong> {{ estadisticas.derrotas }}</p>
-      {% endif %}
-    </section>
-  </main>
-
-  <footer>
-    <p>Proyecto desarrollado por Jesús Manuel Vilardi González - 2025</p>
-    <p>Universidad Católica de Colombia</p>
-  </footer>
+    <header>
+        <h1>Selección Colombia 2021-2024</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Estadísticas Completas</h2>
+        {% if estadisticas.message %}
+            <p>{{ estadisticas.message }}</p>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Métrica</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td data-label="Métrica">Total de Partidos</td>
+                    <td data-label="Valor">{{ estadisticas.total_partidos }}</td>
+                </tr>
+                <tr>
+                    <td data-label="Métrica">Goles Anotados</td>
+                    <td data-label="Valor">{{ estadisticas.goles_anotados }}</td>
+                </tr>
+                <tr>
+                    <td data-label="Métrica">Goles Recibidos</td>
+                    <td data-label="Valor">{{ estadisticas.goles_recibidos }}</td>
+                </tr>
+                <tr>
+                    <td data-label="Métrica">Promedio de Goles por Partido</td>
+                    <td data-label="Valor">{{ estadisticas.promedio_goles_por_partido }}</td>
+                </tr>
+                <tr>
+                    <td data-label="Métrica">Victorias</td>
+                    <td data-label="Valor">{{ estadisticas.victorias }}</td>
+                </tr>
+                <tr>
+                    <td data-label="Métrica">Empates</td>
+                    <td data-label="Valor">{{ estadisticas.empates }}</td>
+                </tr>
+                <tr>
+                    <td data-label="Métrica">Derrotas</td>
+                    <td data-label="Valor">{{ estadisticas.derrotas }}</td>
+                </tr>
+            </table>
+        {% endif %}
+    </main>
+    <footer>
+        <p>© 2025 Selección Colombia - Universidad Católica</p>
+    </footer>
 </body>
 </html>

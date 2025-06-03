@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Jugador</title>
+    <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Selección Colombia 2021-2024</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Detalles de {{ jugador.nombre }}</h2>
+        {% if jugador %}
+            <table>
+                <tr>
+                    <th>Campo</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td>{{ jugador.id }}</td>
+                </tr>
+                <tr>
+                    <td>Número</td>
+                    <td>{{ jugador.numero }}</td>
+                </tr>
+                <tr>
+                    <td>Nombre</td>
+                    <td>{{ jugador.nombre }}</td>
+                </tr>
+                <tr>
+                    <td>Posición</td>
+                    <td>{{ jugador.posicion }}</td>
+                </tr>
+                <tr>
+                    <td>Goles</td>
+                    <td>{{ jugador.goles }}</td>
+                </tr>
+                <tr>
+                    <td>Asistencias</td>
+                    <td>{{ jugador.asistencias }}</td>
+                </tr>
+                <tr>
+                    <td>Año</td>
+                    <td>{{ jugador.año }}</td>
+                </tr>
+                <tr>
+                    <td>Activo</td>
+                    <td>{{ "Sí" if jugador.activo else "No" }}</td>
+                </tr>
+                <tr>
+                    <td>Tarjetas Amarillas</td>
+                    <td>{{ jugador.tarjetas_amarillas }}</td>
+                </tr>
+                <tr>
+                    <td>Tarjetas Rojas</td>
+                    <td>{{ jugador.tarjetas_rojas }}</td>
+                </tr>
+                <tr>
+                    <td>Edad (Aproximada)</td>
+                    <td>{{ jugador.edad }} años</td>
+                </tr>
+                <tr>
+                    <td>Equipos</td>
+                    <td>{% if jugador.equipos %}{{ ", ".join(jugador.equipos) }}{% else %}No registrado{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>Imagen</td>
+                    <td><img src="/static/jugadores/{{ jugador.nombre|lower|replace(' ', '_') }}.jpg" alt="{{ jugador.nombre }}" onerror="this.src='https://via.placeholder.com/100?text={{ jugador.nombre }}'"></td>
+                </tr>
+            </table>
+        {% else %}
+            <p>Jugador no encontrado.</p>
+        {% endif %}
+    </main>
+    <footer>
+        <p>© 2025 Selección Colombia - Universidad Católica</p>
+    </footer>
+</body>
+</html>

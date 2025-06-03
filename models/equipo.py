@@ -5,3 +5,6 @@ class Equipo(BaseModel):
     nombre: str
     pais: str
     enfrentamientos_con_colombia: int
+
+    class Config:
+        arbitrary_types_allowed = True

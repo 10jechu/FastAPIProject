@@ -3,14 +3,17 @@ from datetime import date
 
 class Partido(BaseModel):
     id: str
-    fecha: date
     equipo_local: str
     equipo_visitante: str
+    fecha: date
     goles_local: int
     goles_visitante: int
-    torneo_id: str
+    torneo_id: int
     eliminado: str
-    tarjetas_amarillas_local: int = 0
-    tarjetas_amarillas_visitante: int = 0
-    tarjetas_rojas_local: int = 0
-    tarjetas_rojas_visitante: int = 0
+    tarjetas_amarillas_local: int
+    tarjetas_amarillas_visitante: int
+    tarjetas_rojas_local: int
+    tarjetas_rojas_visitante: int
+
+    class Config:
+        arbitrary_types_allowed = True
