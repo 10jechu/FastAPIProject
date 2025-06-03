@@ -8,62 +8,110 @@
 </head>
 <body>
     <header>
-        <h1>Selección Colombia 2021-2024</h1>
+        <h1>Estadísticas de la Selección Colombia</h1>
         <nav>
-            <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-            </ul>
+            <a href="/">Inicio</a>
+            <a href="/equipos/">Equipos</a>
+            <a href="/jugadores/">Jugadores</a>
+            <a href="/partidos/">Partidos</a>
+            <a href="/torneos/">Torneos</a>
+            <a href="/plantillas/">Plantillas</a>
+            <a href="/estadisticas/completa/">Estadísticas</a>
         </nav>
     </header>
     <main>
-        <h2>Estadísticas Completas</h2>
+        <h2>Estadísticas Generales</h2>
+        <form action="/estadisticas/completa/" method="GET">
+            <label for="anio">Filtrar por Año:</label>
+            <input type="number" id="anio" name="anio" min="2021" max="2024">
+            <button type="submit">Filtrar</button>
+        </form>
         {% if estadisticas.message %}
             <p>{{ estadisticas.message }}</p>
         {% else %}
             <table>
                 <tr>
-                    <th>Métrica</th>
-                    <th>Valor</th>
+                    <th>Total Partidos</th>
+                    <td>{{ estadisticas.total_partidos }}</td>
                 </tr>
                 <tr>
-                    <td data-label="Métrica">Total de Partidos</td>
-                    <td data-label="Valor">{{ estadisticas.total_partidos }}</td>
+                    <th>Goles Anotados</th>
+                    <td>{{ estadisticas.goles_anotados }}</td>
                 </tr>
                 <tr>
-                    <td data-label="Métrica">Goles Anotados</td>
-                    <td data-label="Valor">{{ estadisticas.goles_anotados }}</td>
+                    <th>Goles Recibidos</th>
+                    <td>{{ estadisticas.goles_recibidos }}</td>
                 </tr>
                 <tr>
-                    <td data-label="Métrica">Goles Recibidos</td>
-                    <td data-label="Valor">{{ estadisticas.goles_recibidos }}</td>
+                    <th>Promedio Goles por Partido</th>
+                    <td>{{ estadisticas.promedio_goles_por_partido }}</td>
                 </tr>
                 <tr>
-                    <td data-label="Métrica">Promedio de Goles por Partido</td>
-                    <td data-label="Valor">{{ estadisticas.promedio_goles_por_partido }}</td>
+                    <th>Victorias</th>
+                    <td>{{ estadisticas.victorias }}</td>
                 </tr>
                 <tr>
-                    <td data-label="Métrica">Victorias</td>
-                    <td data-label="Valor">{{ estadisticas.victorias }}</td>
+                    <th>Empates</th>
+                    <td>{{ estadisticas.empates }}</td>
                 </tr>
                 <tr>
-                    <td data-label="Métrica">Empates</td>
-                    <td data-label="Valor">{{ estadisticas.empates }}</td>
+                    <th>Derrotas</th>
+                    <td>{{ estadisticas.derrotas }}</td>
                 </tr>
                 <tr>
-                    <td data-label="Métrica">Derrotas</td>
-                    <td data-label="Valor">{{ estadisticas.derrotas }}</td>
+                    <th>Tarjetas Amarillas Recibidas</th>
+                    <td>{{ estadisticas.tarjetas_amarillas }}</td>
+                </tr>
+                <tr>
+                    <th>Tarjetas Rojas Recibidas</th>
+                    <td>{{ estadisticas.tarjetas_rojas }}</td>
+                </tr>
+                <tr>
+                    <th>Partidos donde Colombia fue Eliminada</th>
+                    <td>{{ estadisticas.partidos_eliminados }}</td>
+                </tr>
+                <tr>
+                    <th>Porcentaje de Eliminaciones</th>
+                    <td>{{ estadisticas.porcentaje_eliminaciones }}%</td>
                 </tr>
             </table>
+
+            <h3>Distribución de Resultados</h3>
+            ```chartjs
+            {
+                "type": "bar",
+                "data": {{ estadisticas.resultados_data | tojson }},
+                "options": {
+                    "scales": {
+                        "y": {
+                            "beginAtZero": true
+                        }
+                    }
+                }
+            }
+            ```
+
+            <h3>Goles a lo largo del tiempo</h3>
+            ```chartjs
+            {
+                "type": "line",
+                "data": {{ estadisticas.goles_data | tojson }},
+                "options": {
+                    "scales": {
+                        "x": {
+                            "type": "time",
+                            "time": {
+                                "unit": "month"
+                            }
+                        },
+                        "y": {
+                            "beginAtZero": true
+                        }
+                    }
+                }
+            }
+            ```
         {% endif %}
     </main>
-    <footer>
-        <p>© 2025 Selección Colombia - Universidad Católica</p>
-    </footer>
 </body>
 </html>

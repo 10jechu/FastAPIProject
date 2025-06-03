@@ -8,48 +8,63 @@
 </head>
 <body>
     <header>
-        <h1>Selección Colombia 2021-2024</h1>
+        <h1>Torneos</h1>
         <nav>
-            <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-            </ul>
+            <a href="/">Inicio</a>
+            <a href="/equipos/">Equipos</a>
+            <a href="/jugadores/">Jugadores</a>
+            <a href="/partidos/">Partidos</a>
+            <a href="/torneos/">Torneos</a>
+            <a href="/plantillas/">Plantillas</a>
+            <a href="/estadisticas/completa/">Estadísticas</a>
         </nav>
     </header>
     <main>
         <h2>Lista de Torneos</h2>
-        {% if torneos %}
-            <table>
+        <table>
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Año</th>
-                    <th>País Anfitrión</th>
-                    <th>Estado</th>
-                    <th>Eliminado</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Campeón</th>
+                    <th>Acciones</th>
                 </tr>
+            </thead>
+            <tbody>
                 {% for torneo in torneos %}
-                    <tr>
-                        <td data-label="ID">{{ torneo.id }}</td>
-                        <td data-label="Nombre">{{ torneo.nombre }}</td>
-                        <td data-label="Año">{{ torneo.anio }}</td>
-                        <td data-label="País Anfitrión">{{ torneo.pais_anfitrion if torneo.pais_anfitrion else "No especificado" }}</td>
-                        <td data-label="Estado">{{ torneo.estado }}</td>
-                        <td data-label="Eliminado">{{ torneo.eliminado }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ torneo.id }}</td>
+                    <td>{{ torneo.nombre }}</td>
+                    <td>{{ torneo.fecha_inicio }}</td>
+                    <td>{{ torneo.fecha_fin }}</td>
+                    <td>{{ torneo.campeon or 'N/A' }}</td>
+                    <td>
+                        <a href="/torneos/{{ torneo.id }}/edit">Editar</a>
+                        <form action="/torneos/{{ torneo.id }}/?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
                 {% endfor %}
-            </table>
-        {% else %}
-            <p>No se encontraron torneos.</p>
-        {% endif %}
+            </tbody>
+        </table>
+
+        <h2>Registrar Nuevo Torneo</h2>
+        <form action="/torneos/" method="POST">
+            <label for="id">ID:</label><br>
+            <input type="number" id="id" name="id" required><br>
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" required><br>
+            <label for="fecha_inicio">Fecha Inicio (YYYY-MM-DD):</label><br>
+            <input type="text" id="fecha_inicio" name="fecha_inicio" required><br>
+            <label for="fecha_fin">Fecha Fin (YYYY-MM-DD):</label><br>
+            <input type="text" id="fecha_fin" name="fecha_fin" required><br>
+            <label for="campeon">Campeón:</label><br>
+            <input type="text" id="campeon" name="campeon"><br><br>
+            <button type="submit">Guardar</button>
+        </form>
     </main>
-    <footer>
-        <p>© 2025 Selección Colombia - Universidad Católica</p>
-    </footer>
 </body>
 </html>

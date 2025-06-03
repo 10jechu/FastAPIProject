@@ -1,144 +1,51 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #FFFFFF;
-    color: #003087;
-    background-image: url('https://co.pinterest.com/pin/831266043696185265/');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
+    background-color: #f4f4f4;
 }
-
 header {
-    background-color: #FFD700;
-    padding: 20px;
-    text-align: center;
-    color: #003087;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border-bottom: 2px solid #003087;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.5em;
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-nav ul li a {
-    color: #003087;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #FFFFFF;
-    transition: background-color 0.3s, color 0.3s;
-    border: 1px solid #003087;
-}
-
-nav ul li a:hover {
-    background-color: #003087;
-    color: #FFD700;
-}
-
-main {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    color: #003087;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-footer {
-    background-color: #FFD700;
+    background-color: #003087; /* Azul de la bandera colombiana */
+    color: white;
     padding: 10px;
     text-align: center;
-    color: #003087;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-    border-top: 2px solid #003087;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    margin-top: 20px;
 }
-
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+nav a:hover {
+    color: #FFCD00; /* Amarillo de la bandera colombiana */
+}
 table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #FFFFFF;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
 }
-
 th, td {
-    border: 1px solid #003087;
-    padding: 12px;
+    border: 1px solid #ddd;
+    padding: 8px;
     text-align: left;
 }
-
 th {
-    background-color: #FFD700;
+    background-color: #FFCD00; /* Amarillo de la bandera colombiana */
     color: #003087;
-    font-weight: bold;
 }
-
 tr:nth-child(even) {
-    background-color: #F0F8FF;
+    background-color: #f9f9f9;
 }
-
 tr:hover {
-    background-color: #E6E6FA;
+    background-color: #FCF4A3;
 }
-
-img {
-    max-width: 100px;
-    border-radius: 5px;
-    border: 1px solid #003087;
+a {
+    color: #CE1126; /* Rojo de la bandera colombiana */
+    text-decoration: none;
 }
-
-@media (max-width: 600px) {
-    table, thead, tbody, th, td, tr {
-        display: block;
-    }
-    th, td {
-        padding: 8px;
-        display: block;
-        text-align: right;
-    }
-    th::before, td::before {
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        color: #003087;
-    }
-    tr {
-        margin-bottom: 10px;
-        border: 1px solid #003087;
-        border-radius: 5px;
-    }
-    nav ul {
-        flex-direction: column;
-        gap: 10px;
-    }
-    nav ul li a {
-        display: block;
-        text-align: center;
-    }
+a:hover {
+    text-decoration: underline;
+}
+main {
+    padding: 20px;
 }

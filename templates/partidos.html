@@ -8,23 +8,21 @@
 </head>
 <body>
     <header>
-        <h1>Selección Colombia 2021-2024</h1>
+        <h1>Partidos</h1>
         <nav>
-            <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-            </ul>
+            <a href="/">Inicio</a>
+            <a href="/equipos/">Equipos</a>
+            <a href="/jugadores/">Jugadores</a>
+            <a href="/partidos/">Partidos</a>
+            <a href="/torneos/">Torneos</a>
+            <a href="/plantillas/">Plantillas</a>
+            <a href="/estadisticas/completa/">Estadísticas</a>
         </nav>
     </header>
     <main>
         <h2>Lista de Partidos</h2>
-        {% if partidos %}
-            <table>
+        <table>
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Fecha</th>
@@ -38,30 +36,63 @@
                     <th>Tarjetas Amarillas Visitante</th>
                     <th>Tarjetas Rojas Local</th>
                     <th>Tarjetas Rojas Visitante</th>
+                    <th>Acciones</th>
                 </tr>
+            </thead>
+            <tbody>
                 {% for partido in partidos %}
-                    <tr>
-                        <td data-label="ID">{{ partido.id }}</td>
-                        <td data-label="Fecha">{{ partido.fecha }}</td>
-                        <td data-label="Equipo Local">{{ partido.equipo_local }}</td>
-                        <td data-label="Equipo Visitante">{{ partido.equipo_visitante }}</td>
-                        <td data-label="Goles Local">{{ partido.goles_local }}</td>
-                        <td data-label="Goles Visitante">{{ partido.goles_visitante }}</td>
-                        <td data-label="Torneo ID">{{ partido.torneo_id }}</td>
-                        <td data-label="Eliminado">{{ partido.eliminado }}</td>
-                        <td data-label="Tarjetas Amarillas Local">{{ partido.tarjetas_amarillas_local }}</td>
-                        <td data-label="Tarjetas Amarillas Visitante">{{ partido.tarjetas_amarillas_visitante }}</td>
-                        <td data-label="Tarjetas Rojas Local">{{ partido.tarjetas_rojas_local }}</td>
-                        <td data-label="Tarjetas Rojas Visitante">{{ partido.tarjetas_rojas_visitante }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ partido.id }}</td>
+                    <td>{{ partido.fecha }}</td>
+                    <td>{{ partido.equipo_local }}</td>
+                    <td>{{ partido.equipo_visitante }}</td>
+                    <td>{{ partido.goles_local }}</td>
+                    <td>{{ partido.goles_visitante }}</td>
+                    <td>{{ partido.torneo_id }}</td>
+                    <td>{{ partido.eliminado or 'N/A' }}</td>
+                    <td>{{ partido.tarjetas_amarillas_local or 0 }}</td>
+                    <td>{{ partido.tarjetas_amarillas_visitante or 0 }}</td>
+                    <td>{{ partido.tarjetas_rojas_local or 0 }}</td>
+                    <td>{{ partido.tarjetas_rojas_visitante or 0 }}</td>
+                    <td>
+                        <a href="/partidos/{{ partido.id }}/edit">Editar</a>
+                        <form action="/partidos/{{ partido.id }}/?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
                 {% endfor %}
-            </table>
-        {% else %}
-            <p>No se encontraron partidos.</p>
-        {% endif %}
+            </tbody>
+        </table>
+
+        <h2>Registrar Nuevo Partido</h2>
+        <form action="/partidos/" method="POST">
+            <label for="id">ID:</label><br>
+            <input type="text" id="id" name="id" required><br>
+            <label for="fecha">Fecha (YYYY-MM-DD):</label><br>
+            <input type="text" id="fecha" name="fecha" required><br>
+            <label for="equipo_local">Equipo Local:</label><br>
+            <input type="text" id="equipo_local" name="equipo_local" required><br>
+            <label for="equipo_visitante">Equipo Visitante:</label><br>
+            <input type="text" id="equipo_visitante" name="equipo_visitante" required><br>
+            <label for="goles_local">Goles Local:</label><br>
+            <input type="number" id="goles_local" name="goles_local" required><br>
+            <label for="goles_visitante">Goles Visitante:</label><br>
+            <input type="number" id="goles_visitante" name="goles_visitante" required><br>
+            <label for="torneo_id">Torneo ID:</label><br>
+            <input type="number" id="torneo_id" name="torneo_id" required><br>
+            <label for="eliminado">Eliminado:</label><br>
+            <input type="text" id="eliminado" name="eliminado"><br>
+            <label for="tarjetas_amarillas_local">Tarjetas Amarillas Local:</label><br>
+            <input type="number" id="tarjetas_amarillas_local" name="tarjetas_amarillas_local"><br>
+            <label for="tarjetas_amarillas_visitante">Tarjetas Amarillas Visitante:</label><br>
+            <input type="number" id="tarjetas_amarillas_visitante" name="tarjetas_amarillas_visitante"><br>
+            <label for="tarjetas_rojas_local">Tarjetas Rojas Local:</label><br>
+            <input type="number" id="tarjetas_rojas_local" name="tarjetas_rojas_local"><br>
+            <label for="tarjetas_rojas_visitante">Tarjetas Rojas Visitante:</label><br>
+            <input type="number" id="tarjetas_rojas_visitante" name="tarjetas_rojas_visitante"><br><br>
+            <button type="submit">Guardar</button>
+        </form>
     </main>
-    <footer>
-        <p>© 2025 Selección Colombia - Universidad Católica</p>
-    </footer>
 </body>
 </html>

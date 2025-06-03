@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Torneo {{ torneo.id }}</title>
+    <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Editar Torneo {{ torneo.id }}</h1>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="/equipos/">Equipos</a>
+            <a href="/jugadores/">Jugadores</a>
+            <a href="/partidos/">Partidos</a>
+            <a href="/torneos/">Torneos</a>
+            <a href="/plantillas/">Plantillas</a>
+            <a href="/estadisticas/completa/">Estadísticas</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Editar Torneo</h2>
+        <form action="/torneos/{{ torneo.id }}/?_method=PUT" method="POST">
+            <label for="id">ID:</label><br>
+            <input type="number" id="id" name="id" value="{{ torneo.id }}" readonly><br>
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" value="{{ torneo.nombre }}" required><br>
+            <label for="fecha_inicio">Fecha Inicio (YYYY-MM-DD):</label><br>
+            <input type="text" id="fecha_inicio" name="fecha_inicio" value="{{ torneo.fecha_inicio }}" required><br>
+            <label for="fecha_fin">Fecha Fin (YYYY-MM-DD):</label><br>
+            <input type="text" id="fecha_fin" name="fecha_fin" value="{{ torneo.fecha_fin }}" required><br>
+            <label for="campeon">Campeón:</label><br>
+            <input type="text" id="campeon" name="campeon" value="{{ torneo.campeon or '' }}"><br><br>
+            <button type="submit">Actualizar</button>
+        </form>
+        <a href="/torneos/">Volver a la lista</a>
+    </main>
+</body>
+</html>

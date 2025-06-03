@@ -1,94 +1,220 @@
-id,numero,nombre,posicion,goles,asistencias,año,activo,tarjetas_amarillas,tarjetas_rojas
-1,1,David Ospina,Arquero,0,0,2021,True,0,0
-2,2,Stefan Medina,Defensa,0,0,2021,True,0,0
-3,3,Davinson Sánchez,Defensa,0,0,2021,True,0,0
-4,4,William Tesillo,Defensa,0,0,2021,True,0,0
-5,5,Yerry Mina,Defensa,1,0,2021,True,0,0
-6,6,Juan Cuadrado,Mediocampista,1,2,2021,True,0,0
-7,7,Wilmar Barrios,Mediocampista,0,0,2021,True,0,0
-8,8,Mateus Uribe,Mediocampista,0,1,2021,True,0,0
-9,9,James Rodríguez,Mediocampista,2,3,2021,True,0,0
-10,10,Luis Díaz,Delantero,4,1,2021,True,0,0
-11,11,Duván Zapata,Delantero,3,0,2021,False,0,0
-12,12,Camilo Vargas,Arquero,0,0,2021,True,0,0
-13,13,Daniel Muñoz,Defensa,0,0,2021,True,0,0
-14,14,Carlos Cuesta,Defensa,0,0,2021,True,0,0
-15,15,Jhon Lucumí,Defensa,0,0,2021,True,0,0
-16,16,Jefferson Lerma,Mediocampista,1,0,2021,True,0,0
-17,17,Gustavo Cuéllar,Mediocampista,0,0,2021,True,0,0
-18,18,Yimmi Chará,Mediocampista,0,1,2021,True,0,0
-19,19,Luis Muriel,Delantero,2,1,2021,True,0,0
-20,20,Rafael Borré,Delantero,1,0,2021,True,0,0
-21,21,Jhon Córdoba,Delantero,1,0,2021,True,0,0
-22,22,Álvaro Montero,Arquero,0,0,2021,True,0,0
-23,23,Frank Fabra,Defensa,0,0,2021,True,0,0
-24,1,David Ospina,Arquero,0,0,2022,True,0,0
-25,2,Stefan Medina,Defensa,0,0,2022,True,0,0
-26,3,Davinson Sánchez,Defensa,0,0,2022,True,0,0
-27,4,William Tesillo,Defensa,0,0,2022,True,0,0
-28,5,Yerry Mina,Defensa,1,0,2022,True,0,0
-29,6,Juan Cuadrado,Mediocampista,1,2,2022,True,0,0
-30,7,Wilmar Barrios,Mediocampista,0,0,2022,True,0,0
-31,8,Mateus Uribe,Mediocampista,0,1,2022,True,0,0
-32,9,James Rodríguez,Mediocampista,2,3,2022,True,0,0
-33,10,Luis Díaz,Delantero,4,1,2022,True,0,0
-34,11,Duván Zapata,Delantero,3,0,2022,True,0,0
-35,12,Camilo Vargas,Arquero,0,0,2022,True,0,0
-36,13,Daniel Muñoz,Defensa,0,0,2022,True,0,0
-37,14,Carlos Cuesta,Defensa,0,0,2022,True,0,0
-38,15,Jhon Lucumí,Defensa,0,0,2022,True,0,0
-39,16,Jefferson Lerma,Mediocampista,1,0,2022,True,0,0
-40,17,Gustavo Cuéllar,Mediocampista,0,0,2022,True,0,0
-41,18,Yimmi Chará,Mediocampista,0,1,2022,True,0,0
-42,19,Luis Muriel,Delantero,2,1,2022,True,0,0
-43,20,Rafael Borré,Delantero,1,0,2022,True,0,0
-44,21,Jhon Córdoba,Delantero,1,0,2022,True,0,0
-45,22,Álvaro Montero,Arquero,0,0,2022,True,0,0
-46,23,Frank Fabra,Defensa,0,0,2022,True,0,0
-47,1,David Ospina,Arquero,0,0,2023,True,0,0
-48,2,Stefan Medina,Defensa,0,0,2023,True,0,0
-49,3,Davinson Sánchez,Defensa,0,0,2023,True,0,0
-50,4,William Tesillo,Defensa,0,0,2023,True,0,0
-51,5,Yerry Mina,Defensa,1,0,2023,True,0,0
-52,6,Juan Cuadrado,Mediocampista,1,2,2023,True,0,0
-53,7,Wilmar Barrios,Mediocampista,0,0,2023,True,0,0
-54,8,Mateus Uribe,Mediocampista,0,1,2023,True,0,0
-55,9,James Rodríguez,Mediocampista,2,3,2023,True,0,0
-56,10,Luis Díaz,Delantero,4,1,2023,True,0,0
-57,11,Duván Zapata,Delantero,3,0,2023,True,0,0
-58,12,Camilo Vargas,Arquero,0,0,2023,True,0,0
-59,13,Daniel Muñoz,Defensa,0,0,2023,True,0,0
-60,14,Carlos Cuesta,Defensa,0,0,2023,True,0,0
-61,15,Jhon Lucumí,Defensa,0,0,2023,True,0,0
-62,16,Jefferson Lerma,Mediocampista,1,0,2023,True,0,0
-63,17,Gustavo Cuéllar,Mediocampista,0,0,2023,True,0,0
-64,18,Yimmi Chará,Mediocampista,0,1,2023,True,0,0
-65,19,Luis Muriel,Delantero,2,1,2023,True,0,0
-66,20,Rafael Borré,Delantero,1,0,2023,True,0,0
-67,21,Jhon Córdoba,Delantero,1,0,2023,True,0,0
-68,22,Álvaro Montero,Arquero,0,0,2023,True,0,0
-69,23,Frank Fabra,Defensa,0,0,2023,True,0,0
-70,1,David Ospina,Arquero,0,0,2024,True,0,0
-71,2,Stefan Medina,Defensa,0,0,2024,True,0,0
-72,3,Davinson Sánchez,Defensa,0,0,2024,True,0,0
-73,4,William Tesillo,Defensa,0,0,2024,True,0,0
-74,5,Yerry Mina,Defensa,1,0,2024,True,0,0
-75,6,Juan Cuadrado,Mediocampista,1,2,2024,True,0,0
-76,7,Wilmar Barrios,Mediocampista,0,0,2024,True,0,0
-77,8,Mateus Uribe,Mediocampista,0,1,2024,True,0,0
-78,9,James Rodríguez,Mediocampista,2,3,2024,True,0,0
-79,10,Luis Díaz,Delantero,4,1,2024,True,0,0
-80,11,Duván Zapata,Delantero,3,0,2024,True,0,0
-81,12,Camilo Vargas,Arquero,0,0,2024,True,0,0
-82,13,Daniel Muñoz,Defensa,0,0,2024,True,0,0
-83,14,Carlos Cuesta,Defensa,0,0,2024,True,0,0
-84,15,Jhon Lucumí,Defensa,0,0,2024,True,0,0
-85,16,Jefferson Lerma,Mediocampista,1,0,2024,True,0,0
-86,17,Gustavo Cuéllar,Mediocampista,0,0,2024,True,0,0
-87,18,Yimmi Chará,Mediocampista,0,1,2024,True,0,0
-88,19,Luis Muriel,Delantero,2,1,2024,True,0,0
-89,20,Rafael Borré,Delantero,1,0,2024,True,0,0
-90,21,Jhon Córdoba,Delantero,1,0,2024,True,0,0
-91,22,Álvaro Montero,Arquero,0,0,2024,True,0,0
-92,23,Frank Fabra,Defensa,5,4,2024,True,0,0
-93,19,Luis Muriel,Delantero,7,5,2024,True,0,0
+id,Jugadores,F. Nacim./Edad,Club,Altura,Pie,Partidos con la selección,Goles,Numero de camisa,anio,posicion,activo
+1,David Ospina,31/08/1988 (32),Atlético Nacional,1.83m,Derecho,129,0,1,2021,Arquero,True
+2,Camilo Vargas,09/03/1989 (31),Atlas Guadalajara,1.85m,Izquierdo,37,0,12,2021,Arquero,True
+3,Álvaro Montero,29/03/1995 (25),Millonarios FC,1.99m,Derecho,8,0,22,2021,Arquero,True
+4,Aldair Quintana,11/07/1994 (26),Atlético Bucaramanga,1.95m,Izquierdo,0,0,25,2021,Arquero,True
+5,Andrés Mosquera,10/09/1991 (29),Independiente Santa Fe,1.86m,Derecho,1,0,24,2021,Defensa,True
+6,Davinson Sánchez,12/06/1996 (24),Galatasaray,1.87m,Derecho,69,3,23,2021,Defensa,True
+7,Yerry Mina,23/09/1994 (26),Cagliari,1.95m,Derecho,49,7,13,2021,Defensa,True
+8,Jhon Lucumí,26/06/1998 (22),Bolonia,1.87m,Izquierdo,28,0,3,2021,Defensa,True
+9,Carlos Cuesta,09/03/1999 (21),Galatasaray,1.79m,Derecho,23,0,4,2021,Mediocampista,True
+10,Yeimar Gómez Andrade,30/06/1992 (28),Seattle Sounders FC,1.88m,Derecho,1,0,26,2021,Defensa,True
+11,William Tesillo,02/02/1990 (30),Atlético Nacional,1.85m,Izquierdo,30,1,6,2021,Defensa,True
+12,Óscar Murillo,18/04/1988 (32),Retirado,1.84m,Izquierdo,23,0,2,2021,Defensa,False
+13,Frank Fabra,22/02/1991 (29),CA Boca Juniors,1.74m,Izquierdo,28,1,26,2021,Defensa,True
+14,Johan Mojica,21/08/1992 (28),RCD Mallorca,1.85m,Izquierdo,38,1,17,2021,Defensa,True
+15,Dairon Mosquera,23/07/1992 (28),AD Union Magdalena,1.82m,Izquierdo,0,0,27,2021,Defensa,True
+16,Stefan Medina,14/06/1992 (28),CF Monterrey,1.79m,Derecho,30,0,2,2021,Defensa,True
+17,Daniel Muñoz,26/05/1996 (24),Crystal Palace,1.81m,Derecho,38,3,20,2021,Defensa,True
+18,Yerson Candelo,24/02/1992 (28),CD América de Cali,1.70m,Derecho,1,0,28,2021,Mediocampista,True
+19,Andrés Felipe Román,05/10/1995 (25),Atlético Nacional,1.83m,Derecho,1,0,29,2021,Defensa,True
+20,Wilmar Barrios,16/10/1993 (27),Zenit de San Petersburgo,1.78m,Derecho,57,1,5,2021,Mediocampista,True
+21,Jefferson Lerma,25/10/1994 (26),Crystal Palace,1.79m,Derecho,54,3,16,2021,Mediocampista,True
+22,Matheus Uribe,21/03/1991 (29),Atlético Nacional,1.82m,Derecho,62,6,15,2021,Mediocampista,True
+23,Éder Balanta,28/02/1993 (27),CD América de Cali,1.80m,Izquierdo,9,0,8,2021,Mediocampista,True
+24,Gustavo Cuéllar,14/10/1992 (28),Grêmio Foot-Ball Porto Alegrense,1.76m,Derecho,24,1,8,2021,Mediocampista,True
+25,Víctor Cantillo,15/10/1993 (27),CA Huracán,1.80m,Derecho,2,0,14,2021,Mediocampista,True
+26,Alexander Mejía,11/07/1988 (32),Sin equipo,1.78m,Derecho,27,0,18,2021,Mediocampista,True
+27,Seba Pérez,29/03/1993 (27),Boavista FC,1.75m,Derecho,10,1,21,2021,Mediocampista,True
+28,Baldomero Perlaza,02/06/1992 (28),Independiente Medellín,1.87m,Derecho,0,0,30,2021,Mediocampista,True
+29,Sebastián Gómez,03/06/1996 (24),Coritiba Foot Ball Club,1.77m,Izquierdo,2,0,31,2021,Mediocampista,True
+30,Juan Cuadrado,26/05/1988 (32),Atalanta de Bérgamo,1.76m,Derecho,116,10,11,2021,Mediocampista,True
+31,Yairo Moreno,04/04/1995 (25),Sin equipo,1.84m,Izquierdo,16,0,17,2021,Mediocampista,True
+32,James Rodríguez,12/07/1991 (29),Club León FC,1.80m,Izquierdo,114,29,10,2021,Mediocampista,True
+33,Juan Fernando Quintero,18/01/1993 (27),CD América de Cali,1.68m,Izquierdo,41,5,10,2021,Mediocampista,True
+34,Edwin Cardona,08/12/1992 (28),Atlético Nacional,1.83m,Derecho,45,6,10,2021,Mediocampista,True
+35,Luis Díaz,13/01/1997 (23),Liverpool FC,1.80m,Derecho,63,18,14,2021,Delantero,True
+36,Luis Sinisterra,17/06/1999 (21),AFC Bournemouth,1.72m,Derecho,18,5,18,2021,Delantero,True
+37,Jáminton Campaz,24/05/2000 (20),CA Rosario Central,1.65m,Izquierdo,3,0,20,2021,Delantero,True
+38,Andrés Andrade,23/02/1989 (31),Atlético Bucaramanga,1.83m,Derecho,1,0,7,2021,Mediocampista,True
+39,Yimmi Chará,02/04/1991 (29),Junior de Barranquilla,1.68m,Derecho,16,1,28,2021,Delantero,True
+40,Diego Valoyes,22/09/1996 (24),FC Juárez,1.81m,Derecho,8,0,22,2021,Delantero,True
+41,Duván Zapata,01/04/1991 (29),Torino FC,1.88m,Derecho,34,4,7,2021,Delantero,True
+42,Luis Muriel,16/04/1991 (29),Orlando City SC,1.80m,Derecho,45,8,9,2021,Delantero,True
+43,Alfredo Morelos,21/06/1996 (24),Atlético Nacional,1.77m,Derecho,11,1,20,2021,Delantero,True
+44,Rafael Borré,15/09/1995 (25),Sport Club Internacional,1.74m,Derecho,40,6,18,2021,Delantero,True
+45,Radamel Falcao,10/02/1986 (34),Millonarios FC,1.77m,Derecho,105,36,9,2021,Delantero,True
+46,Roger Martínez,23/06/1994 (26),Al-Taawoun FC,1.80m,Derecho,28,4,20,2021,Delantero,True
+47,Miguel Borja,26/01/1993 (27),CA River Plate,1.84m,Derecho,30,9,19,2021,Delantero,True
+48,Cristian Arango,09/03/1995 (25),San José Earthquakes,1.76m,Derecho,2,0,17,2021,Delantero,True
+49,David Ospina,31/08/1988 (33),Atlético Nacional,1.83m,Derecho,129,0,1,2022,Arquero,True
+50,Iván Arboleda,21/04/1996 (25),Millonarios FC,1.85m,Derecho,1,0,12,2022,Arquero,True
+51,Camilo Vargas,09/03/1989 (32),Atlas Guadalajara,1.85m,Izquierdo,37,0,22,2022,Arquero,True
+52,Álvaro Montero,29/03/1995 (26),Millonarios FC,1.99m,Derecho,8,0,23,2022,Arquero,True
+53,Andrés Mosquera,10/09/1991 (30),Independiente Santa Fe,1.86m,Derecho,1,0,24,2022,Defensa,True
+54,José Luis Chunga,11/07/1991 (30),Independiente Medellín,1.80m,Derecho,3,0,25,2022,Arquero,True
+55,Diego Novoa,31/05/1989 (32),Millonarios FC,1.86m,Derecho,0,0,26,2022,Arquero,True
+56,Davinson Sánchez,12/06/1996 (25),Galatasaray,1.87m,Derecho,69,3,23,2022,Defensa,True
+57,Yerry Mina,23/09/1994 (27),Cagliari,1.95m,Derecho,49,7,13,2022,Defensa,True
+58,Jhon Lucumí,26/06/1998 (23),Bolonia,1.87m,Izquierdo,28,0,3,2022,Defensa,True
+59,Carlos Cuesta,09/03/1999 (22),Galatasaray,1.79m,Derecho,23,0,4,2022,Mediocampista,True
+60,Yeimar Gómez Andrade,30/06/1992 (29),Seattle Sounders FC,1.88m,Derecho,1,0,27,2022,Defensa,True
+61,William Tesillo,02/02/1990 (31),Atlético Nacional,1.85m,Izquierdo,30,1,6,2022,Defensa,True
+62,Óscar Murillo,18/04/1988 (33),Retirado,1.84m,Izquierdo,23,0,2,2022,Defensa,False
+63,Andrés Llinás,23/07/1997 (24),Millonarios FC,1.88m,Derecho,4,0,16,2022,Defensa,True
+64,Germán Mera,05/03/1990 (31),Sin equipo,1.87m,Izquierdo,0,0,28,2022,Defensa,True
+65,Johan Mojica,21/08/1992 (29),RCD Mallorca,1.85m,Izquierdo,38,1,17,2022,Defensa,True
+66,Alvaro Angulo,06/03/1997 (24),CA Independiente,1.77m,Izquierdo,1,0,5,2022,Defensa,True
+67,Frank Fabra,22/02/1991 (30),CA Boca Juniors,1.74m,Izquierdo,28,1,18,2022,Defensa,True
+68,Daniel Muñoz,26/05/1996 (25),Crystal Palace,1.81m,Derecho,38,3,21,2022,Defensa,True
+69,Stefan Medina,14/06/1992 (29),CF Monterrey,1.79m,Derecho,30,0,2,2022,Defensa,True
+70,Yerson Candelo,24/02/1992 (29),CD América de Cali,1.70m,Derecho,1,0,4,2022,Mediocampista,True
+71,Andrés Felipe Román,05/10/1995 (26),Atlético Nacional,1.83m,Derecho,1,0,6,2022,Defensa,True
+72,Helibelton Palacios,11/06/1993 (28),Millonarios FC,1.81m,Derecho,5,0,29,2022,Defensa,True
+73,Juan Mosquera,05/09/2002 (19),Portland Timbers,1.80m,Derecho,3,0,30,2022,Defensa,True
+74,Wilmar Barrios,16/10/1993 (28),Zenit de San Petersburgo,1.78m,Derecho,57,1,5,2022,Mediocampista,True
+75,Matheus Uribe,21/03/1991 (30),Atlético Nacional,1.82m,Derecho,62,6,15,2022,Mediocampista,True
+76,Jefferson Lerma,25/10/1994 (27),Crystal Palace,1.79m,Derecho,54,3,16,2022,Mediocampista,True
+77,Éder Balanta,28/02/1993 (28),CD América de Cali,1.80m,Izquierdo,9,0,3,2022,Mediocampista,True
+78,Gustavo Cuéllar,14/10/1992 (29),Grêmio Foot-Ball Porto Alegrense,1.76m,Derecho,24,1,8,2022,Mediocampista,True
+79,Víctor Cantillo,15/10/1993 (28),CA Huracán,1.80m,Derecho,2,0,8,2022,Mediocampista,True
+80,Andrés Colorado,01/12/1998 (23),Junior de Barranquilla,1.93m,Derecho,1,1,31,2022,Mediocampista,True
+81,Stiven Vega,22/05/1998 (23),Millonarios FC,1.78m,Derecho,1,0,20,2022,Mediocampista,True
+82,Daniel Giraldo,01/07/1992 (29),Esporte Clube Juventude,1.78m,Derecho,1,0,14,2022,Mediocampista,True
+83,Homer Martínez,06/10/1997 (24),Independiente Medellín,1.85m,Derecho,1,0,32,2022,Mediocampista,True
+84,Juan Sebastián Pedroza,08/04/1999 (22),Al-Okhdood Club,1.76m,Derecho,0,0,33,2022,Mediocampista,True
+85,Steven Alzate,08/09/1998 (23),Hull City,1.80m,Derecho,7,0,4,2022,Mediocampista,True
+86,Eduard Atuesta,18/06/1997 (24),Orlando City SC,1.80m,Derecho,2,0,34,2022,Mediocampista,True
+87,Juan Cuadrado,26/05/1988 (33),Atalanta de Bérgamo,1.76m,Derecho,116,10,11,2022,Mediocampista,True
+88,Yairo Moreno,04/04/1995 (26),Sin equipo,1.84m,Izquierdo,16,0,13,2022,Mediocampista,True
+89,James Rodríguez,12/07/1991 (30),Club León FC,1.80m,Izquierdo,114,29,10,2022,Mediocampista,True
+90,Jorge Carrascal,25/05/1998 (23),Dinamo Moscú,1.80m,Derecho,19,2,13,2022,Mediocampista,True
+91,Juan Fernando Quintero,18/01/1993 (28),CD América de Cali,1.68m,Izquierdo,41,5,10,2022,Mediocampista,True
+92,Kevin Agudelo,14/11/1998 (23),Al-Wahda FC,1.78m,Izquierdo,0,0,35,2022,Mediocampista,True
+93,Luis Díaz,13/01/1997 (24),Liverpool FC,1.80m,Derecho,63,18,14,2022,Delantero,True
+94,Luis Sinisterra,17/06/1999 (22),AFC Bournemouth,1.72m,Derecho,18,5,17,2022,Delantero,True
+95,Jáminton Campaz,24/05/2000 (21),CA Rosario Central,1.65m,Izquierdo,3,0,7,2022,Delantero,True
+96,Fredy Hinestroza,05/04/1990 (31),Atlético Bucaramanga,1.78m,Izquierdo,2,0,8,2022,Mediocampista,True
+97,Diego Valoyes,22/09/1996 (25),FC Juárez,1.81m,Derecho,8,0,13,2022,Delantero,True
+98,Yimmi Chará,02/04/1991 (30),Junior de Barranquilla,1.68m,Derecho,16,1,17,2022,Delantero,True
+99,Santiago Moreno,21/04/2000 (21),Portland Timbers,1.78m,Derecho,2,0,36,2022,Delantero,True
+100,Jhon Arias,21/09/1997 (24),Fluminense Football Club,1.68m,Derecho,29,3,11,2022,Mediocampista,True
+101,Kevin Velasco,30/04/1997 (24),Club Athletico Paranaense,1.68m,Izquierdo,1,0,6,2022,Mediocampista,True
+102,Yáser Asprilla,19/11/2003 (18),Girona FC,1.76m,Izquierdo,8,2,13,2022,Delantero,True
+103,Luis Muriel,16/04/1991 (30),Orlando City SC,1.80m,Derecho,45,8,9,2022,Delantero,True
+104,Rafael Borré,15/09/1995 (26),Sport Club Internacional,1.74m,Derecho,40,6,18,2022,Delantero,True
+105,Luis Suárez,02/12/1997 (24),UD Almería,1.81m,Derecho,4,0,20,2022,Delantero,True
+106,Cucho Hernández,20/04/1999 (22),Real Betis Balompié,1.76m,Derecho,5,2,14,2022,Delantero,True
+107,Miguel Borja,26/01/1993 (28),CA River Plate,1.84m,Derecho,30,9,19,2022,Delantero,True
+108,Óscar Estupiñán,29/12/1996 (25),FC Juárez,1.82m,Izquierdo,1,0,37,2022,Delantero,True
+109,Radamel Falcao,10/02/1986 (35),Millonarios FC,1.77m,Derecho,105,36,9,2022,Delantero,True
+110,Hárold Preciado,01/06/1994 (27),Sperre,1.85m,Derecho,3,0,25,2022,Delantero,True
+111,Jhon Durán,13/12/2003 (18),Al-Nassr FC,1.85m,Izquierdo,16,3,38,2022,Delantero,True
+112,David Ospina,31/08/1988 (34),Atlético Nacional,1.83m,Derecho,129,0,1,2023,Arquero,True
+113,Kevin Mier,18/05/2000 (22),CD Cruz Azul,1.87m,Derecho,0,0,22,2023,Arquero,True
+114,Álvaro Montero,29/03/1995 (27),Millonarios FC,1.99m,Derecho,8,0,12,2023,Arquero,True
+115,Camilo Vargas,09/03/1989 (33),Atlas Guadalajara,1.85m,Izquierdo,37,0,1,2023,Arquero,True
+116,José Luis Chunga,11/07/1991 (31),Independiente Medellín,1.80m,Derecho,3,0,25,2023,Arquero,True
+117,Devis Vásquez,12/05/1998 (24),Empoli FC,1.95m,Derecho,0,0,26,2023,Arquero,True
+118,Alejandro Rodríguez,12/01/2001 (21),Deportivo Cali,1.88m,Derecho,0,0,27,2023,Arquero,True
+119,Davinson Sánchez,12/06/1996 (26),Galatasaray,1.87m,Derecho,69,3,23,2023,Defensa,True
+120,Yerry Mina,23/09/1994 (28),Cagliari,1.95m,Derecho,49,7,4,2023,Defensa,True
+121,Jhon Lucumí,26/06/1998 (24),Bolonia,1.87m,Izquierdo,28,0,3,2023,Defensa,True
+122,Carlos Cuesta,09/03/1999 (23),Galatasaray,1.79m,Derecho,23,0,2,2023,Mediocampista,True
+123,Willer Ditta,23/01/1998 (24),CD Cruz Azul,1.79m,Derecho,2,0,13,2023,Defensa,True
+124,Yerson Mosquera,02/05/2001 (21),Wolverhampton Wanderers,1.88m,Derecho,4,1,2,2023,Defensa,True
+125,Andrés Llinás,23/07/1997 (25),Millonarios FC,1.88m,Derecho,4,0,3,2023,Defensa,True
+126,Alexis Pérez,25/03/1994 (28),Al-Wasl FC,1.81m,Izquierdo,1,0,5,2023,Defensa,True
+127,Andrés Reyes,08/09/1999 (23),San Diego FC,1.91m,Derecho,2,1,4,2023,Defensa,True
+128,Nicolás Hernández,18/01/1998 (24),CA Banfield,1.85m,Izquierdo,0,0,28,2023,Defensa,True
+129,Brayan Vera,15/01/1999 (23),Real Salt Lake City,1.80m,Izquierdo,2,0,29,2023,Defensa,True
+130,Johan Mojica,21/08/1992 (30),RCD Mallorca,1.85m,Izquierdo,38,1,17,2023,Defensa,True
+131,Deiver Machado,02/09/1993 (29),RC Lens,1.80m,Izquierdo,11,0,13,2023,Defensa,True
+132,Cristián Borja,18/02/1993 (29),CF América,1.79m,Izquierdo,8,0,18,2023,Defensa,True
+133,Frank Fabra,22/02/1991 (31),CA Boca Juniors,1.74m,Izquierdo,28,1,18,2023,Defensa,True
+134,Junior Hernández,05/04/1999 (23),Deportes Tolima,1.72m,Izquierdo,0,0,30,2023,Defensa,True
+135,Andrés Salazar,15/01/2003 (19),Atlético Nacional,1.82m,Izquierdo,1,0,14,2023,Defensa,True
+136,Samuel Velásquez,29/05/2003 (19),Deportes Tolima,1.74m,Izquierdo,2,0,31,2023,Defensa,True
+137,Daniel Muñoz,26/05/1996 (26),Crystal Palace,1.81m,Derecho,38,3,21,2023,Defensa,True
+138,Santiago Arias,13/01/1992 (30),Esporte Clube Bahia,1.78m,Derecho,62,0,4,2023,Defensa,True
+139,Juan Mosquera,05/09/2002 (20),Portland Timbers,1.80m,Derecho,3,0,6,2023,Defensa,True
+140,Devan Tanton,03/01/2004 (18),FC Fulham U21,1.75m,Derecho,1,0,32,2023,Defensa,True
+141,Wilmar Barrios,16/10/1993 (29),Zenit de San Petersburgo,1.78m,Derecho,57,1,5,2023,Mediocampista,True
+142,Jefferson Lerma,25/10/1994 (28),Crystal Palace,1.79m,Derecho,54,3,16,2023,Mediocampista,True
+143,Matheus Uribe,21/03/1991 (31),Atlético Nacional,1.82m,Derecho,62,6,15,2023,Mediocampista,True
+144,Jorman Campuzano,30/04/1996 (26),Atlético Nacional,1.75m,Derecho,5,0,21,2023,Mediocampista,True
+145,Kevin Castaño,29/09/2000 (22),CA River Plate,1.77m,Derecho,17,0,6,2023,Mediocampista,True
+146,Yilmar Velásquez,21/08/1999 (23),Independiente Santa Fe,1.84m,Derecho,1,0,15,2023,Mediocampista,True
+147,Sebastián Gómez,03/06/1996 (26),Coritiba Foot Ball Club,1.77m,Izquierdo,2,0,33,2023,Mediocampista,True
+148,Nelson Palacio,16/06/2001 (21),Real Salt Lake City,1.80m,Derecho,1,0,25,2023,Mediocampista,True
+149,Jader Quiñónes,12/12/2000 (22),Deportes Tolima,1.70m,Derecho,1,0,34,2023,Mediocampista,True
+150,Richard Ríos,02/06/2000 (22),SE Palmeiras,1.87m,Derecho,21,2,2,2023,Mediocampista,True
+151,Juan Cuadrado,26/05/1988 (34),Atalanta de Bérgamo,1.76m,Derecho,116,10,11,2023,Mediocampista,True
+152,Jimer Fory,24/05/2002 (20),Portland Timbers,1.87m,Izquierdo,0,0,35,2023,Defensa,True
+153,Jorge Carrascal,25/05/1998 (24),Dinamo Moscú,1.80m,Derecho,19,2,8,2023,Mediocampista,True
+154,James Rodríguez,12/07/1991 (31),Club León FC,1.80m,Izquierdo,114,29,10,2023,Mediocampista,True
+155,Juan Fernando Quintero,18/01/1993 (29),CD América de Cali,1.68m,Izquierdo,41,5,20,2023,Mediocampista,True
+156,Daniel Cataño,17/01/1992 (30),Millonarios FC,1.74m,Derecho,1,0,8,2023,Mediocampista,True
+157,David Silva,13/12/1986 (36),Millonarios FC,1.75m,Derecho,2,0,36,2023,Mediocampista,True
+158,Luis Díaz,13/01/1997 (25),Liverpool FC,1.80m,Derecho,63,18,7,2023,Delantero,True
+159,Luis Sinisterra,17/06/1999 (23),AFC Bournemouth,1.72m,Derecho,18,5,9,2023,Delantero,True
+160,Daniel Ruiz Rivera,30/07/2001 (21),Millonarios FC,1.71m,Izquierdo,3,0,11,2023,Mediocampista,True
+161,Dylan Borrero,05/01/2002 (20),Fortaleza Esporte Clube,1.79m,Derecho,3,0,23,2023,Mediocampista,True
+162,Jáminton Campaz,24/05/2000 (22),CA Rosario Central,1.65m,Izquierdo,3,0,13,2023,Delantero,True
+163,Henry Mosquera,15/11/2001 (21),Red Bull Bragantino,1.75m,Derecho,2,0,37,2023,Delantero,True
+164,Óscar Cortés,03/12/2003 (19),Rangers FC,1.78m,Derecho,1,0,24,2023,Delantero,True
+165,Jhon Arias,21/09/1997 (25),Fluminense Football Club,1.68m,Derecho,29,3,11,2023,Mediocampista,True
+166,Diego Valoyes,22/09/1996 (26),FC Juárez,1.81m,Derecho,8,0,7,2023,Delantero,True
+167,Santiago Moreno,21/04/2000 (22),Portland Timbers,1.78m,Derecho,2,0,20,2023,Delantero,True
+168,Yáser Asprilla,19/11/2003 (19),Girona FC,1.76m,Izquierdo,8,2,20,2023,Delantero,True
+169,Carlos Andrés Gómez,12/09/2002 (20),Stade Rennais FC,1.71m,Derecho,4,2,38,2023,Delantero,True
+170,Ian Poveda,09/02/2000 (22),Sunderland AFC,1.67m,Izquierdo,2,0,39,2023,Mediocampista,True
+171,Rafael Borré,15/09/1995 (27),Sport Club Internacional,1.74m,Derecho,40,6,19,2023,Delantero,True
+172,Jhon Córdoba,11/05/1993 (29),FK Krasnodar,1.88m,Derecho,16,4,4,2023,Delantero,True
+173,Cucho Hernández,20/04/1999 (23),Real Betis Balompié,1.76m,Derecho,5,2,14,2023,Delantero,True
+174,Cristian Arango,09/03/1995 (27),San José Earthquakes,1.76m,Derecho,2,0,9,2023,Delantero,True
+175,Jhon Durán,13/12/2003 (19),Al-Nassr FC,1.85m,Izquierdo,16,3,14,2023,Delantero,True
+176,Mateo Cassierra,13/04/1997 (25),Zenit de San Petersburgo,1.86m,Derecho,3,1,18,2023,Delantero,True
+177,Roger Martínez,23/06/1994 (28),Al-Taawoun FC,1.80m,Derecho,28,4,40,2023,Delantero,True
+178,Radamel Falcao,10/02/1986 (36),Millonarios FC,1.77m,Derecho,105,36,9,2023,Delantero,True
+179,Diber Cambindo,17/02/1996 (26),Club Necaxa,1.88m,Derecho,2,0,19,2023,Delantero,True
+180,Kevin Mier,18/05/2000 (23),CD Cruz Azul,1.87m,Derecho,0,0,26,2024,Arquero,True
+181,Álvaro Montero,29/03/1995 (28),Millonarios FC,1.99m,Derecho,8,0,12,2024,Arquero,True
+182,David Ospina,31/08/1988 (35),Atlético Nacional,1.83m,Derecho,129,0,1,2024,Arquero,True
+183,Camilo Vargas,09/03/1989 (34),Atlas Guadalajara,1.85m,Izquierdo,37,0,12,2024,Arquero,True
+184,Davinson Sánchez,12/06/1996 (27),Galatasaray,1.87m,Derecho,69,3,23,2024,Defensa,True
+185,Jhon Lucumí,26/06/1998 (25),Bolonia,1.87m,Izquierdo,28,0,3,2024,Defensa,True
+186,Carlos Cuesta,09/03/1999 (24),Galatasaray,1.79m,Derecho,23,0,2,2024,Mediocampista,True
+187,Yerry Mina,23/09/1994 (29),Cagliari,1.95m,Derecho,49,7,13,2024,Defensa,True
+188,Willer Ditta,23/01/1998 (25),CD Cruz Azul,1.79m,Derecho,2,0,15,2024,Defensa,True
+189,Yerson Mosquera,02/05/2001 (22),Wolverhampton Wanderers,1.88m,Derecho,4,1,22,2024,Defensa,True
+190,Deiver Machado,02/09/1993 (30),RC Lens,1.80m,Izquierdo,11,0,17,2024,Defensa,True
+191,Johan Mojica,21/08/1992 (31),RCD Mallorca,1.85m,Izquierdo,38,1,4,2024,Defensa,True
+192,Juan Cabal,08/01/2001 (22),Juventus de Turín,1.86m,Izquierdo,2,0,25,2024,Defensa,True
+193,Cristián Borja,18/02/1993 (30),CF América,1.79m,Izquierdo,8,0,6,2024,Defensa,True
+194,Gabriel Fuentes,09/02/1997 (26),Fluminense Football Club,1.80m,Izquierdo,0,0,20,2024,Defensa,True
+195,Daniel Muñoz,26/05/1996 (27),Crystal Palace,1.81m,Derecho,38,3,21,2024,Defensa,True
+196,Santiago Arias,13/01/1992 (31),Esporte Clube Bahia,1.78m,Derecho,62,0,4,2024,Defensa,True
+197,Andrés Felipe Román,05/10/1995 (28),Atlético Nacional,1.83m,Derecho,1,0,16,2024,Defensa,True
+198,Jefferson Lerma,25/10/1994 (29),Crystal Palace,1.79m,Derecho,54,3,16,2024,Mediocampista,True
+199,Matheus Uribe,21/03/1991 (32),Atlético Nacional,1.82m,Derecho,62,6,15,2024,Mediocampista,True
+200,Kevin Castaño,29/09/2000 (23),CA River Plate,1.77m,Derecho,17,0,5,2024,Mediocampista,True
+201,Richard Ríos,02/06/2000 (23),SE Palmeiras,1.87m,Derecho,21,2,6,2024,Mediocampista,True
+202,Juan Portilla,12/09/1998 (25),CA Talleres,1.83m,Derecho,3,0,8,2024,Mediocampista,True
+203,Sebastián Gómez,03/06/1996 (27),Coritiba Foot Ball Club,1.77m,Izquierdo,2,0,18,2024,Mediocampista,True
+204,Gustavo Puerta,23/07/2003 (20),Hull City,1.73m,Derecho,0,0,14,2024,Mediocampista,True
+205,Jorge Carrascal,25/05/1998 (25),Dinamo Moscú,1.80m,Derecho,19,2,10,2024,Mediocampista,True
+206,James Rodríguez,12/07/1991 (32),Club León FC,1.80m,Izquierdo,114,29,10,2024,Mediocampista,True
+207,Juan Fernando Quintero,18/01/1993 (30),CD América de Cali,1.68m,Izquierdo,41,5,11,2024,Mediocampista,True
+208,Luis Díaz,13/01/1997 (26),Liverpool FC,1.80m,Derecho,63,18,7,2024,Delantero,True
+209,Luis Sinisterra,17/06/1999 (24),AFC Bournemouth,1.72m,Derecho,18,5,9,2024,Delantero,True
+210,Jhon Arias,21/09/1997 (26),Fluminense Football Club,1.68m,Derecho,29,3,11,2024,Mediocampista,True
+211,Yáser Asprilla,19/11/2003 (20),Girona FC,1.76m,Izquierdo,8,2,24,2024,Delantero,True
+212,Carlos Andrés Gómez,12/09/2002 (21),Stade Rennais FC,1.71m,Derecho,4,2,19,2024,Delantero,True
+213,Jhon Durán,13/12/2003 (20),Al-Nassr FC,1.85m,Izquierdo,16,3,14,2024,Delantero,True
+214,Cucho Hernández,20/04/1999 (24),Real Betis Balompié,1.76m,Derecho,5,2,17,2024,Delantero,True
+215,Jhon Córdoba,11/05/1993 (30),FK Krasnodar,1.88m,Derecho,16,4,19,2024,Delantero,True
+216,Mateo Cassierra,13/04/1997 (26),Zenit de San Petersburgo,1.86m,Derecho,3,1,18,2024,Delantero,True
+217,Rafael Borré,15/09/1995 (28),Sport Club Internacional,1.74m,Derecho,40,6,19,2024,Delantero,True
+218,Miguel Borja,26/01/1993 (30),CA River Plate,1.84m,Derecho,30,9,20,2024,Delantero,True
+219,Roger Martínez,23/06/1994 (29),Al-Taawoun FC,1.80m,Derecho,28,4,26,2024,Delantero,True

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Plantilla {{ plantilla.id }}</title>
+    <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Editar Plantilla {{ plantilla.id }}</h1>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="/equipos/">Equipos</a>
+            <a href="/jugadores/">Jugadores</a>
+            <a href="/partidos/">Partidos</a>
+            <a href="/torneos/">Torneos</a>
+            <a href="/plantillas/">Plantillas</a>
+            <a href="/estadisticas/completa/">Estadísticas</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Editar Plantilla</h2>
+        <form action="/plantillas/{{ plantilla.id }}/?_method=PUT" method="POST">
+            <label for="id">ID:</label><br>
+            <input type="number" id="id" name="id" value="{{ plantilla.id }}" readonly><br>
+            <label for="torneo_id">Torneo ID:</label><br>
+            <input type="number" id="torneo_id" name="torneo_id" value="{{ plantilla.torneo_id }}" required><br>
+            <label for="equipo_id">Equipo ID:</label><br>
+            <input type="text" id="equipo_id" name="equipo_id" value="{{ plantilla.equipo_id }}" required><br>
+            <label for="jugador_id">Jugador ID:</label><br>
+            <input type="number" id="jugador_id" name="jugador_id" value="{{ plantilla.jugador_id }}" required><br><br>
+            <button type="submit">Actualizar</button>
+        </form>
+        <a href="/plantillas/">Volver a la lista</a>
+    </main>
+</body>
+</html>

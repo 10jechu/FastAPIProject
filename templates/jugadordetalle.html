@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de {{ jugador.Jugadores }}</title>
+    <link rel="stylesheet" href="/static/estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Detalles de {{ jugador.Jugadores }}</h1>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="/equipos/">Equipos</a>
+            <a href="/jugadores/">Jugadores</a>
+            <a href="/partidos/">Partidos</a>
+            <a href="/torneos/">Torneos</a>
+            <a href="/plantillas/">Plantillas</a>
+            <a href="/estadisticas/completa/">Estadísticas</a>
+        </nav>
+    </header>
+    <main>
+        <table>
+            <tr>
+                <th>ID</th>
+                <td>{{ jugador.id }}</td>
+            </tr>
+            <tr>
+                <th>Número de Camisa</th>
+                <td>{{ jugador.Numero_de_camisa }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ jugador.Jugadores }}</td>
+            </tr>
+            <tr>
+                <th>Posición</th>
+                <td>{{ jugador.posicion }}</td>
+            </tr>
+            <tr>
+                <th>Goles</th>
+                <td>{{ jugador.Goles }}</td>
+            </tr>
+            <tr>
+                <th>Club</th>
+                <td>{{ jugador.Club }}</td>
+            </tr>
+            <tr>
+                <th>Fecha de Nacimiento</th>
+                <td>{{ jugador.fecha_nacimiento }}</td>
+            </tr>
+            <tr>
+                <th>Edad</th>
+                <td>{{ jugador.edad }} años</td>
+            </tr>
+            <tr>
+                <th>Altura</th>
+                <td>{{ jugador.Altura }}</td>
+            </tr>
+            <tr>
+                <th>Pie</th>
+                <td>{{ jugador.Pie }}</td>
+            </tr>
+            <tr>
+                <th>Partidos con la Selección</th>
+                <td>{{ jugador.Partidos_con_la_seleccion }}</td>
+            </tr>
+            <tr>
+                <th>Año</th>
+                <td>{{ jugador.anio }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{{ "Sí" if jugador.activo else "No" }}</td>
+            </tr>
+        </table>
+        <a href="/jugadores/">Volver a la lista de jugadores</a>
+    </main>
+</body>
+</html>

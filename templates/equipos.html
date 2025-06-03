@@ -8,46 +8,59 @@
 </head>
 <body>
     <header>
-        <h1>Selección Colombia 2021-2024</h1>
+        <h1>Equipos</h1>
         <nav>
-            <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-            </ul>
+            <a href="/">Inicio</a>
+            <a href="/equipos/">Equipos</a>
+            <a href="/jugadores/">Jugadores</a>
+            <a href="/partidos/">Partidos</a>
+            <a href="/torneos/">Torneos</a>
+            <a href="/plantillas/">Plantillas</a>
+            <a href="/estadisticas/completa/">Estadísticas</a>
         </nav>
     </header>
     <main>
         <h2>Lista de Equipos</h2>
-        {% if equipos %}
-            <table>
+        <table>
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>País</th>
                     <th>Enfrentamientos con Colombia</th>
-                    <th>Bandera</th>
+                    <th>Acciones</th>
                 </tr>
+            </thead>
+            <tbody>
                 {% for equipo in equipos %}
-                    <tr>
-                        <td data-label="ID">{{ equipo.id }}</td>
-                        <td data-label="Nombre">{{ equipo.nombre }}</td>
-                        <td data-label="País">{{ equipo.pais }}</td>
-                        <td data-label="Enfrentamientos con Colombia">{{ equipo.enfrentamientos_con_colombia }}</td>
-                        <td data-label="Bandera"><img src="/static/banderas/{{ equipo.pais|lower|replace(' ', '_') }}.png" alt="{{ equipo.pais }}" onerror="this.src='https://via.placeholder.com/100?text={{ equipo.pais }}'"></td>
-                    </tr>
+                <tr>
+                    <td>{{ equipo.id }}</td>
+                    <td><a href="/equipos/{{ equipo.id }}">{{ equipo.nombre }}</a></td>
+                    <td>{{ equipo.pais }}</td>
+                    <td>{{ equipo.enfrentamientos_con_colombia }}</td>
+                    <td>
+                        <a href="/equipos/{{ equipo.id }}/edit">Editar</a>
+                        <form action="/equipos/{{ equipo.id }}/?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
                 {% endfor %}
-            </table>
-        {% else %}
-            <p>No se encontraron equipos.</p>
-        {% endif %}
+            </tbody>
+        </table>
+
+        <h2>Registrar Nuevo Equipo</h2>
+        <form action="/equipos/" method="POST">
+            <label for="id">ID:</label><br>
+            <input type="text" id="id" name="id" required><br>
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" required><br>
+            <label for="pais">País:</label><br>
+            <input type="text" id="pais" name="pais" required><br>
+            <label for="enfrentamientos_con_colombia">Enfrentamientos con Colombia:</label><br>
+            <input type="number" id="enfrentamientos_con_colombia" name="enfrentamientos_con_colombia" required><br><br>
+            <button type="submit">Guardar</button>
+        </form>
     </main>
-    <footer>
-        <p>© 2025 Selección Colombia - Universidad Católica</p>
-    </footer>
 </body>
 </html>
