@@ -7,12 +7,11 @@ from datetime import datetime
 import logging
 import pandas as pd
 from pydantic import BaseModel
-from models.jugador import Jugador
 from models.equipo import Equipo
+from models.jugador import Jugador
 from models.partido import Partido
 from models.plantilla import Plantilla
 from models.torneo import Torneo
-from utils.csv_handler import CSVHandler
 from utils.exceptions import NotFoundException, DuplicateException
 
 # Configurar logging
@@ -46,7 +45,7 @@ def extract_age(f_nacim_edad: str) -> tuple[str, int]:
         logger.error(f"Error extracting age from {f_nacim_edad}: {str(e)}")
         return f_nacim_edad, None
 
-# Clases de Operaciones con DataFrames precargados
+# Clases de Operaciones
 class EquipoOps:
     def __init__(self, csv_file: str, history_file: str = "data/equipos_history.csv"):
         self.csv_file = csv_file
@@ -59,8 +58,6 @@ class EquipoOps:
                     self.df[col] = None
             self.df['id'] = self.df['id'].astype(str)
             self.df['enfrentamientos_con_colombia'] = self.df['enfrentamientos_con_colombia'].fillna(0).astype(int)
-            logger.info(f"Columnas del DataFrame Equipo: {list(self.df.columns)}")
-            logger.info(f"Primer registro Equipo: {self.df.iloc[0].to_dict()}")
             if not pd.io.common.file_exists(history_file):
                 pd.DataFrame(columns=["id", "nombre", "pais", "enfrentamientos_con_colombia", "action", "timestamp"]).to_csv(history_file, index=False)
         except FileNotFoundError:
@@ -69,26 +66,19 @@ class EquipoOps:
             pd.DataFrame(columns=["id", "nombre", "pais", "enfrentamientos_con_colombia", "action", "timestamp"]).to_csv(history_file, index=False)
 
     def get_all(self) -> List[dict]:
-        equipos = self.df.to_dict(orient='records')
-        for equipo in equipos:
-            equipo["matches_against_colombia"] = []
-            logger.info(f"Equipo procesado: {equipo}")
-        return equipos
+        return self.df.to_dict(orient='records')
 
     def get_by_id(self, equipo_id: str) -> dict:
         try:
             equipo = self.df[self.df["id"] == equipo_id].to_dict(orient='records')
             if not equipo:
                 raise NotFoundException("Equipo", equipo_id)
-            equipo = equipo[0]
-            equipo["matches_against_colombia"] = self.get_matches_against_colombia(equipo["nombre"])
-            logger.info(f"Equipo por ID {equipo_id}: {equipo}")
-            return equipo
+            return equipo[0]
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error in get_by_id for {equipo_id}: {str(e)}", exc_info=True)
-            raise RuntimeError(f"Error al obtener equipo {equipo_id}: {str(e)}") from e
+            logger.error(f"Error in get_by_id for {equipo_id}: {str(e)}")
+            raise
 
     def create(self, equipo: Equipo) -> dict:
         try:
@@ -100,13 +90,12 @@ class EquipoOps:
             self.df.to_csv(self.csv_file, index=False)
             history_df = pd.DataFrame([{"id": equipo.id, "nombre": equipo.nombre, "pais": equipo.pais, "enfrentamientos_con_colombia": equipo.enfrentamientos_con_colombia, "action": "create", "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}])
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Created equipo with ID {equipo.id}")
             return equipo_dict
         except DuplicateException:
             raise
         except Exception as e:
-            logger.error(f"Error creating equipo: {str(e)}", exc_info=True)
-            raise RuntimeError(f"Error al crear equipo: {str(e)}") from e
+            logger.error(f"Error creating equipo: {str(e)}")
+            raise
 
     def update(self, equipo_id: str, updated_equipo: Equipo) -> dict:
         try:
@@ -119,13 +108,12 @@ class EquipoOps:
             self.df.to_csv(self.csv_file, index=False)
             history_df = pd.DataFrame([{"id": equipo_id, "nombre": original["nombre"], "pais": original["pais"], "enfrentamientos_con_colombia": original["enfrentamientos_con_colombia"], "action": "update", "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}])
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Updated equipo with ID {equipo_id}")
             return updated_equipo_dict
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error updating equipo {equipo_id}: {str(e)}", exc_info=True)
-            raise RuntimeError(f"Error al actualizar equipo {equipo_id}: {str(e)}") from e
+            logger.error(f"Error updating equipo {equipo_id}: {str(e)}")
+            raise
 
     def delete(self, equipo_id: str) -> None:
         try:
@@ -136,33 +124,17 @@ class EquipoOps:
             self.df.to_csv(self.csv_file, index=False)
             history_df = pd.DataFrame([{"id": equipo_id, "nombre": equipo["nombre"], "pais": equipo["pais"], "enfrentamientos_con_colombia": equipo["enfrentamientos_con_colombia"], "action": "delete", "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}])
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Deleted equipo with ID {equipo_id}")
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error deleting equipo {equipo_id}: {str(e)}", exc_info=True)
-            raise RuntimeError(f"Error al eliminar equipo {equipo_id}: {str(e)}") from e
-
-    def get_matches_against_colombia(self, equipo_nombre: str) -> List[dict]:
-        try:
-            partidos_df = pd.read_csv("data/partidos.csv")
-            partidos_df['fecha'] = pd.to_datetime(partidos_df['fecha'], errors='coerce')
-            matches = partidos_df[
-                ((partidos_df['equipo_local'] == equipo_nombre) & (partidos_df['equipo_visitante'] == 'Colombia')) |
-                ((partidos_df['equipo_visitante'] == equipo_nombre) & (partidos_df['equipo_local'] == 'Colombia'))
-            ].to_dict(orient='records')
-            return matches
-        except FileNotFoundError:
-            logger.warning("File data/partidos.csv not found, returning empty list")
-            return []
-        except Exception as e:
-            logger.error(f"Error getting matches against Colombia: {str(e)}")
-            return []
+            logger.error(f"Error deleting equipo {equipo_id}: {str(e)}")
+            raise
 
 class JugadorOps:
-    def __init__(self, csv_file: str, history_file: str = "data/jugadores_history.csv"):
+    def __init__(self, csv_file: str, history_file: str = "data/jugadores_history.csv", trash_file: str = "data/jugadores_trash.csv"):
         self.csv_file = csv_file
         self.history_file = history_file
+        self.trash_file = trash_file
         try:
             self.df = pd.read_csv(csv_file)
             column_mapping = {
@@ -179,14 +151,15 @@ class JugadorOps:
                     self.df[col] = None
             if 'activo' in self.df.columns:
                 self.df['activo'] = self.df['activo'].map({'True': True, 'False': False, True: True, False: False}).fillna(True)
-            logger.info(f"Columnas del DataFrame: {list(self.df.columns)}")
-            logger.info(f"Primer registro: {self.df.iloc[0].to_dict()}")
             if not pd.io.common.file_exists(history_file):
                 pd.DataFrame(columns=["id", "Jugadores", "F_Nacim_Edad", "Club", "Altura", "Pie", "Partidos_con_la_seleccion", "Goles", "Numero_de_camisa", "anio", "posicion", "activo", "action", "timestamp"]).to_csv(history_file, index=False)
+            if not pd.io.common.file_exists(trash_file):
+                pd.DataFrame(columns=["id", "Jugadores", "F_Nacim_Edad", "Club", "Altura", "Pie", "Partidos_con_la_seleccion", "Goles", "Numero_de_camisa", "anio", "posicion", "activo", "deleted_timestamp"]).to_csv(trash_file, index=False)
         except FileNotFoundError:
             logger.warning(f"File {csv_file} not found, creating empty DataFrame")
             self.df = pd.DataFrame(columns=["id", "Jugadores", "F_Nacim_Edad", "Club", "Altura", "Pie", "Partidos_con_la_seleccion", "Goles", "Numero_de_camisa", "anio", "posicion", "activo"])
             pd.DataFrame(columns=["id", "Jugadores", "F_Nacim_Edad", "Club", "Altura", "Pie", "Partidos_con_la_seleccion", "Goles", "Numero_de_camisa", "anio", "posicion", "activo", "action", "timestamp"]).to_csv(history_file, index=False)
+            pd.DataFrame(columns=["id", "Jugadores", "F_Nacim_Edad", "Club", "Altura", "Pie", "Partidos_con_la_seleccion", "Goles", "Numero_de_camisa", "anio", "posicion", "activo", "deleted_timestamp"]).to_csv(trash_file, index=False)
 
     def get_all(self) -> List[dict]:
         return self.df.to_dict(orient='records')
@@ -206,7 +179,6 @@ class JugadorOps:
                 jugador["posicion"] = "No especificado"
             jugador["activo"] = bool(jugador.get("activo", True))
             jugador["Numero_de_camisa"] = jugador.get("Numero_de_camisa", "N/A")
-            logger.info(f"Jugador procesado (get_paginated): {jugador}")
         return jugadores, total
 
     def get_by_id(self, jugador_id: int) -> dict:
@@ -220,13 +192,12 @@ class JugadorOps:
                 jugador["posicion"] = "No especificado"
             jugador["activo"] = bool(jugador.get("activo", True))
             jugador["Numero_de_camisa"] = jugador.get("Numero_de_camisa", "N/A")
-            logger.info(f"Jugador por ID {jugador_id} (get_by_id): {jugador}")
             return jugador
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error in get_by_id for {jugador_id}: {str(e)}", exc_info=True)
-            raise RuntimeError(f"Error al obtener jugador {jugador_id}: {str(e)}") from e
+            logger.error(f"Error in get_by_id for {jugador_id}: {str(e)}")
+            raise
 
     def create(self, jugador: Jugador) -> dict:
         try:
@@ -240,13 +211,12 @@ class JugadorOps:
             history_df["action"] = "create"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Created jugador with ID {jugador.id}")
             return jugador_dict
         except DuplicateException:
             raise
         except Exception as e:
-            logger.error(f"Error creating jugador: {str(e)}", exc_info=True)
-            raise RuntimeError(f"Error al crear jugador: {str(e)}") from e
+            logger.error(f"Error creating jugador: {str(e)}")
+            raise
 
     def update(self, jugador_id: int, updated_jugador: Jugador) -> dict:
         try:
@@ -261,13 +231,12 @@ class JugadorOps:
             history_df["action"] = "update"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Updated jugador with ID {jugador_id}")
             return updated_jugador_dict
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error updating jugador {jugador_id}: {str(e)}", exc_info=True)
-            raise RuntimeError(f"Error al actualizar jugador {jugador_id}: {str(e)}") from e
+            logger.error(f"Error updating jugador {jugador_id}: {str(e)}")
+            raise
 
     def delete(self, jugador_id: int) -> None:
         try:
@@ -280,12 +249,24 @@ class JugadorOps:
             history_df["action"] = "delete"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Deleted jugador with ID {jugador_id}")
+            trash_df = pd.DataFrame([jugador])
+            trash_df["deleted_timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            trash_df.to_csv(self.trash_file, mode='a', header=False, index=False)
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error deleting jugador {jugador_id}: {str(e)}", exc_info=True)
-            raise RuntimeError(f"Error al eliminar jugador {jugador_id}: {str(e)}") from e
+            logger.error(f"Error deleting jugador {jugador_id}: {str(e)}")
+            raise
+
+    def get_trash(self) -> List[dict]:
+        try:
+            if pd.io.common.file_exists(self.trash_file):
+                trash_df = pd.read_csv(self.trash_file)
+                return trash_df.to_dict(orient='records')
+            return []
+        except Exception as e:
+            logger.error(f"Error getting trash: {str(e)}")
+            return []
 
 class PartidoOps:
     def __init__(self, csv_file: str, history_file: str = "data/partidos_history.csv"):
@@ -294,16 +275,18 @@ class PartidoOps:
         try:
             self.df = pd.read_csv(csv_file)
             self.df['fecha'] = pd.to_datetime(self.df['fecha'], errors='coerce')
-            expected_columns = ["id", "fecha", "equipo_local", "equipo_visitante", "goles_local", "goles_visitante", "torneo_id", "eliminado", "tarjetas_amarillas_local", "tarjetas_amarillas_visitante", "tarjetas_rojas_local", "tarjetas_rojas_visitante"]
+            expected_columns = ["id", "equipo_local", "equipo_visitante", "fecha", "goles_local", "goles_visitante", "torneo_id", "eliminado", "tarjetas_amarillas_local", "tarjetas_amarillas_visitante", "tarjetas_rojas_local", "tarjetas_rojas_visitante"]
             for col in expected_columns:
                 if col not in self.df.columns:
                     self.df[col] = None
+            self.df['id'] = self.df['id'].astype(str)
+            self.df['torneo_id'] = self.df['torneo_id'].astype(str)
             if not pd.io.common.file_exists(history_file):
                 pd.DataFrame(columns=expected_columns + ["action", "timestamp"]).to_csv(history_file, index=False)
         except FileNotFoundError:
             logger.warning(f"File {csv_file} not found, creating empty DataFrame")
-            self.df = pd.DataFrame(columns=["id", "fecha", "equipo_local", "equipo_visitante", "goles_local", "goles_visitante", "torneo_id", "eliminado", "tarjetas_amarillas_local", "tarjetas_amarillas_visitante", "tarjetas_rojas_local", "tarjetas_rojas_visitante"])
-            pd.DataFrame(columns=["id", "fecha", "equipo_local", "equipo_visitante", "goles_local", "goles_visitante", "torneo_id", "eliminado", "tarjetas_amarillas_local", "tarjetas_amarillas_visitante", "tarjetas_rojas_local", "tarjetas_rojas_visitante", "action", "timestamp"]).to_csv(history_file, index=False)
+            self.df = pd.DataFrame(columns=["id", "equipo_local", "equipo_visitante", "fecha", "goles_local", "goles_visitante", "torneo_id", "eliminado", "tarjetas_amarillas_local", "tarjetas_amarillas_visitante", "tarjetas_rojas_local", "tarjetas_rojas_visitante"])
+            pd.DataFrame(columns=["id", "equipo_local", "equipo_visitante", "fecha", "goles_local", "goles_visitante", "torneo_id", "eliminado", "tarjetas_amarillas_local", "tarjetas_amarillas_visitante", "tarjetas_rojas_local", "tarjetas_rojas_visitante", "action", "timestamp"]).to_csv(history_file, index=False)
 
     def get_all(self) -> List[dict]:
         return self.df.to_dict(orient='records')
@@ -318,7 +301,7 @@ class PartidoOps:
             raise
         except Exception as e:
             logger.error(f"Error in get_by_id for {partido_id}: {str(e)}")
-            raise RuntimeError(f"Error al obtener partido {partido_id}: {str(e)}") from e
+            raise
 
     def get_by_year(self, year: int) -> List[dict]:
         try:
@@ -341,13 +324,12 @@ class PartidoOps:
             history_df["action"] = "create"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Created partido with ID {partido.id}")
             return partido_dict
         except DuplicateException:
             raise
         except Exception as e:
             logger.error(f"Error creating partido: {str(e)}")
-            raise RuntimeError(f"Error al crear partido: {str(e)}") from e
+            raise
 
     def update(self, partido_id: str, updated_partido: Partido) -> dict:
         try:
@@ -362,13 +344,12 @@ class PartidoOps:
             history_df["action"] = "update"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Updated partido with ID {partido_id}")
             return updated_partido_dict
         except NotFoundException:
             raise
         except Exception as e:
             logger.error(f"Error updating partido {partido_id}: {str(e)}")
-            raise RuntimeError(f"Error al actualizar partido {partido_id}: {str(e)}") from e
+            raise
 
     def delete(self, partido_id: str) -> None:
         try:
@@ -381,12 +362,11 @@ class PartidoOps:
             history_df["action"] = "delete"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Deleted partido with ID {partido_id}")
         except NotFoundException:
             raise
         except Exception as e:
             logger.error(f"Error deleting partido {partido_id}: {str(e)}")
-            raise RuntimeError(f"Error al eliminar partido {partido_id}: {str(e)}") from e
+            raise
 
 class TorneoOps:
     def __init__(self, csv_file: str, history_file: str = "data/torneos_history.csv"):
@@ -394,35 +374,36 @@ class TorneoOps:
         self.history_file = history_file
         try:
             self.df = pd.read_csv(csv_file)
-            expected_columns = ["id", "nombre", "fecha_inicio", "fecha_fin", "campeon"]
+            expected_columns = ["id", "nombre", "anio", "pais_anfitrion", "estado", "eliminado"]
             for col in expected_columns:
                 if col not in self.df.columns:
                     self.df[col] = None
+            self.df['id'] = self.df['id'].astype(str)
             if not pd.io.common.file_exists(history_file):
-                pd.DataFrame(columns=["id", "nombre", "fecha_inicio", "fecha_fin", "campeon", "action", "timestamp"]).to_csv(history_file, index=False)
+                pd.DataFrame(columns=["id", "nombre", "anio", "pais_anfitrion", "estado", "eliminado", "action", "timestamp"]).to_csv(history_file, index=False)
         except FileNotFoundError:
             logger.warning(f"File {csv_file} not found, creating empty DataFrame")
-            self.df = pd.DataFrame(columns=["id", "nombre", "fecha_inicio", "fecha_fin", "campeon"])
-            pd.DataFrame(columns=["id", "nombre", "fecha_inicio", "fecha_fin", "campeon", "action", "timestamp"]).to_csv(history_file, index=False)
+            self.df = pd.DataFrame(columns=["id", "nombre", "anio", "pais_anfitrion", "estado", "eliminado"])
+            pd.DataFrame(columns=["id", "nombre", "anio", "pais_anfitrion", "estado", "eliminado", "action", "timestamp"]).to_csv(history_file, index=False)
 
     def get_all(self) -> List[dict]:
         return self.df.to_dict(orient='records')
 
-    def get_by_id(self, torneo_id: int) -> dict:
+    def get_by_id(self, torneo_id: str) -> dict:
         try:
             torneo = self.df[self.df["id"] == torneo_id].to_dict(orient='records')
             if not torneo:
-                raise NotFoundException("Torneo", str(torneo_id))
+                raise NotFoundException("Torneo", torneo_id)
             return torneo[0]
         except NotFoundException:
             raise
         except Exception as e:
             logger.error(f"Error in get_by_id for {torneo_id}: {str(e)}")
-            raise RuntimeError(f"Error al obtener torneo {torneo_id}: {str(e)}") from e
+            raise
 
     def create(self, torneo: Torneo) -> dict:
         try:
-            if torneo.id in self.df["id"].values:
+            if str(torneo.id) in self.df["id"].values:
                 raise DuplicateException("Torneo", str(torneo.id))
             torneo_dict = torneo.dict()
             new_df = pd.DataFrame([torneo_dict])
@@ -432,18 +413,17 @@ class TorneoOps:
             history_df["action"] = "create"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Created torneo with ID {torneo.id}")
             return torneo_dict
         except DuplicateException:
             raise
         except Exception as e:
             logger.error(f"Error creating torneo: {str(e)}")
-            raise RuntimeError(f"Error al crear torneo: {str(e)}") from e
+            raise
 
-    def update(self, torneo_id: int, updated_torneo: Torneo) -> dict:
+    def update(self, torneo_id: str, updated_torneo: Torneo) -> dict:
         try:
             if torneo_id not in self.df["id"].values:
-                raise NotFoundException("Torneo", str(torneo_id))
+                raise NotFoundException("Torneo", torneo_id)
             original = self.df[self.df["id"] == torneo_id].to_dict(orient='records')[0]
             updated_torneo_dict = updated_torneo.dict()
             updated_torneo_dict["id"] = torneo_id
@@ -453,18 +433,17 @@ class TorneoOps:
             history_df["action"] = "update"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Updated torneo with ID {torneo_id}")
             return updated_torneo_dict
         except NotFoundException:
             raise
         except Exception as e:
             logger.error(f"Error updating torneo {torneo_id}: {str(e)}")
-            raise RuntimeError(f"Error al actualizar torneo {torneo_id}: {str(e)}") from e
+            raise
 
-    def delete(self, torneo_id: int) -> None:
+    def delete(self, torneo_id: str) -> None:
         try:
             if torneo_id not in self.df["id"].values:
-                raise NotFoundException("Torneo", str(torneo_id))
+                raise NotFoundException("Torneo", torneo_id)
             torneo = self.df[self.df["id"] == torneo_id].to_dict(orient='records')[0]
             self.df = self.df[self.df["id"] != torneo_id]
             self.df.to_csv(self.csv_file, index=False)
@@ -472,12 +451,11 @@ class TorneoOps:
             history_df["action"] = "delete"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Deleted torneo with ID {torneo_id}")
         except NotFoundException:
             raise
         except Exception as e:
             logger.error(f"Error deleting torneo {torneo_id}: {str(e)}")
-            raise RuntimeError(f"Error al eliminar torneo {torneo_id}: {str(e)}") from e
+            raise
 
 class PlantillaOps:
     def __init__(self, csv_file: str, history_file: str = "data/plantillas_history.csv"):
@@ -485,21 +463,22 @@ class PlantillaOps:
         self.history_file = history_file
         try:
             self.df = pd.read_csv(csv_file)
-            expected_columns = ["id", "torneo_id", "equipo_id", "jugador_id"]
+            expected_columns = ["id", "equipo_id", "nombre", "posicion", "anio"]
             for col in expected_columns:
                 if col not in self.df.columns:
                     self.df[col] = None
+            self.df['id'] = self.df['id'].astype(str)
             if not pd.io.common.file_exists(history_file):
-                pd.DataFrame(columns=["id", "torneo_id", "equipo_id", "jugador_id", "action", "timestamp"]).to_csv(history_file, index=False)
+                pd.DataFrame(columns=["id", "equipo_id", "nombre", "posicion", "anio", "action", "timestamp"]).to_csv(history_file, index=False)
         except FileNotFoundError:
             logger.warning(f"File {csv_file} not found, creating empty DataFrame")
-            self.df = pd.DataFrame(columns=["id", "torneo_id", "equipo_id", "jugador_id"])
-            pd.DataFrame(columns=["id", "torneo_id", "equipo_id", "jugador_id", "action", "timestamp"]).to_csv(history_file, index=False)
+            self.df = pd.DataFrame(columns=["id", "equipo_id", "nombre", "posicion", "anio"])
+            pd.DataFrame(columns=["id", "equipo_id", "nombre", "posicion", "anio", "action", "timestamp"]).to_csv(history_file, index=False)
 
     def get_all(self) -> List[dict]:
         return self.df.to_dict(orient='records')
 
-    def get_by_id(self, plantilla_id: int) -> dict:
+    def get_by_id(self, plantilla_id: str) -> dict:
         try:
             plantilla = self.df[self.df["id"] == plantilla_id].to_dict(orient='records')
             if not plantilla:
@@ -509,11 +488,11 @@ class PlantillaOps:
             raise
         except Exception as e:
             logger.error(f"Error in get_by_id for {plantilla_id}: {str(e)}")
-            raise RuntimeError(f"Error al obtener plantilla {plantilla_id}: {str(e)}") from e
+            raise
 
     def create(self, plantilla: Plantilla) -> dict:
         try:
-            if plantilla.id in self.df["id"].values:
+            if str(plantilla.id) in self.df["id"].astype(str).values:
                 raise DuplicateException("Plantilla", str(plantilla.id))
             plantilla_dict = plantilla.dict()
             new_df = pd.DataFrame([plantilla_dict])
@@ -523,17 +502,16 @@ class PlantillaOps:
             history_df["action"] = "create"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Created plantilla with ID {plantilla.id}")
             return plantilla_dict
         except DuplicateException:
             raise
         except Exception as e:
             logger.error(f"Error creating plantilla: {str(e)}")
-            raise RuntimeError(f"Error al crear plantilla: {str(e)}") from e
+            raise
 
-    def update(self, plantilla_id: int, updated_plantilla: Plantilla) -> dict:
+    def update(self, plantilla_id: str, updated_plantilla: Plantilla) -> dict:
         try:
-            if plantilla_id not in self.df["id"].values:
+            if plantilla_id not in self.df["id"].astype(str).values:
                 raise NotFoundException("Plantilla", str(plantilla_id))
             original = self.df[self.df["id"] == plantilla_id].to_dict(orient='records')[0]
             updated_plantilla_dict = updated_plantilla.dict()
@@ -544,17 +522,16 @@ class PlantillaOps:
             history_df["action"] = "update"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Updated plantilla with ID {plantilla_id}")
             return updated_plantilla_dict
         except NotFoundException:
             raise
         except Exception as e:
             logger.error(f"Error updating plantilla {plantilla_id}: {str(e)}")
-            raise RuntimeError(f"Error al actualizar plantilla {plantilla_id}: {str(e)}") from e
+            raise
 
-    def delete(self, plantilla_id: int) -> None:
+    def delete(self, plantilla_id: str) -> None:
         try:
-            if plantilla_id not in self.df["id"].values:
+            if plantilla_id not in self.df["id"].astype(str).values:
                 raise NotFoundException("Plantilla", str(plantilla_id))
             plantilla = self.df[self.df["id"] == plantilla_id].to_dict(orient='records')[0]
             self.df = self.df[self.df["id"] != plantilla_id]
@@ -563,12 +540,11 @@ class PlantillaOps:
             history_df["action"] = "delete"
             history_df["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             history_df.to_csv(self.history_file, mode='a', header=False, index=False)
-            logger.info(f"Deleted plantilla with ID {plantilla_id}")
         except NotFoundException:
             raise
         except Exception as e:
             logger.error(f"Error deleting plantilla {plantilla_id}: {str(e)}")
-            raise RuntimeError(f"Error al eliminar plantilla {plantilla_id}: {str(e)}") from e
+            raise
 
 # Instancias de operaciones
 equipo_ops = EquipoOps("data/equipos.csv")
@@ -580,7 +556,19 @@ plantilla_ops = PlantillaOps("data/plantilla.csv")
 # Rutas
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    jugadores = jugador_ops.get_all()[:5]  # Mostrar solo 5 jugadores en el inicio
+    equipos = equipo_ops.get_all()[:5]
+    partidos = partido_ops.get_all()[:5]
+    torneos = torneo_ops.get_all()[:5]
+    plantillas = plantilla_ops.get_all()[:5]
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "jugadores": jugadores,
+        "equipos": equipos,
+        "partidos": partidos,
+        "torneos": torneos,
+        "plantillas": plantillas
+    })
 
 # Equipos
 @app.get("/equipos/", response_class=HTMLResponse)
@@ -589,8 +577,12 @@ async def get_equipos(request: Request):
         equipos = equipo_ops.get_all()
         return templates.TemplateResponse("equipos.html", {"request": request, "equipos": equipos})
     except Exception as e:
-        logger.error(f"Error in get_equipos: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_equipos: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/equipos/crear", response_class=HTMLResponse)
+async def create_equipo_form(request: Request):
+    return templates.TemplateResponse("equipos_crear.html", {"request": request})
 
 @app.get("/equipos/{equipo_id}", response_class=HTMLResponse)
 async def get_equipo(request: Request, equipo_id: str):
@@ -600,7 +592,18 @@ async def get_equipo(request: Request, equipo_id: str):
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in get_equipo: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_equipo: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/equipos/{equipo_id}/edit", response_class=HTMLResponse)
+async def edit_equipo_form(request: Request, equipo_id: str):
+    try:
+        equipo = equipo_ops.get_by_id(equipo_id)
+        return templates.TemplateResponse("equipos_edit.html", {"request": request, "equipo": equipo})
+    except NotFoundException as e:
+        raise HTTPException(status_code=404, detail=str(e.detail))
+    except Exception as e:
+        logger.error(f"Error in edit_equipo_form: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/equipos/")
@@ -618,7 +621,7 @@ async def create_equipo(
     except DuplicateException as e:
         raise HTTPException(status_code=400, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in create_equipo: {str(e)}", exc_info=True)
+        logger.error(f"Error in create_equipo: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/equipos/{equipo_id}/")
@@ -649,7 +652,7 @@ async def handle_equipo_methods(
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in handle_equipo_methods: {str(e)}", exc_info=True)
+        logger.error(f"Error in handle_equipo_methods: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 # Jugadores
@@ -659,15 +662,20 @@ async def get_jugadores(request: Request, page: int = 1, anio: int = None):
         per_page = 10
         jugadores, total = jugador_ops.get_paginated(page, per_page, anio)
         total_pages = (total + per_page - 1) // per_page
+        trash = jugador_ops.get_trash()
         return templates.TemplateResponse(
             "jugadores.html",
-            {"request": request, "jugadores": jugadores, "page": page, "total_pages": total_pages, "anio": anio}
+            {"request": request, "jugadores": jugadores, "page": page, "total_pages": total_pages, "anio": anio, "trash": trash}
         )
     except HTTPException as e:
         raise
     except Exception as e:
-        logger.error(f"Error in get_jugadores: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_jugadores: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/jugadores/crear", response_class=HTMLResponse)
+async def create_jugador_form(request: Request):
+    return templates.TemplateResponse("jugadores_crear.html", {"request": request})
 
 @app.get("/jugadores/{jugador_id}", response_class=HTMLResponse)
 async def get_jugador(request: Request, jugador_id: int):
@@ -677,7 +685,7 @@ async def get_jugador(request: Request, jugador_id: int):
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in get_jugador: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_jugador: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/jugadores/{jugador_id}/edit", response_class=HTMLResponse)
@@ -688,7 +696,7 @@ async def edit_jugador_form(request: Request, jugador_id: int):
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in edit_jugador_form: {str(e)}", exc_info=True)
+        logger.error(f"Error in edit_jugador_form: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/jugadores/")
@@ -702,9 +710,9 @@ async def create_jugador(
     Pie: str = Form(None),
     Partidos_con_la_seleccion: int = Form(None),
     Goles: int = Form(None),
-    Numero_de_camisa: str = Form(None),
+    Numero_de_camisa: int = Form(None),
     anio: int = Form(...),
-    posicion: str = Form(...),
+    posicion: str = Form(None),
     activo: bool = Form(True)
 ):
     try:
@@ -727,7 +735,7 @@ async def create_jugador(
     except DuplicateException as e:
         raise HTTPException(status_code=400, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in create_jugador: {str(e)}", exc_info=True)
+        logger.error(f"Error in create_jugador: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/jugadores/{jugador_id}/")
@@ -743,7 +751,7 @@ async def handle_jugador_methods(
     Pie: str = Form(None),
     Partidos_con_la_seleccion: int = Form(None),
     Goles: int = Form(None),
-    Numero_de_camisa: str = Form(None),
+    Numero_de_camisa: int = Form(None),
     anio: int = Form(None),
     posicion: str = Form(None),
     activo: bool = Form(None)
@@ -759,7 +767,7 @@ async def handle_jugador_methods(
                 Pie=Pie if Pie else None,
                 Partidos_con_la_seleccion=Partidos_con_la_seleccion if Partidos_con_la_seleccion is not None else 0,
                 Goles=Goles if Goles is not None else 0,
-                Numero_de_camisa=Numero_de_camisa if Numero_de_camisa else None,
+                Numero_de_camisa=Numero_de_camisa if Numero_de_camisa is not None else 0,
                 anio=anio or 0,
                 posicion=posicion or "",
                 activo=activo if activo is not None else True
@@ -774,7 +782,7 @@ async def handle_jugador_methods(
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=str(e.detail))
     except Exception as e:
-        logger.error(f"Error in handle_jugador_methods: {str(e)}", exc_info=True)
+        logger.error(f"Error in handle_jugador_methods: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 # Partidos
@@ -786,6 +794,10 @@ async def get_partidos(request: Request):
     except Exception as e:
         logger.error(f"Error in get_partidos: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/partidos/crear", response_class=HTMLResponse)
+async def create_partido_form(request: Request):
+    return templates.TemplateResponse("partidos_crear.html", {"request": request})
 
 @app.get("/partidos/{partido_id}", response_class=HTMLResponse)
 async def get_partido(request: Request, partido_id: str):
@@ -813,9 +825,9 @@ async def edit_partido_form(request: Request, partido_id: str):
 async def create_partido(
     request: Request,
     id: str = Form(...),
-    fecha: str = Form(...),
     equipo_local: str = Form(...),
     equipo_visitante: str = Form(...),
+    fecha: str = Form(...),
     goles_local: int = Form(...),
     goles_visitante: int = Form(...),
     torneo_id: str = Form(...),
@@ -826,11 +838,13 @@ async def create_partido(
     tarjetas_rojas_visitante: int = Form(None)
 ):
     try:
+        from datetime import datetime
+        fecha_date = datetime.strptime(fecha, "%Y-%m-%d").date()
         partido = Partido(
             id=id,
-            fecha=fecha,
             equipo_local=equipo_local,
             equipo_visitante=equipo_visitante,
+            fecha=fecha_date,
             goles_local=goles_local,
             goles_visitante=goles_visitante,
             torneo_id=torneo_id,
@@ -854,9 +868,9 @@ async def handle_partido_methods(
     partido_id: str,
     method: str = Form(None),
     id: str = Form(None),
-    fecha: str = Form(None),
     equipo_local: str = Form(None),
     equipo_visitante: str = Form(None),
+    fecha: str = Form(None),
     goles_local: int = Form(None),
     goles_visitante: int = Form(None),
     torneo_id: str = Form(None),
@@ -868,11 +882,13 @@ async def handle_partido_methods(
 ):
     try:
         if method == "PUT":
+            from datetime import datetime
+            fecha_date = datetime.strptime(fecha, "%Y-%m-%d").date() if fecha else None
             partido = Partido(
                 id=partido_id,
-                fecha=fecha or "",
                 equipo_local=equipo_local or "",
                 equipo_visitante=equipo_visitante or "",
+                fecha=fecha_date,
                 goles_local=goles_local or 0,
                 goles_visitante=goles_visitante or 0,
                 torneo_id=torneo_id or "",
@@ -905,8 +921,12 @@ async def get_torneos(request: Request):
         logger.error(f"Error in get_torneos: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/torneos/crear", response_class=HTMLResponse)
+async def create_torneo_form(request: Request):
+    return templates.TemplateResponse("torneos_crear.html", {"request": request})
+
 @app.get("/torneos/{torneo_id}", response_class=HTMLResponse)
-async def get_torneo(request: Request, torneo_id: int):
+async def get_torneo(request: Request, torneo_id: str):
     try:
         torneo = torneo_ops.get_by_id(torneo_id)
         return templates.TemplateResponse("torneo_detail.html", {"request": request, "torneo": torneo})
@@ -917,7 +937,7 @@ async def get_torneo(request: Request, torneo_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/torneos/{torneo_id}/edit", response_class=HTMLResponse)
-async def edit_torneo_form(request: Request, torneo_id: int):
+async def edit_torneo_form(request: Request, torneo_id: str):
     try:
         torneo = torneo_ops.get_by_id(torneo_id)
         return templates.TemplateResponse("torneos_edit.html", {"request": request, "torneo": torneo})
@@ -930,14 +950,15 @@ async def edit_torneo_form(request: Request, torneo_id: int):
 @app.post("/torneos/")
 async def create_torneo(
     request: Request,
-    id: int = Form(...),
+    id: str = Form(...),
     nombre: str = Form(...),
-    fecha_inicio: str = Form(...),
-    fecha_fin: str = Form(...),
-    campeon: str = Form(None)
+    anio: int = Form(...),
+    pais_anfitrion: str = Form(None),
+    estado: str = Form(...),
+    eliminado: str = Form(None)
 ):
     try:
-        torneo = Torneo(id=id, nombre=nombre, fecha_inicio=fecha_inicio, fecha_fin=fecha_fin, campeon=campeon)
+        torneo = Torneo(id=id, nombre=nombre, anio=anio, pais_anfitrion=pais_anfitrion, estado=estado, eliminado=eliminado)
         torneo_ops.create(torneo)
         return RedirectResponse(url="/torneos/", status_code=303)
     except DuplicateException as e:
@@ -949,22 +970,24 @@ async def create_torneo(
 @app.post("/torneos/{torneo_id}/")
 async def handle_torneo_methods(
     request: Request,
-    torneo_id: int,
+    torneo_id: str,
     method: str = Form(None),
-    id: int = Form(None),
+    id: str = Form(None),
     nombre: str = Form(None),
-    fecha_inicio: str = Form(None),
-    fecha_fin: str = Form(None),
-    campeon: str = Form(None)
+    anio: int = Form(None),
+    pais_anfitrion: str = Form(None),
+    estado: str = Form(None),
+    eliminado: str = Form(None)
 ):
     try:
         if method == "PUT":
             torneo = Torneo(
                 id=torneo_id,
                 nombre=nombre or "",
-                fecha_inicio=fecha_inicio or "",
-                fecha_fin=fecha_fin or "",
-                campeon=campeon
+                anio=anio or 0,
+                pais_anfitrion=pais_anfitrion,
+                estado=estado or "",
+                eliminado=eliminado
             )
             torneo_ops.update(torneo_id, torneo)
             return RedirectResponse(url="/torneos/", status_code=303)
@@ -989,8 +1012,12 @@ async def get_plantillas(request: Request):
         logger.error(f"Error in get_plantillas: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/plantillas/crear", response_class=HTMLResponse)
+async def create_plantilla_form(request: Request):
+    return templates.TemplateResponse("plantillas_crear.html", {"request": request})
+
 @app.get("/plantillas/{plantilla_id}", response_class=HTMLResponse)
-async def get_plantilla(request: Request, plantilla_id: int):
+async def get_plantilla(request: Request, plantilla_id: str):
     try:
         plantilla = plantilla_ops.get_by_id(plantilla_id)
         return templates.TemplateResponse("plantilla_detail.html", {"request": request, "plantilla": plantilla})
@@ -1001,7 +1028,7 @@ async def get_plantilla(request: Request, plantilla_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/plantillas/{plantilla_id}/edit", response_class=HTMLResponse)
-async def edit_plantilla_form(request: Request, plantilla_id: int):
+async def edit_plantilla_form(request: Request, plantilla_id: str):
     try:
         plantilla = plantilla_ops.get_by_id(plantilla_id)
         return templates.TemplateResponse("plantillas_edit.html", {"request": request, "plantilla": plantilla})
@@ -1014,13 +1041,14 @@ async def edit_plantilla_form(request: Request, plantilla_id: int):
 @app.post("/plantillas/")
 async def create_plantilla(
     request: Request,
-    id: int = Form(...),
-    torneo_id: int = Form(...),
+    id: str = Form(...),
     equipo_id: str = Form(...),
-    jugador_id: int = Form(...)
+    nombre: str = Form(None),
+    posicion: str = Form(None),
+    anio: int = Form(...)
 ):
     try:
-        plantilla = Plantilla(id=id, torneo_id=torneo_id, equipo_id=equipo_id, jugador_id=jugador_id)
+        plantilla = Plantilla(id=id, equipo_id=equipo_id, nombre=nombre, posicion=posicion, anio=anio)
         plantilla_ops.create(plantilla)
         return RedirectResponse(url="/plantillas/", status_code=303)
     except DuplicateException as e:
@@ -1032,20 +1060,22 @@ async def create_plantilla(
 @app.post("/plantillas/{plantilla_id}/")
 async def handle_plantilla_methods(
     request: Request,
-    plantilla_id: int,
+    plantilla_id: str,
     method: str = Form(None),
-    id: int = Form(None),
-    torneo_id: int = Form(None),
+    id: str = Form(None),
     equipo_id: str = Form(None),
-    jugador_id: int = Form(None)
+    nombre: str = Form(None),
+    posicion: str = Form(None),
+    anio: int = Form(None)
 ):
     try:
         if method == "PUT":
             plantilla = Plantilla(
                 id=plantilla_id,
-                torneo_id=torneo_id or 0,
                 equipo_id=equipo_id or "",
-                jugador_id=jugador_id or 0
+                nombre=nombre,
+                posicion=posicion,
+                anio=anio or 0
             )
             plantilla_ops.update(plantilla_id, plantilla)
             return RedirectResponse(url="/plantillas/", status_code=303)
@@ -1093,44 +1123,6 @@ async def get_full_stats(request: Request, anio: int = None):
                                   (p.get("equipo_local", "").lower() == "colombia" or p.get("equipo_visitante", "").lower() == "colombia"))
         porcentaje_eliminaciones = round((partidos_eliminados / total_partidos) * 100, 2) if total_partidos > 0 else 0
 
-        # Preparar datos para gráficas
-        resultados_data = {
-            "labels": ["Victorias", "Empates", "Derrotas"],
-            "datasets": [{
-                "label": "Resultados",
-                "data": [victorias, empates, derrotas],
-                "backgroundColor": ["#28a745", "#ffc107", "#dc3545"]
-            }]
-        }
-
-        # Convertir fechas a strings
-        fechas = [str(p["fecha"]) if pd.notnull(p["fecha"]) else "N/A" for p in partidos]
-        goles_anotados_lista = [
-            p["goles_local"] if p["equipo_local"].lower() == "colombia" else p["goles_visitante"]
-            for p in partidos
-        ]
-        goles_recibidos_lista = [
-            p["goles_visitante"] if p["equipo_local"].lower() == "colombia" else p["goles_local"]
-            for p in partidos
-        ]
-        goles_data = {
-            "labels": fechas,
-            "datasets": [
-                {
-                    "label": "Goles Anotados",
-                    "data": goles_anotados_lista,
-                    "borderColor": "#28a745",
-                    "fill": False
-                },
-                {
-                    "label": "Goles Recibidos",
-                    "data": goles_recibidos_lista,
-                    "borderColor": "#dc3545",
-                    "fill": False
-                }
-            ]
-        }
-
         estadisticas = {
             "total_partidos": total_partidos,
             "goles_anotados": goles_anotados,
@@ -1142,11 +1134,14 @@ async def get_full_stats(request: Request, anio: int = None):
             "tarjetas_amarillas": tarjetas_amarillas,
             "tarjetas_rojas": tarjetas_rojas,
             "partidos_eliminados": partidos_eliminados,
-            "porcentaje_eliminaciones": porcentaje_eliminaciones,
-            "resultados_data": resultados_data,
-            "goles_data": goles_data
+            "porcentaje_eliminaciones": porcentaje_eliminaciones
         }
         return templates.TemplateResponse("estadisticas.html", {"request": request, "estadisticas": estadisticas})
     except Exception as e:
-        logger.error(f"Error in get_full_stats: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_full_stats: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error al calcular estadísticas: {str(e)}")
+
+# Documentación
+@app.get("/documentacion/", response_class=HTMLResponse)
+async def get_documentacion(request: Request):
+    return templates.TemplateResponse("documentacion.html", {"request": request})

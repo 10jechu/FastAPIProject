@@ -1,33 +1,20 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipos</title>
-    <link rel="stylesheet" href="/static/estilos.css">
+    <title>Lista de Equipos</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Equipos</h1>
-        <nav>
-            <a href="/">Inicio</a>
-            <a href="/equipos/">Equipos</a>
-            <a href="/jugadores/">Jugadores</a>
-            <a href="/partidos/">Partidos</a>
-            <a href="/torneos/">Torneos</a>
-            <a href="/plantillas/">Plantillas</a>
-            <a href="/estadisticas/completa/">Estadísticas</a>
-        </nav>
-    </header>
-    <main>
-        <h2>Lista de Equipos</h2>
+    <div class="container">
+        <h1>Lista de Equipos</h1>
+        <a href="/equipos/crear" class="btn btn-primary">Crear Equipo</a>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>País</th>
-                    <th>Enfrentamientos con Colombia</th>
+                    <th>Enfrentamientos</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -39,28 +26,16 @@
                     <td>{{ equipo.pais }}</td>
                     <td>{{ equipo.enfrentamientos_con_colombia }}</td>
                     <td>
-                        <a href="/equipos/{{ equipo.id }}/edit">Editar</a>
-                        <form action="/equipos/{{ equipo.id }}/?_method=DELETE" method="POST" style="display:inline;">
-                            <button type="submit">Eliminar</button>
+                        <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-primary">Editar</a>
+                        <form action="/equipos/{{ equipo.id }}/" method="post" style="display:inline;">
+                            <input type="hidden" name="method" value="DELETE">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
-        <h2>Registrar Nuevo Equipo</h2>
-        <form action="/equipos/" method="POST">
-            <label for="id">ID:</label><br>
-            <input type="text" id="id" name="id" required><br>
-            <label for="nombre">Nombre:</label><br>
-            <input type="text" id="nombre" name="nombre" required><br>
-            <label for="pais">País:</label><br>
-            <input type="text" id="pais" name="pais" required><br>
-            <label for="enfrentamientos_con_colombia">Enfrentamientos con Colombia:</label><br>
-            <input type="number" id="enfrentamientos_con_colombia" name="enfrentamientos_con_colombia" required><br><br>
-            <button type="submit">Guardar</button>
-        </form>
-    </main>
+    </div>
 </body>
 </html>

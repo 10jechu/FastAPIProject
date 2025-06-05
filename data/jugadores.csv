@@ -8,7 +8,6 @@ id,Jugadores,F_Nacim_Edad,Club,Altura,Pie,Partidos_con_la_seleccion,Goles,Numero
 7,Yerry Mina,23/09/1994 (26),Cagliari,1.95m,Derecho,49,7,13,2021,Defensa,True
 8,Jhon Lucumí,26/06/1998 (22),Bolonia,1.87m,Izquierdo,28,0,3,2021,Defensa,True
 9,Carlos Cuesta,09/03/1999 (21),Galatasaray,1.79m,Derecho,23,0,4,2021,Mediocampista,True
-10,Yeimar Gómez Andrade,30/06/1992 (28),Seattle Sounders FC,1.88m,Derecho,1,0,26,2021,Defensa,True
 11,William Tesillo,02/02/1990 (30),Atlético Nacional,1.85m,Izquierdo,30,1,6,2021,Defensa,True
 12,Óscar Murillo,18/04/1988 (32),Retirado,1.84m,Izquierdo,23,0,2,2021,Defensa,False
 13,Frank Fabra,22/02/1991 (29),CA Boca Juniors,1.74m,Izquierdo,28,1,26,2021,Defensa,True

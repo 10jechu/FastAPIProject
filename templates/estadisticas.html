@@ -3,112 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas</title>
-    <link rel="stylesheet" href="/static/estilos.css">
+    <title>Estadísticas - Selección Colombia</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
 </head>
 <body>
-    <header>
-        <h1>Selección Colombia - Estadísticas</h1>
-        <nav>
-            <a href="/">Inicio</a>
-            <a href="/equipos/">Equipos</a>
-            <a href="/jugadores/">Jugadores</a>
-            <a href="/partidos/">Partidos</a>
-            <a href="/torneos/">Torneos</a>
-            <a href="/plantillas/">Plantillas</a>
-            <a href="/estadisticas/completa/">Estadísticas</a>
-        </nav>
-    </header>
-    <main>
-        <h2>Estadísticas Completas</h2>
-        {% if estadisticas.message %}
-            <p>{{ estadisticas.message }}</p>
-        {% else %}
-            <div class="stats-container">
-                <div class="stat-card">
-                    <h3>Total Partidos</h3>
-                    <p>{{ estadisticas.total_partidos }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Goles Anotados</h3>
-                    <p>{{ estadisticas.goles_anotados }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Goles Recibidos</h3>
-                    <p>{{ estadisticas.goles_recibidos }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Promedio Goles/Partido</h3>
-                    <p>{{ estadisticas.promedio_goles_por_partido }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Victorias</h3>
-                    <p>{{ estadisticas.victorias }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Empates</h3>
-                    <p>{{ estadisticas.empates }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Derrotas</h3>
-                    <p>{{ estadisticas.derrotas }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Tarjetas Amarillas</h3>
-                    <p>{{ estadisticas.tarjetas_amarillas }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Tarjetas Rojas</h3>
-                    <p>{{ estadisticas.tarjetas_rojas }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Partidos Eliminados</h3>
-                    <p>{{ estadisticas.partidos_eliminados }}</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Porcentaje Eliminaciones</h3>
-                    <p>{{ estadisticas.porcentaje_eliminaciones }}%</p>
-                </div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">Selección Colombia</a>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
+                <li><a href="/documentacion/">Documentación</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Estadísticas de la Selección Colombia</h1>
+        <p>Analiza el rendimiento del equipo en diferentes años.</p>
+    </section>
+
+    <div class="container">
+        <div class="card">
+            <h2>Estadísticas Generales</h2>
+            <div class="form-group">
+                <label for="year">Seleccionar Año:</label>
+                <select id="year" name="year">
+                    <option value="">Todos los años</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
             </div>
+            <div id="stats">
+                <!-- Las estadísticas se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
 
-            <h2>Gráficas</h2>
-            <canvas id="resultadosChart" width="400" height="200"></canvas>
-            <canvas id="golesChart" width="400" height="200"></canvas>
-
-            <script>
-                // Gráfica de Resultados
-                const ctxResultados = document.getElementById('resultadosChart').getContext('2d');
-                new Chart(ctxResultados, {
-                    type: 'pie',
-                    data: {{ estadisticas.resultados_data | tojson | safe }},
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { position: 'top' }
-                        }
-                    }
-                });
-
-                // Gráfica de Goles
-                const ctxGoles = document.getElementById('golesChart').getContext('2d');
-                new Chart(ctxGoles, {
-                    type: 'line',
-                    data: {{ estadisticas.goles_data | tojson | safe }},
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { position: 'top' }
-                        },
-                        scales: {
-                            x: { title: { display: true, text: 'Fecha' } },
-                            y: { title: { display: true, text: 'Goles' } }
-                        }
-                    }
-                );
-            </script>
-        {% endif %}
-    </main>
+    <footer>
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

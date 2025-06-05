@@ -1,69 +1,26 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de {{ equipo.nombre }}</title>
-    <link rel="stylesheet" href="/static/estilos.css">
+    <title>Detalles del Equipo</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
 </head>
 <body>
-    <header>
+    <div class="container">
         <h1>Detalles de {{ equipo.nombre }}</h1>
-        <nav>
-            <a href="/">Inicio</a>
-            <a href="/equipos/">Equipos</a>
-            <a href="/jugadores/">Jugadores</a>
-            <a href="/partidos/">Partidos</a>
-            <a href="/torneos/">Torneos</a>
-            <a href="/plantillas/">Plantillas</a>
-            <a href="/estadisticas/completa/">Estadísticas</a>
-        </nav>
-    </header>
-    <main>
-        <table>
-            <tr>
-                <th>ID</th>
-                <td>{{ equipo.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ equipo.nombre }}</td>
-            </tr>
-            <tr>
-                <th>País</th>
-                <td>{{ equipo.pais }}</td>
-            </tr>
-            <tr>
-                <th>Enfrentamientos con Colombia</th>
-                <td>{{ equipo.enfrentamientos_con_colombia }}</td>
-            </tr>
-        </table>
-        <h3>Partidos contra Colombia</h3>
-        {% if equipo.matches_against_colombia %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Equipo Local</th>
-                        <th>Equipo Visitante</th>
-                        <th>Resultado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for partido in equipo.matches_against_colombia %}
-                    <tr>
-                        <td>{{ partido.fecha }}</td>
-                        <td>{{ partido.equipo_local }}</td>
-                        <td>{{ partido.equipo_visitante }}</td>
-                        <td>{{ partido.goles_local }} - {{ partido.goles_visitante }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No hay partidos registrados contra Colombia.</p>
-        {% endif %}
-        <a href="/equipos/">Volver a la lista de equipos</a>
-    </main>
+        <div class="card">
+            <p><strong>ID:</strong> {{ equipo.id }}</p>
+            <p><strong>Nombre:</strong> {{ equipo.nombre }}</p>
+            <p><strong>País:</strong> {{ equipo.pais }}</p>
+            <p><strong>Enfrentamientos con Colombia:</strong> {{ equipo.enfrentamientos_con_colombia }}</p>
+        </div>
+        <div class="actions">
+            <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-primary">Editar</a>
+            <form action="/equipos/{{ equipo.id }}/" method="post" style="display:inline;">
+                <input type="hidden" name="method" value="DELETE">
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+            <a href="/equipos/" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
 </body>
 </html>

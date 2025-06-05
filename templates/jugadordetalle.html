@@ -1,49 +1,33 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Jugador {{ jugador.id }}</title>
-    <link rel="stylesheet" href="/static/estilos.css">
+    <title>Detalles del Jugador</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Editar Jugador {{ jugador.id }}</h1>
-        <nav>
-            <a href="/">Inicio</a>
-            <a href="/equipos/">Equipos</a>
-            <a href="/jugadores/">Jugadores</a>
-            <a href="/partidos/">Partidos</a>
-            <a href="/torneos/">Torneos</a>
-            <a href="/plantillas/">Plantillas</a>
-            <a href="/estadisticas/completa/">Estadísticas</a>
-        </nav>
-    </header>
-    <main>
-        <h2>Editar Jugador</h2>
-        <form action="/jugadores/{{ jugador.id }}/" method="POST">
-            <input type="hidden" name="method" value="PUT">
-            <label for="id">ID:</label><br>
-            <input type="number" id="id" name="id" value="{{ jugador.id }}" readonly><br>
-            <label for="Jugadores">Nombre:</label><br>
-            <input type="text" id="Jugadores" name="Jugadores" value="{{ jugador.Jugadores }}" required><br>
-            <label for="F_Nacim_Edad">Fecha de Nacimiento/Edad (DD/MM/YYYY (edad)):</label><br>
-            <input type="text" id="F_Nacim_Edad" name="F_Nacim_Edad" value="{{ jugador.F_Nacim_Edad }}" required><br>
-            <label for="Club">Club:</label><br>
-            <input type="text" id="Club" name="Club" value="{{ jugador.Club }}" required><br>
-            <label for="Altura">Altura (m):</label><br>
-            <input type="text" id="Altura" name="Altura" value="{{ jugador.Altura or '' }}"><br>
-            <label for="Pie">Pie:</label><br>
-            <input type="text" id="Pie" name="Pie" value="{{ jugador.Pie or '' }}"><br>
-            <label for="Partidos_con_la_seleccion">Partidos con la Selección:</label><br>
-            <input type="number" id="Partidos_con_la_seleccion" name="Partidos_con_la_seleccion" value="{{ jugador.Partidos_con_la_seleccion or 0 }}"><br>
-            <label for="Goles">Goles:</label><br>
-            <input type="number" id="Goles" name="Goles" value="{{ jugador.Goles or 0 }}"><br>
-            <label for="Numero_de_camisa">Número de Camisa:</label><br>
-            <input type="text" id="Numero_de_camisa" name="Numero_de_camisa" value="{{ jugador.Numero_de_camisa or '' }}"><br>
-            <label for="anio">Año:</label><br>
-            <input type="number" id="anio" name="anio" value="{{ jugador.anio }}" required><br>
-            <label for="posicion">Posición:</label><br>
-            <input type="text" id="posicion" name="posicion" value="{{ jugador.posicion }}" required><br>
-            <label for="activo">Activo:</label><br>
-            <select id="activo" name="activo"
+    <div class="container">
+        <h1>Detalles de {{ jugador.Jugadores }}</h1>
+        <div class="card">
+            <p><strong>ID:</strong> {{ jugador.id }}</p>
+            <p><strong>Fecha de Nacimiento/Edad:</strong> {{ jugador.fecha_nacimiento }} ({{ jugador.edad }} años)</p>
+            <p><strong>Club:</strong> {{ jugador.Club or 'N/A' }}</p>
+            <p><strong>Altura:</strong> {{ jugador.Altura or 'N/A' }}</p>
+            <p><strong>Pie:</strong> {{ jugador.Pie or 'N/A' }}</p>
+            <p><strong>Partidos con la selección:</strong> {{ jugador.Partidos_con_la_seleccion }}</p>
+            <p><strong>Goles:</strong> {{ jugador.Goles }}</p>
+            <p><strong>Número de camisa:</strong> {{ jugador.Numero_de_camisa }}</p>
+            <p><strong>Año:</strong> {{ jugador.anio }}</p>
+            <p><strong>Posición:</strong> {{ jugador.posicion or 'N/A' }}</p>
+            <p><strong>Activo:</strong> {{ "Sí" if jugador.activo else "No" }}</p>
+        </div>
+        <div class="actions">
+            <a href="/jugadores/{{ jugador.id }}/edit" class="btn btn-primary">Editar</a>
+            <form action="/jugadores/{{ jugador.id }}/" method="post" style="display:inline;">
+                <input type="hidden" name="method" value="DELETE">
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+            <a href="/jugadores/" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
+</body>
+</html>
