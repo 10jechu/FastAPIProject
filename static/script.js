@@ -1,9 +1,9 @@
 async function loadStats() {
     const year = document.getElementById('year') ? document.getElementById('year').value : '';
     const statsDiv = document.getElementById('stats');
-    if (!statsDiv) return; // Si no existe el div de estadísticas, salir
+    if (!statsDiv) return;
 
-    const url = year ? `/estadisticas/completa/?anio=${year}` : '/estadisticas/completa/';
+    const url = year ? `/estadisticas/completa/json?anio=${year}` : '/estadisticas/completa/json';
 
     try {
         const response = await fetch(url);
@@ -32,11 +32,9 @@ async function loadStats() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Cargar estadísticas al iniciar
     loadStats();
 
-    // Confirmación para eliminar
-    const deleteForms = document.querySelectorAll('form[action$="/"]'); // Ajustado para coincidir con las rutas
+    const deleteForms = document.querySelectorAll('form[action$="/"]');
     deleteForms.forEach(form => {
         form.addEventListener('submit', (e) => {
             const method = form.querySelector('input[name="method"]')?.value;
@@ -46,26 +44,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Secciones colapsables para la documentación
     const collapsibles = document.querySelectorAll('.collapsible-btn');
     collapsibles.forEach(button => {
         button.addEventListener('click', function() {
             const content = this.nextElementSibling;
             const isActive = content.classList.contains('active');
-            
-            // Cerrar todos los contenidos
             document.querySelectorAll('.collapsible-content').forEach(item => {
                 item.classList.remove('active');
             });
-            
-            // Abrir el contenido actual si no está activo
             if (!isActive) {
                 content.classList.add('active');
             }
         });
     });
 
-    // Listener para el cambio de año en estadísticas
     const yearSelect = document.getElementById('year');
     if (yearSelect) {
         yearSelect.addEventListener('change', loadStats);
