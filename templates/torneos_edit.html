@@ -3,38 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Torneo {{ torneo.id }}</title>
-    <link rel="stylesheet" href="/static/estilos.css">
+    <title>Editar Torneo - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Editar Torneo {{ torneo.id }}</h1>
-        <nav>
-            <a href="/">Inicio</a>
-            <a href="/equipos/">Equipos</a>
-            <a href="/jugadores/">Jugadores</a>
-            <a href="/partidos/">Partidos</a>
-            <a href="/torneos/">Torneos</a>
-            <a href="/plantillas/">Plantillas</a>
-            <a href="/estadisticas/completa/">Estadísticas</a>
-        </nav>
-    </header>
-    <main>
-        <h2>Editar Torneo</h2>
-        <form action="/torneos/{{ torneo.id }}/" method="POST">
-            <input type="hidden" name="method" value="PUT">
-            <label for="id">ID:</label><br>
-            <input type="number" id="id" name="id" value="{{ torneo.id }}" readonly><br>
-            <label for="nombre">Nombre:</label><br>
-            <input type="text" id="nombre" name="nombre" value="{{ torneo.nombre or '' }}" required><br>
-            <label for="fecha_inicio">Fecha Inicio (YYYY-MM-DD):</label><br>
-            <input type="text" id="fecha_inicio" name="fecha_inicio" value="{{ torneo.fecha_inicio or '' }}" required><br>
-            <label for="fecha_fin">Fecha Fin (YYYY-MM-DD):</label><br>
-            <input type="text" id="fecha_fin" name="fecha_fin" value="{{ torneo.fecha_fin or '' }}" required><br>
-            <label for="campeon">Campeón:</label><br>
-            <input type="text" id="campeon" name="campeon" value="{{ torneo.campeon or '' }}"><br><br>
-            <button type="submit">Guardar Cambios</button>
-        </form>
-    </main>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">Selección Colombia</a>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/">Estadísticas</a></li>
+                <li><a href="/docs">Documentación</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Editar Torneo</h1>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>Formulario de Edición</h2>
+            <form action="/torneos/{{ torneo.id }}/" method="post">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="{{ torneo.nombre }}" required><br>
+
+                <label for="anio">Año:</label>
+                <input type="number" id="anio" name="anio" value="{{ torneo.anio }}" required><br>
+
+                <label for="pais">País:</label>
+                <input type="text" id="pais" name="pais" value="{{ torneo.pais }}" required><br>
+
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+
+            <form action="/torneos/{{ torneo.id }}/" method="post">
+                <input type="hidden" name="method" value="DELETE">
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

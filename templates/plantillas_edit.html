@@ -3,36 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Plantilla {{ plantilla.id }}</title>
-    <link rel="stylesheet" href="/static/estilos.css">
+    <title>Editar Plantilla - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Editar Plantilla {{ plantilla.id }}</h1>
-        <nav>
-            <a href="/">Inicio</a>
-            <a href="/equipos/">Equipos</a>
-            <a href="/jugadores/">Jugadores</a>
-            <a href="/partidos/">Partidos</a>
-            <a href="/torneos/">Torneos</a>
-            <a href="/plantillas/">Plantillas</a>
-            <a href="/estadisticas/completa/">Estadísticas</a>
-        </nav>
-    </header>
-    <main>
-        <h2>Editar Plantilla</h2>
-        <form action="/plantillas/{{ plantilla.id }}/" method="POST">
-            <input type="hidden" name="method" value="PUT">
-            <label for="id">ID:</label><br>
-            <input type="number" id="id" name="id" value="{{ plantilla.id }}" readonly><br>
-            <label for="torneo_id">Torneo ID:</label><br>
-            <input type="number" id="torneo_id" name="torneo_id" value="{{ plantilla.torneo_id or '' }}" required><br>
-            <label for="equipo_id">Equipo ID:</label><br>
-            <input type="text" id="equipo_id" name="equipo_id" value="{{ plantilla.equipo_id or '' }}" required><br>
-            <label for="jugador_id">Jugador ID:</label><br>
-            <input type="number" id="jugador_id" name="jugador_id" value="{{ plantilla.jugador_id or '' }}" required><br><br>
-            <button type="submit">Guardar Cambios</button>
-        </form>
-    </main>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">Selección Colombia</a>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/">Estadísticas</a></li>
+                <li><a href="/docs">Documentación</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Editar Plantilla</h1>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>Formulario de Edición</h2>
+            <form action="/plantillas/{{ plantilla.id }}/" method="post">
+                <label for="equipo_id">Equipo:</label>
+                <select id="equipo_id" name="equipo_id" required>
+                    {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}" {% if equipo.id == plantilla.equipo_id %}selected{% endif %}>{{ equipo.nombre }}</option>
+                    {% endfor %}
+                </select><br>
+
+                <label for="anio">Año:</label>
+                <input type="number" id="anio" name="anio" value="{{ plantilla.anio }}" required><br>
+
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+
+            <form action="/plantillas/{{ plantilla.id }}/" method="post">
+                <input type="hidden" name="method" value="DELETE">
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

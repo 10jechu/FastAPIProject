@@ -1,21 +1,144 @@
-<div class="card">
-    <h2>Últimos Jugadores</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Edad</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for jugador in jugadores %}
-            <tr>
-                <td>{{ jugador.Jugadores }}</td>
-                <td>{{ jugador.F_Nacim_Edad }}</td>
-                <td><a href="/jugadores/{{ jugador.id }}" class="btn btn-primary">Ver</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Selección Colombia</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">Selección Colombia</a>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Bienvenido a la Gestión de la Selección Colombia</h1>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>Últimos Jugadores</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for jugador in jugadores %}
+                    <tr>
+                        <td>{{ jugador.Jugadores }}</td>
+                        <td>{{ jugador.F_Nacim_Edad }}</td>
+                        <td><a href="/jugadores/{{ jugador.id }}" class="btn btn-primary">Ver</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Últimos Equipos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>País</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for equipo in equipos %}
+                    <tr>
+                        <td>{{ equipo.nombre }}</td>
+                        <td>{{ equipo.pais }}</td>
+                        <td><a href="/equipos/{{ equipo.id }}" class="btn btn-primary">Ver</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Últimos Partidos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Equipo Local</th>
+                        <th>Fecha</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for partido in partidos %}
+                    <tr>
+                        <td>{{ partido.equipo_local }}</td>
+                        <td>{{ partido.fecha }}</td>
+                        <td><a href="/partidos/{{ partido.id }}" class="btn btn-primary">Ver</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Últimos Torneos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Año</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for torneo in torneos %}
+                    <tr>
+                        <td>{{ torneo.nombre }}</td>
+                        <td>{{ torneo.anio }}</td>
+                        <td><a href="/torneos/{{ torneo.id }}" class="btn btn-primary">Ver</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Últimas Plantillas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Equipo ID</th>
+                        <th>Año</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plantilla in plantillas %}
+                    <tr>
+                        <td>{{ plantilla.equipo_id }}</td>
+                        <td>{{ plantilla.anio }}</td>
+                        <td><a href="/plantillas/{{ plantilla.id }}" class="btn btn-primary">Ver</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

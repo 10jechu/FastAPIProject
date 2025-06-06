@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
@@ -8,6 +8,7 @@ body {
 .navbar {
     background-color: #003087;
     padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .nav-container {
@@ -20,7 +21,8 @@ body {
 
 .logo {
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: bold;
     text-decoration: none;
 }
 
@@ -38,13 +40,23 @@ body {
 .nav-links a {
     color: white;
     text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #ffcd00;
 }
 
 .hero {
-    background-color: #ffcd00;
-    padding: 2rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/stadium.jpg') no-repeat center center/cover;
+    padding: 4rem;
     text-align: center;
-    color: #003087;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin: 0;
 }
 
 .container {
@@ -57,11 +69,16 @@ body {
 
 .card {
     background-color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     flex: 1;
     min-width: 300px;
+}
+
+.card h2 {
+    color: #003087;
+    margin-top: 0;
 }
 
 table {
@@ -71,7 +88,7 @@ table {
 }
 
 th, td {
-    padding: 0.5rem;
+    padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
@@ -79,11 +96,16 @@ th, td {
 th {
     background-color: #003087;
     color: white;
+    font-weight: 600;
 }
 
 td a {
     color: #ffcd00;
     text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
 }
 
 .btn {
@@ -92,6 +114,7 @@ td a {
     text-decoration: none;
     border-radius: 4px;
     margin-right: 0.5rem;
+    transition: background-color 0.3s;
 }
 
 .btn-primary {
@@ -99,9 +122,17 @@ td a {
     color: #003087;
 }
 
+.btn-primary:hover {
+    background-color: #e6b800;
+}
+
 .btn-secondary {
-    background-color: #ccc;
-    color: #333;
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
 }
 
 .btn-danger {
@@ -109,10 +140,42 @@ td a {
     color: white;
 }
 
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
 .actions {
-    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 form {
-    display: inline;
+    display: block;
+    margin-top: 1rem;
+}
+
+form label {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+form button {
+    margin-top: 1rem;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #003087;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }

@@ -1,26 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Detalles del Equipo</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Equipo - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">Selección Colombia</a>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/jugadores/">Jugadores</a></li>
+                <li><a href="/equipos/">Equipos</a></li>
+                <li><a href="/partidos/">Partidos</a></li>
+                <li><a href="/torneos/">Torneos</a></li>
+                <li><a href="/plantillas/">Plantillas</a></li>
+                <li><a href="/estadisticas/">Estadísticas</a></li>
+                <li><a href="/docs">Documentación</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Detalles del Equipo</h1>
+    </div>
+
     <div class="container">
-        <h1>Detalles de {{ equipo.nombre }}</h1>
         <div class="card">
-            <p><strong>ID:</strong> {{ equipo.id }}</p>
-            <p><strong>Nombre:</strong> {{ equipo.nombre }}</p>
+            <h2>{{ equipo.nombre }}</h2>
             <p><strong>País:</strong> {{ equipo.pais }}</p>
             <p><strong>Enfrentamientos con Colombia:</strong> {{ equipo.enfrentamientos_con_colombia }}</p>
-        </div>
-        <div class="actions">
-            <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-primary">Editar</a>
-            <form action="/equipos/{{ equipo.id }}/" method="post" style="display:inline;">
-                <input type="hidden" name="method" value="DELETE">
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-            </form>
-            <a href="/equipos/" class="btn btn-secondary">Volver</a>
+            <div class="actions">
+                <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-secondary">Editar</a>
+                <a href="/equipos/" class="btn btn-primary">Volver</a>
+            </div>
         </div>
     </div>
+
+    <footer>
+        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

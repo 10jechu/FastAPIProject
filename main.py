@@ -14,8 +14,16 @@ from models.partido import Partido
 from models.plantilla import Plantilla
 from models.torneo import Torneo
 from datetime import date
+from typing import List
+import statistics
 
-app = FastAPI()
+app = FastAPI(
+    title="Gestión Selección Colombia",
+    description="Aplicación para gestionar jugadores, equipos, partidos, torneos y plantillas de la Selección Colombia.",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
 
 # Montar archivos estáticos
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -39,6 +47,34 @@ jugador_ops = JugadorOps(JUGADORES_CSV)
 partido_ops = PartidoOps(PARTIDOS_CSV)
 torneo_ops = TorneoOps(TORNEOS_CSV)
 plantilla_ops = PlantillaOps(PLANTILLAS_CSV, equipo_ops)
+
+# Estadísticas básicas
+@app.get("/estadisticas/", response_class=HTMLResponse)
+async def get_estadisticas(request: Request):
+    jugadores: List[Jugador] = jugador_ops.get_all()
+    equipos: List[Equipo] = equipo_ops.get_all()
+    partidos: List[Partido] = partido_ops.get_all()
+
+    # Estadísticas de jugadores
+    total_jugadores = len(jugadores)
+    promedio_goles = round(statistics.mean([j.Goles for j in jugadores]), 2) if jugadores else 0
+    promedio_partidos = round(statistics.mean([j.Partidos_con_la_seleccion for j in jugadores]), 2) if jugadores else 0
+
+    # Estadísticas de partidos
+    total_partidos = len(partidos)
+    total_equipos = len(equipos)
+
+    return templates.TemplateResponse(
+        "estadisticas.html",
+        {
+            "request": request,
+            "total_jugadores": total_jugadores,
+            "promedio_goles": promedio_goles,
+            "promedio_partidos": promedio_partidos,
+            "total_partidos": total_partidos,
+            "total_equipos": total_equipos
+        }
+    )
 
 # Rutas CRUD para Jugadores
 @app.get("/", response_class=HTMLResponse)
@@ -77,7 +113,7 @@ async def create_jugador(
     activo: bool = Form(True)
 ):
     new_jugador = Jugador(
-        id=0,  # ID se generará en JugadorOps.create
+        id=0,
         Jugadores=Jugadores,
         F_Nacim_Edad=F_Nacim_Edad,
         Club=Club,
@@ -128,10 +164,6 @@ async def update_jugador(
     activo: bool = Form(True),
     method: str = Form(None)
 ):
-    try:
-        jugador = jugador_ops.get_by_id(id)
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
     if method == "DELETE":
         try:
             jugador_ops.delete(id)
@@ -159,7 +191,7 @@ async def update_jugador(
             raise HTTPException(status_code=400, detail=str(e))
         return RedirectResponse(url=f"/jugadores/{id}", status_code=303)
 
-# Rutas CRUD para Equipos (similar a Jugadores)
+# Rutas CRUD para Equipos
 @app.get("/equipos/", response_class=HTMLResponse)
 async def get_equipos(request: Request):
     equipos = equipo_ops.get_all()
@@ -176,7 +208,7 @@ async def create_equipo(
     enfrentamientos_con_colombia: int = Form(...)
 ):
     new_equipo = Equipo(
-        id=0,  # ID se generará en EquipoOps.create
+        id=0,
         nombre=nombre,
         pais=pais,
         enfrentamientos_con_colombia=enfrentamientos_con_colombia
@@ -188,50 +220,266 @@ async def create_equipo(
     return RedirectResponse(url="/equipos/", status_code=303)
 
 @app.get("/equipos/{id}", response_class=HTMLResponse)
-async def get_equipo(request: Request, id: int):
+async def get_equipo(request: Request, id: str):
     try:
-        equipo = equipo_ops.get_by_id(str(id))
+        equipo = equipo_ops.get_by_id(id)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
     return templates.TemplateResponse("equipo_detail.html", {"request": request, "equipo": equipo})
 
 @app.get("/equipos/{id}/edit", response_class=HTMLResponse)
-async def edit_equipo_form(request: Request, id: int):
+async def edit_equipo_form(request: Request, id: str):
     try:
-        equipo = equipo_ops.get_by_id(str(id))
+        equipo = equipo_ops.get_by_id(id)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
     return templates.TemplateResponse("equipos_edit.html", {"request": request, "equipo": equipo})
 
 @app.post("/equipos/{id}/")
 async def update_equipo(
-    id: int,
+    id: str,
     nombre: str = Form(...),
     pais: str = Form(...),
     enfrentamientos_con_colombia: int = Form(...),
     method: str = Form(None)
 ):
-    try:
-        equipo = equipo_ops.get_by_id(str(id))
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
     if method == "DELETE":
         try:
-            equipo_ops.delete(str(id))
+            equipo_ops.delete(id)
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
         return RedirectResponse(url="/equipos/", status_code=303)
     else:
         updated_equipo = Equipo(
-            id=id,
+            id=int(id),
             nombre=nombre,
             pais=pais,
             enfrentamientos_con_colombia=enfrentamientos_con_colombia
         )
         try:
-            equipo_ops.update(str(id), updated_equipo)
+            equipo_ops.update(id, updated_equipo)
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
         return RedirectResponse(url=f"/equipos/{id}", status_code=303)
 
-# (Rutas para partidos, torneos, plantillas similares, ajusta según necesidad)
+# Rutas CRUD para Partidos
+@app.get("/partidos/", response_class=HTMLResponse)
+async def get_partidos(request: Request):
+    partidos = partido_ops.get_all()
+    return templates.TemplateResponse("partidos.html", {"request": request, "partidos": partidos})
+
+@app.get("/partidos/crear/", response_class=HTMLResponse)
+async def create_partido_form(request: Request):
+    return templates.TemplateResponse("partidos_crear.html", {"request": request})
+
+@app.post("/partidos/")
+async def create_partido(
+    equipo_local: str = Form(...),
+    equipo_visitante: str = Form(...),
+    fecha: str = Form(...),
+    resultado: str = Form(...),
+    estadio: str = Form(...)
+):
+    new_partido = Partido(
+        id=0,
+        equipo_local=equipo_local,
+        equipo_visitante=equipo_visitante,
+        fecha=date.fromisoformat(fecha),
+        resultado=resultado,
+        estadio=estadio
+    )
+    try:
+        partido_ops.create(new_partido)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    return RedirectResponse(url="/partidos/", status_code=303)
+
+@app.get("/partidos/{id}", response_class=HTMLResponse)
+async def get_partido(request: Request, id: str):
+    try:
+        partido = partido_ops.get_by_id(id)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return templates.TemplateResponse("partido_detail.html", {"request": request, "partido": partido})
+
+@app.get("/partidos/{id}/edit", response_class=HTMLResponse)
+async def edit_partido_form(request: Request, id: str):
+    try:
+        partido = partido_ops.get_by_id(id)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return templates.TemplateResponse("partidos_edit.html", {"request": request, "partido": partido})
+
+@app.post("/partidos/{id}/")
+async def update_partido(
+    id: str,
+    equipo_local: str = Form(...),
+    equipo_visitante: str = Form(...),
+    fecha: str = Form(...),
+    resultado: str = Form(...),
+    estadio: str = Form(...),
+    method: str = Form(None)
+):
+    if method == "DELETE":
+        try:
+            partido_ops.delete(id)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        return RedirectResponse(url="/partidos/", status_code=303)
+    else:
+        updated_partido = Partido(
+            id=int(id),
+            equipo_local=equipo_local,
+            equipo_visitante=equipo_visitante,
+            fecha=date.fromisoformat(fecha),
+            resultado=resultado,
+            estadio=estadio
+        )
+        try:
+            partido_ops.update(id, updated_partido)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        return RedirectResponse(url=f"/partidos/{id}", status_code=303)
+
+# Rutas CRUD para Torneos
+@app.get("/torneos/", response_class=HTMLResponse)
+async def get_torneos(request: Request):
+    torneos = torneo_ops.get_all()
+    return templates.TemplateResponse("torneos.html", {"request": request, "torneos": torneos})
+
+@app.get("/torneos/crear/", response_class=HTMLResponse)
+async def create_torneo_form(request: Request):
+    return templates.TemplateResponse("torneos_crear.html", {"request": request})
+
+@app.post("/torneos/")
+async def create_torneo(
+    nombre: str = Form(...),
+    anio: int = Form(...),
+    pais: str = Form(...)
+):
+    new_torneo = Torneo(
+        id=0,
+        nombre=nombre,
+        anio=anio,
+        pais=pais
+    )
+    try:
+        torneo_ops.create(new_torneo)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    return RedirectResponse(url="/torneos/", status_code=303)
+
+@app.get("/torneos/{id}", response_class=HTMLResponse)
+async def get_torneo(request: Request, id: str):
+    try:
+        torneo = torneo_ops.get_by_id(id)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return templates.TemplateResponse("torneo_detail.html", {"request": request, "torneo": torneo})
+
+@app.get("/torneos/{id}/edit", response_class=HTMLResponse)
+async def edit_torneo_form(request: Request, id: str):
+    try:
+        torneo = torneo_ops.get_by_id(id)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return templates.TemplateResponse("torneos_edit.html", {"request": request, "torneo": torneo})
+
+@app.post("/torneos/{id}/")
+async def update_torneo(
+    id: str,
+    nombre: str = Form(...),
+    anio: int = Form(...),
+    pais: str = Form(...),
+    method: str = Form(None)
+):
+    if method == "DELETE":
+        try:
+            torneo_ops.delete(id)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        return RedirectResponse(url="/torneos/", status_code=303)
+    else:
+        updated_torneo = Torneo(
+            id=int(id),
+            nombre=nombre,
+            anio=anio,
+            pais=pais
+        )
+        try:
+            torneo_ops.update(id, updated_torneo)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        return RedirectResponse(url=f"/torneos/{id}", status_code=303)
+
+# Rutas CRUD para Plantillas
+@app.get("/plantillas/", response_class=HTMLResponse)
+async def get_plantillas(request: Request):
+    try:
+        plantillas = plantilla_ops.get_all()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    return templates.TemplateResponse("plantillas.html", {"request": request, "plantillas": plantillas})
+
+@app.get("/plantillas/crear/", response_class=HTMLResponse)
+async def create_plantilla_form(request: Request):
+    equipos = equipo_ops.get_all()
+    return templates.TemplateResponse("plantillas_crear.html", {"request": request, "equipos": equipos})
+
+@app.post("/plantillas/")
+async def create_plantilla(
+    equipo_id: str = Form(...),
+    anio: int = Form(...)
+):
+    new_plantilla = Plantilla(
+        id=0,
+        equipo_id=int(equipo_id),
+        anio=anio
+    )
+    try:
+        plantilla_ops.create(new_plantilla)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    return RedirectResponse(url="/plantillas/", status_code=303)
+
+@app.get("/plantillas/{id}", response_class=HTMLResponse)
+async def get_plantilla(request: Request, id: str):
+    try:
+        plantilla = plantilla_ops.get_by_id(id)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return templates.TemplateResponse("plantilla_detail.html", {"request": request, "plantilla": plantilla})
+
+@app.get("/plantillas/{id}/edit", response_class=HTMLResponse)
+async def edit_plantilla_form(request: Request, id: str):
+    try:
+        plantilla = plantilla_ops.get_by_id(id)
+        equipos = equipo_ops.get_all()
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return templates.TemplateResponse("plantillas_edit.html", {"request": request, "plantilla": plantilla, "equipos": equipos})
+
+@app.post("/plantillas/{id}/")
+async def update_plantilla(
+    id: str,
+    equipo_id: str = Form(...),
+    anio: int = Form(...),
+    method: str = Form(None)
+):
+    if method == "DELETE":
+        try:
+            plantilla_ops.delete(id)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        return RedirectResponse(url="/plantillas/", status_code=303)
+    else:
+        updated_plantilla = Plantilla(
+            id=int(id),
+            equipo_id=int(equipo_id),
+            anio=anio
+        )
+        try:
+            plantilla_ops.update(id, updated_plantilla)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        return RedirectResponse(url=f"/plantillas/{id}", status_code=303)

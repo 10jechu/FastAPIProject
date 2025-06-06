@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Partido - Selección Colombia</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <nav class="navbar">
@@ -17,66 +17,41 @@
                 <li><a href="/partidos/">Partidos</a></li>
                 <li><a href="/torneos/">Torneos</a></li>
                 <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-                <li><a href="/documentacion/">Documentación</a></li>
+                <li><a href="/estadisticas/">Estadísticas</a></li>
+                <li><a href="/docs">Documentación</a></li>
             </ul>
         </div>
     </nav>
 
-    <section class="hero">
+    <div class="hero">
         <h1>Editar Partido</h1>
-    </section>
+    </div>
 
     <div class="container">
         <div class="card">
+            <h2>Formulario de Edición</h2>
             <form action="/partidos/{{ partido.id }}/" method="post">
-                <input type="hidden" name="method" value="UPDATE">
-                <div class="form-group">
-                    <label for="equipo_local">Equipo Local:</label>
-                    <input type="text" id="equipo_local" name="equipo_local" value="{{ partido.equipo_local }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="equipo_visitante">Equipo Visitante:</label>
-                    <input type="text" id="equipo_visitante" name="equipo_visitante" value="{{ partido.equipo_visitante }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="fecha">Fecha (YYYY-MM-DD):</label>
-                    <input type="date" id="fecha" name="fecha" value="{{ partido.fecha }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="goles_local">Goles Local:</label>
-                    <input type="number" id="goles_local" name="goles_local" value="{{ partido.goles_local }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="goles_visitante">Goles Visitante:</label>
-                    <input type="number" id="goles_visitante" name="goles_visitante" value="{{ partido.goles_visitante }}" required>
-                </div>
-                <div class="form-group">
-                    <label for="torneo_id">ID del Torneo:</label>
-                    <input type="text" id="torneo_id" name="torneo_id" value="{{ partido.torneo_id or '' }}">
-                </div>
-                <div class="form-group">
-                    <label for="eliminado">Equipo Eliminado (opcional):</label>
-                    <input type="text" id="eliminado" name="eliminado" value="{{ partido.eliminado or '' }}">
-                </div>
-                <div class="form-group">
-                    <label for="tarjetas_amarillas_local">Tarjetas Amarillas Local:</label>
-                    <input type="number" id="tarjetas_amarillas_local" name="tarjetas_amarillas_local" value="{{ partido.tarjetas_amarillas_local }}">
-                </div>
-                <div class="form-group">
-                    <label for="tarjetas_amarillas_visitante">Tarjetas Amarillas Visitante:</label>
-                    <input type="number" id="tarjetas_amarillas_visitante" name="tarjetas_amarillas_visitante" value="{{ partido.tarjetas_amarillas_visitante }}">
-                </div>
-                <div class="form-group">
-                    <label for="tarjetas_rojas_local">Tarjetas Rojas Local:</label>
-                    <input type="number" id="tarjetas_rojas_local" name="tarjetas_rojas_local" value="{{ partido.tarjetas_rojas_local }}">
-                </div>
-                <div class="form-group">
-                    <label for="tarjetas_rojas_visitante">Tarjetas Rojas Visitante:</label>
-                    <input type="number" id="tarjetas_rojas_visitante" name="tarjetas_rojas_visitante" value="{{ partido.tarjetas_rojas_visitante }}">
-                </div>
-                <button type="submit" class="btn btn-primary">Actualizar Partido</button>
-                <a href="/partidos/" class="btn btn-secondary">Cancelar</a>
+                <label for="equipo_local">Equipo Local:</label>
+                <input type="text" id="equipo_local" name="equipo_local" value="{{ partido.equipo_local }}" required><br>
+
+                <label for="equipo_visitante">Equipo Visitante:</label>
+                <input type="text" id="equipo_visitante" name="equipo_visitante" value="{{ partido.equipo_visitante }}" required><br>
+
+                <label for="fecha">Fecha (YYYY-MM-DD):</label>
+                <input type="date" id="fecha" name="fecha" value="{{ partido.fecha.isoformat() }}" required><br>
+
+                <label for="resultado">Resultado:</label>
+                <input type="text" id="resultado" name="resultado" value="{{ partido.resultado }}" required><br>
+
+                <label for="estadio">Estadio:</label>
+                <input type="text" id="estadio" name="estadio" value="{{ partido.estadio }}" required><br>
+
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+
+            <form action="/partidos/{{ partido.id }}/" method="post">
+                <input type="hidden" name="method" value="DELETE">
+                <button type="submit" class="btn btn-danger">Eliminar</button>
             </form>
         </div>
     </div>
