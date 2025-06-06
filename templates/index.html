@@ -1,57 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selección Colombia</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">Selección Colombia</a>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <h1>Bienvenido a la Gestión de la Selección Colombia</h1>
-    </section>
-
-    <div class="container">
-        <div class="card">
-            <h2>Últimos Jugadores</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Edad</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for jugador in jugadores %}
-                    <tr>
-                        <td>{{ jugador.Jugadores }}</td>
-                        <td>{{ jugador.F_Nacim_Edad }}</td>
-                        <td><a href="/jugadores/{{ jugador.id }}" class="btn btn-info">Ver</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <!-- Repetir para equipos, partidos, torneos, plantillas -->
-    </div>
-
-    <footer>
-        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
+<div class="card">
+    <h2>Últimos Jugadores</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for jugador in jugadores %}
+            <tr>
+                <td>{{ jugador.Jugadores }}</td>
+                <td>{{ jugador.F_Nacim_Edad }}</td>
+                <td><a href="/jugadores/{{ jugador.id }}" class="btn btn-primary">Ver</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

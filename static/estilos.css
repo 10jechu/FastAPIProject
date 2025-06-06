@@ -67,6 +67,7 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 1rem;
 }
 
 th, td {
@@ -78,6 +79,11 @@ th, td {
 th {
     background-color: #003087;
     color: white;
+}
+
+td a {
+    color: #ffcd00;
+    text-decoration: none;
 }
 
 .btn {

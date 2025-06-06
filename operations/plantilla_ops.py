@@ -4,7 +4,6 @@ from utils.csv_handler import CSVHandler
 from utils.exceptions import NotFoundException, DuplicateException
 import logging
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class PlantillaOps:
@@ -17,17 +16,10 @@ class PlantillaOps:
     def _load_data(self) -> List[Plantilla]:
         if self._cache is None:
             try:
-                with open(self.csv_file, mode='r', encoding='utf-8') as file:
-                    import csv
-                    reader = csv.DictReader(file)
-                    raw_data = list(reader)
-                    logger.info(f"Datos crudos de {self.csv_file}: {raw_data}")
                 self._cache = self.csv_handler.read_all(Plantilla)
                 logger.info(f"Se cargaron exitosamente {len(self._cache)} plantillas de {self.csv_file}")
             except Exception as e:
                 logger.error(f"Error al leer plantillas de {self.csv_file}: {str(e)}")
-                if "ValidationError" in str(e):
-                    logger.error("Detalles del error de validación:", exc_info=True)
                 raise
         return self._cache
 
@@ -48,7 +40,7 @@ class PlantillaOps:
         try:
             plantillas = self._load_data()
             for plantilla in plantillas:
-                if plantilla.id == plantilla_id:
+                if str(plantilla.id) == str(plantilla_id):
                     return plantilla
             raise NotFoundException("Plantilla", plantilla_id)
         except Exception as e:
@@ -57,15 +49,15 @@ class PlantillaOps:
 
     def create(self, plantilla: Plantilla) -> Plantilla:
         try:
-            # Validar equipo_id
-            equipo = self.equipo_ops.get_by_id(plantilla.equipo_id)
+            equipo = self.equipo_ops.get_by_id(str(plantilla.equipo_id))
             if not equipo:
                 logger.error(f"Equipo con id {plantilla.equipo_id} no encontrado")
                 raise NotFoundException("Equipo", plantilla.equipo_id)
 
             plantillas = self._load_data()
+            plantilla.id = max([p.id for p in plantillas] + [0]) + 1 if plantillas else 1
             for existing in plantillas:
-                if existing.id == plantilla.id:
+                if str(existing.id) == str(plantilla.id):
                     raise DuplicateException("Plantilla", plantilla.id)
             plantillas.append(plantilla)
             self._save_data(plantillas)
@@ -77,16 +69,15 @@ class PlantillaOps:
 
     def update(self, plantilla_id: str, updated_plantilla: Plantilla) -> Plantilla:
         try:
-            # Validar equipo_id
-            equipo = self.equipo_ops.get_by_id(updated_plantilla.equipo_id)
+            equipo = self.equipo_ops.get_by_id(str(updated_plantilla.equipo_id))
             if not equipo:
                 logger.error(f"Equipo con id {updated_plantilla.equipo_id} no encontrado")
                 raise NotFoundException("Equipo", updated_plantilla.equipo_id)
 
             plantillas = self._load_data()
             for i, plantilla in enumerate(plantillas):
-                if plantilla.id == plantilla_id:
-                    updated_plantilla.id = plantilla_id
+                if str(plantilla.id) == str(plantilla_id):
+                    updated_plantilla.id = int(plantilla_id)
                     plantillas[i] = updated_plantilla
                     self._save_data(plantillas)
                     logger.info(f"Plantilla actualizada con id {plantilla_id}: {updated_plantilla}")
@@ -100,7 +91,7 @@ class PlantillaOps:
         try:
             plantillas = self._load_data()
             for i, plantilla in enumerate(plantillas):
-                if plantilla.id == plantilla_id:
+                if str(plantilla.id) == str(plantilla_id):
                     plantillas.pop(i)
                     self._save_data(plantillas)
                     logger.info(f"Plantilla con id {plantilla_id} eliminada")
@@ -113,7 +104,7 @@ class PlantillaOps:
     def get_by_year(self, ano: int) -> List[Plantilla]:
         try:
             plantillas = self._load_data()
-            filtered_plantillas = [plantilla for plantilla in plantillas if plantilla.ano == ano]
+            filtered_plantillas = [plantilla for plantilla in plantillas if plantilla.anio == ano]
             if not filtered_plantillas:
                 logger.info(f"No se encontraron plantillas para el año {ano}")
             return filtered_plantillas

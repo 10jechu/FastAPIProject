@@ -4,8 +4,6 @@ from utils.csv_handler import CSVHandler
 from utils.exceptions import NotFoundException, DuplicateException
 import logging
 
-# Configurar logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class JugadorOps:
@@ -13,17 +11,15 @@ class JugadorOps:
         self.csv_handler = CSVHandler(csv_file)
 
     def get_all(self) -> List[Jugador]:
-        """Obtener todos los jugadores desde el archivo CSV."""
         try:
             jugadores = self.csv_handler.read_all(Jugador)
             logger.info(f"Loaded {len(jugadores)} jugadores from {self.csv_handler.file_path}")
             return jugadores
         except Exception as e:
-            logger.error(f"Error loading jugadores: {str(e)}", exc_info=True)
+            logger.error(f"Error loading jugadores: {str(e)}")
             raise RuntimeError(f"Error al cargar jugadores: {str(e)}") from e
 
     def get_by_id(self, jugador_id: int) -> Jugador:
-        """Obtener un jugador por su ID."""
         try:
             jugadores = self.get_all()
             for jugador in jugadores:
@@ -34,25 +30,24 @@ class JugadorOps:
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error in get_by_id for {jugador_id}: {str(e)}", exc_info=True)
+            logger.error(f"Error in get_by_id for {jugador_id}: {str(e)}")
             raise RuntimeError(f"Error al obtener jugador {jugador_id}: {str(e)}") from e
 
     def get_by_year(self, year: int) -> List[Jugador]:
-        """Obtener jugadores por año."""
         try:
             jugadores = self.get_all()
-            filtered_jugadores = [jugador for jugador in jugadores if jugador.año == year]
+            filtered_jugadores = [jugador for jugador in jugadores if jugador.anio == year]
             if not filtered_jugadores:
                 logger.info(f"No jugadores found for year {year}")
             return filtered_jugadores
         except Exception as e:
-            logger.error(f"Error in get_by_year for {year}: {str(e)}", exc_info=True)
+            logger.error(f"Error in get_by_year for {year}: {str(e)}")
             raise RuntimeError(f"Error al filtrar jugadores por año {year}: {str(e)}") from e
 
     def create(self, jugador: Jugador) -> Jugador:
-        """Crear un nuevo jugador."""
         try:
             jugadores = self.get_all()
+            jugador.id = max([j.id for j in jugadores] + [0]) + 1 if jugadores else 1
             for existing in jugadores:
                 if existing.id == jugador.id:
                     raise DuplicateException("Jugador", jugador.id)
@@ -63,11 +58,10 @@ class JugadorOps:
         except DuplicateException:
             raise
         except Exception as e:
-            logger.error(f"Error creating jugador: {str(e)}", exc_info=True)
+            logger.error(f"Error creating jugador: {str(e)}")
             raise RuntimeError(f"Error al crear jugador: {str(e)}") from e
 
     def update(self, jugador_id: int, updated_jugador: Jugador) -> Jugador:
-        """Actualizar un jugador existente."""
         try:
             jugadores = self.get_all()
             for i, jugador in enumerate(jugadores):
@@ -81,11 +75,10 @@ class JugadorOps:
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error updating jugador {jugador_id}: {str(e)}", exc_info=True)
+            logger.error(f"Error updating jugador {jugador_id}: {str(e)}")
             raise RuntimeError(f"Error al actualizar jugador {jugador_id}: {str(e)}") from e
 
     def delete(self, jugador_id: int) -> None:
-        """Eliminar un jugador por su ID."""
         try:
             jugadores = self.get_all()
             for i, jugador in enumerate(jugadores):
@@ -98,11 +91,10 @@ class JugadorOps:
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error deleting jugador {jugador_id}: {str(e)}", exc_info=True)
+            logger.error(f"Error deleting jugador {jugador_id}: {str(e)}")
             raise RuntimeError(f"Error al eliminar jugador {jugador_id}: {str(e)}") from e
 
     def toggle_active(self, jugador_id: int) -> Jugador:
-        """Alternar el estado activo de un jugador."""
         try:
             jugadores = self.get_all()
             for i, jugador in enumerate(jugadores):
@@ -116,21 +108,20 @@ class JugadorOps:
         except NotFoundException:
             raise
         except Exception as e:
-            logger.error(f"Error toggling active for {jugador_id}: {str(e)}", exc_info=True)
+            logger.error(f"Error toggling active for {jugador_id}: {str(e)}")
             raise RuntimeError(f"Error al alternar estado de jugador {jugador_id}: {str(e)}") from e
 
     def get_jugador_status(self, jugador_id: int) -> dict:
-        """Obtener el estado de un jugador."""
         try:
             jugador = self.get_by_id(jugador_id)
             return {
                 "id": jugador.id,
-                "nombre": jugador.nombre,
+                "nombre": jugador.Jugadores,
                 "activo": jugador.activo,
                 "estado": "activo" if jugador.activo else "inactivo"
             }
         except NotFoundException as e:
             raise
         except Exception as e:
-            logger.error(f"Error getting status for {jugador_id}: {str(e)}", exc_info=True)
+            logger.error(f"Error getting status for {jugador_id}: {str(e)}")
             raise RuntimeError(f"Error al obtener estado de jugador {jugador_id}: {str(e)}") from e
