@@ -37,7 +37,7 @@ init_csv(JUGADORES_CSV, ["id", "Jugadores", "F_Nacim_Edad", "Club", "Altura", "P
 init_csv(EQUIPOS_CSV, ["id", "nombre", "pais", "enfrentamientos_con_colombia"])
 init_csv(PARTIDOS_CSV, ["id", "equipo_local", "equipo_visitante", "fecha", "goles_local", "goles_visitante", "torneo_id", "eliminado", "tarjetas_amarillas_local", "tarjetas_amarillas_visitante", "tarjetas_rojas_local", "tarjetas_rojas_visitante"])
 init_csv(TORNEOS_CSV, ["id", "nombre", "anio", "pais_anfitrion", "estado", "eliminado"])
-init_csv(PLANTILLAS_CSV, ["id", "equipo_id", "nombre", "posicion", "anio"])
+init_csv(PLANTILLAS_CSV, ["id", "equipo_id", "nombre", "posicion", "anio", "torneo_id", "jugador_id"])
 
 # Modelos Pydantic
 class Jugador(BaseModel):
@@ -88,6 +88,8 @@ class Plantilla(BaseModel):
     nombre: Optional[str] = None
     posicion: Optional[str] = None
     anio: int
+    torneo_id: Optional[str] = None
+    jugador_id: Optional[str] = None
 
 # Rutas CRUD para Jugadores
 @app.get("/", response_class=HTMLResponse)
@@ -259,10 +261,249 @@ async def update_equipo(
         df.to_csv(EQUIPOS_CSV, index=False)
         return {"message": "Equipo actualizado"}
 
+# Rutas CRUD para Partidos
+@app.get("/partidos/", response_class=HTMLResponse)
+async def get_partidos(request: Request):
+    partidos = pd.read_csv(PARTIDOS_CSV).to_dict("records")
+    return templates.TemplateResponse("partidos.html", {"request": request, "partidos": partidos})
+
+@app.get("/partidos/crear/", response_class=HTMLResponse)
+async def create_partido_form(request: Request):
+    return templates.TemplateResponse("partidos_crear.html", {"request": request})
+
+@app.post("/partidos/")
+async def create_partido(
+    equipo_local: str = Form(...),
+    equipo_visitante: str = Form(...),
+    fecha: str = Form(...),
+    goles_local: int = Form(...),
+    goles_visitante: int = Form(...),
+    torneo_id: Optional[str] = Form(None),
+    eliminado: Optional[str] = Form(None),
+    tarjetas_amarillas_local: int = Form(0),
+    tarjetas_amarillas_visitante: int = Form(0),
+    tarjetas_rojas_local: int = Form(0),
+    tarjetas_rojas_visitante: int = Form(0)
+):
+    df = pd.read_csv(PARTIDOS_CSV)
+    new_id = str(uuid.uuid4())
+    new_partido = {
+        "id": new_id,
+        "equipo_local": equipo_local,
+        "equipo_visitante": equipo_visitante,
+        "fecha": fecha,
+        "goles_local": goles_local,
+        "goles_visitante": goles_visitante,
+        "torneo_id": torneo_id,
+        "eliminado": eliminado,
+        "tarjetas_amarillas_local": tarjetas_amarillas_local,
+        "tarjetas_amarillas_visitante": tarjetas_amarillas_visitante,
+        "tarjetas_rojas_local": tarjetas_rojas_local,
+        "tarjetas_rojas_visitante": tarjetas_rojas_visitante
+    }
+    df = pd.concat([df, pd.DataFrame([new_partido])], ignore_index=True)
+    df.to_csv(PARTIDOS_CSV, index=False)
+    return {"message": "Partido creado", "id": new_id}
+
+@app.get("/partidos/{id}", response_class=HTMLResponse)
+async def get_partido(request: Request, id: str):
+    df = pd.read_csv(PARTIDOS_CSV)
+    partido = df[df["id"] == id].to_dict("records")
+    if not partido:
+        raise HTTPException(status_code=404, detail="Partido no encontrado")
+    return templates.TemplateResponse("partido_detail.html", {"request": request, "partido": partido[0]})
+
+@app.get("/partidos/{id}/edit", response_class=HTMLResponse)
+async def edit_partido_form(request: Request, id: str):
+    df = pd.read_csv(PARTIDOS_CSV)
+    partido = df[df["id"] == id].to_dict("records")
+    if not partido:
+        raise HTTPException(status_code=404, detail="Partido no encontrado")
+    return templates.TemplateResponse("partidos_edit.html", {"request": request, "partido": partido[0]})
+
+@app.post("/partidos/{id}/")
+async def update_partido(
+    id: str,
+    equipo_local: str = Form(...),
+    equipo_visitante: str = Form(...),
+    fecha: str = Form(...),
+    goles_local: int = Form(...),
+    goles_visitante: int = Form(...),
+    torneo_id: Optional[str] = Form(None),
+    eliminado: Optional[str] = Form(None),
+    tarjetas_amarillas_local: int = Form(0),
+    tarjetas_amarillas_visitante: int = Form(0),
+    tarjetas_rojas_local: int = Form(0),
+    tarjetas_rojas_visitante: int = Form(0),
+    method: Optional[str] = Form(None)
+):
+    df = pd.read_csv(PARTIDOS_CSV)
+    if method == "DELETE":
+        if id not in df["id"].values:
+            raise HTTPException(status_code=404, detail="Partido no encontrado")
+        df = df[df["id"] != id]
+        df.to_csv(PARTIDOS_CSV, index=False)
+        return {"message": "Partido eliminado"}
+    else:
+        if id not in df["id"].values:
+            raise HTTPException(status_code=404, detail="Partido no encontrado")
+        df.loc[df["id"] == id, ["equipo_local", "equipo_visitante", "fecha", "goles_local", "goles_visitante", "torneo_id", "eliminado", "tarjetas_amarillas_local", "tarjetas_amarillas_visitante", "tarjetas_rojas_local", "tarjetas_rojas_visitante"]] = [
+            equipo_local, equipo_visitante, fecha, goles_local, goles_visitante, torneo_id, eliminado, tarjetas_amarillas_local, tarjetas_amarillas_visitante, tarjetas_rojas_local, tarjetas_rojas_visitante
+        ]
+        df.to_csv(PARTIDOS_CSV, index=False)
+        return {"message": "Partido actualizado"}
+
+# Rutas CRUD para Torneos
+@app.get("/torneos/", response_class=HTMLResponse)
+async def get_torneos(request: Request):
+    torneos = pd.read_csv(TORNEOS_CSV).to_dict("records")
+    return templates.TemplateResponse("torneos.html", {"request": request, "torneos": torneos})
+
+@app.get("/torneos/crear/", response_class=HTMLResponse)
+async def create_torneo_form(request: Request):
+    return templates.TemplateResponse("torneos_crear.html", {"request": request})
+
+@app.post("/torneos/")
+async def create_torneo(
+    nombre: str = Form(...),
+    anio: int = Form(...),
+    pais_anfitrion: Optional[str] = Form(None),
+    estado: str = Form(...),
+    eliminado: Optional[str] = Form(None)
+):
+    df = pd.read_csv(TORNEOS_CSV)
+    new_id = str(uuid.uuid4())
+    new_torneo = {
+        "id": new_id,
+        "nombre": nombre,
+        "anio": anio,
+        "pais_anfitrion": pais_anfitrion,
+        "estado": estado,
+        "eliminado": eliminado
+    }
+    df = pd.concat([df, pd.DataFrame([new_torneo])], ignore_index=True)
+    df.to_csv(TORNEOS_CSV, index=False)
+    return {"message": "Torneo creado", "id": new_id}
+
+@app.get("/torneos/{id}", response_class=HTMLResponse)
+async def get_torneo(request: Request, id: str):
+    df = pd.read_csv(TORNEOS_CSV)
+    torneo = df[df["id"] == id].to_dict("records")
+    if not torneo:
+        raise HTTPException(status_code=404, detail="Torneo no encontrado")
+    return templates.TemplateResponse("torneo_detail.html", {"request": request, "torneo": torneo[0]})
+
+@app.get("/torneos/{id}/edit", response_class=HTMLResponse)
+async def edit_torneo_form(request: Request, id: str):
+    df = pd.read_csv(TORNEOS_CSV)
+    torneo = df[df["id"] == id].to_dict("records")
+    if not torneo:
+        raise HTTPException(status_code=404, detail="Torneo no encontrado")
+    return templates.TemplateResponse("torneos_edit.html", {"request": request, "torneo": torneo[0]})
+
+@app.post("/torneos/{id}/")
+async def update_torneo(
+    id: str,
+    nombre: str = Form(...),
+    anio: int = Form(...),
+    pais_anfitrion: Optional[str] = Form(None),
+    estado: str = Form(...),
+    eliminado: Optional[str] = Form(None),
+    method: Optional[str] = Form(None)
+):
+    df = pd.read_csv(TORNEOS_CSV)
+    if method == "DELETE":
+        if id not in df["id"].values:
+            raise HTTPException(status_code=404, detail="Torneo no encontrado")
+        df = df[df["id"] != id]
+        df.to_csv(TORNEOS_CSV, index=False)
+        return {"message": "Torneo eliminado"}
+    else:
+        if id not in df["id"].values:
+            raise HTTPException(status_code=404, detail="Torneo no encontrado")
+        df.loc[df["id"] == id, ["nombre", "anio", "pais_anfitrion", "estado", "eliminado"]] = [nombre, anio, pais_anfitrion, estado, eliminado]
+        df.to_csv(TORNEOS_CSV, index=False)
+        return {"message": "Torneo actualizado"}
+
+# Rutas CRUD para Plantillas
+@app.get("/plantillas/", response_class=HTMLResponse)
+async def get_plantillas(request: Request):
+    plantillas = pd.read_csv(PLANTILLAS_CSV).to_dict("records")
+    return templates.TemplateResponse("plantillas.html", {"request": request, "plantillas": plantillas})
+
+@app.get("/plantillas/crear/", response_class=HTMLResponse)
+async def create_plantilla_form(request: Request):
+    return templates.TemplateResponse("plantillas_crear.html", {"request": request})
+
+@app.post("/plantillas/")
+async def create_plantilla(
+    equipo_id: str = Form(...),
+    nombre: Optional[str] = Form(None),
+    posicion: Optional[str] = Form(None),
+    anio: int = Form(...),
+    torneo_id: Optional[str] = Form(None),
+    jugador_id: Optional[str] = Form(None)
+):
+    df = pd.read_csv(PLANTILLAS_CSV)
+    new_id = str(uuid.uuid4())
+    new_plantilla = {
+        "id": new_id,
+        "equipo_id": equipo_id,
+        "nombre": nombre,
+        "posicion": posicion,
+        "anio": anio,
+        "torneo_id": torneo_id,
+        "jugador_id": jugador_id
+    }
+    df = pd.concat([df, pd.DataFrame([new_plantilla])], ignore_index=True)
+    df.to_csv(PLANTILLAS_CSV, index=False)
+    return {"message": "Plantilla creada", "id": new_id}
+
+@app.get("/plantillas/{id}", response_class=HTMLResponse)
+async def get_plantilla(request: Request, id: str):
+    df = pd.read_csv(PLANTILLAS_CSV)
+    plantilla = df[df["id"] == id].to_dict("records")
+    if not plantilla:
+        raise HTTPException(status_code=404, detail="Plantilla no encontrada")
+    return templates.TemplateResponse("plantilla_detail.html", {"request": request, "plantilla": plantilla[0]})
+
+@app.get("/plantillas/{id}/edit", response_class=HTMLResponse)
+async def edit_plantilla_form(request: Request, id: str):
+    df = pd.read_csv(PLANTILLAS_CSV)
+    plantilla = df[df["id"] == id].to_dict("records")
+    if not plantilla:
+        raise HTTPException(status_code=404, detail="Plantilla no encontrada")
+    return templates.TemplateResponse("plantillas_edit.html", {"request": request, "plantilla": plantilla[0]})
+
+@app.post("/plantillas/{id}/")
+async def update_plantilla(
+    id: str,
+    equipo_id: str = Form(...),
+    nombre: Optional[str] = Form(None),
+    posicion: Optional[str] = Form(None),
+    anio: int = Form(...),
+    torneo_id: Optional[str] = Form(None),
+    jugador_id: Optional[str] = Form(None),
+    method: Optional[str] = Form(None)
+):
+    df = pd.read_csv(PLANTILLAS_CSV)
+    if method == "DELETE":
+        if id not in df["id"].values:
+            raise HTTPException(status_code=404, detail="Plantilla no encontrada")
+        df = df[df["id"] != id]
+        df.to_csv(PLANTILLAS_CSV, index=False)
+        return {"message": "Plantilla eliminada"}
+    else:
+        if id not in df["id"].values:
+            raise HTTPException(status_code=404, detail="Plantilla no encontrada")
+        df.loc[df["id"] == id, ["equipo_id", "nombre", "posicion", "anio", "torneo_id", "jugador_id"]] = [equipo_id, nombre, posicion, anio, torneo_id, jugador_id]
+        df.to_csv(PLANTILLAS_CSV, index=False)
+        return {"message": "Plantilla actualizada"}
+
 # Rutas para Estadísticas
 @app.get("/estadisticas/completa/", response_class=HTMLResponse)
 async def get_estadisticas(request: Request, anio: Optional[int] = None):
-    return templates.TemplateResponse("estadisticas.html", {"request": request})
+    return templates.TemplateResponse("estadisticas.html", {"request": request, "anio": anio})
 
 @app.get("/estadisticas/completa/json")
 async def get_estadisticas_json(anio: Optional[int] = None):

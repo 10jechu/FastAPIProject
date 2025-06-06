@@ -29,30 +29,29 @@
 
     <div class="container">
         <div class="card">
-            <h2>Partido #{{ partido.id }}</h2>
-            <p><strong>Equipo Local:</strong> {{ partido.equipo_local }}</p>
-            <p><strong>Equipo Visitante:</strong> {{ partido.equipo_visitante }}</p>
+            <h2>Partido: {{ partido.equipo_local }} vs {{ partido.equipo_visitante }}</h2>
+            <p><strong>ID:</strong> {{ partido.id }}</p>
             <p><strong>Fecha:</strong> {{ partido.fecha }}</p>
             <p><strong>Resultado:</strong> {{ partido.goles_local }} - {{ partido.goles_visitante }}</p>
-            <p><strong>Torneo ID:</strong> {{ partido.torneo_id }}</p>
-            <p><strong>Equipo Eliminado:</strong> {{ partido.eliminado or 'N/A' }}</p>
-            <p><strong>Tarjetas Amarillas Local:</strong> {{ partido.tarjetas_amarillas_local or 0 }}</p>
-            <p><strong>Tarjetas Amarillas Visitante:</strong> {{ partido.tarjetas_amarillas_visitante or 0 }}</p>
-            <p><strong>Tarjetas Rojas Local:</strong> {{ partido.tarjetas_rojas_local or 0 }}</p>
-            <p><strong>Tarjetas Rojas Visitante:</strong> {{ partido.tarjetas_rojas_visitante or 0 }}</p>
+            <p><strong>Torneo ID:</strong> {{ partido.torneo_id or 'N/A' }}</p>
+            <p><strong>Eliminado:</strong> {{ partido.eliminado or 'No' }}</p>
+            <p><strong>Tarjetas Amarillas Local:</strong> {{ partido.tarjetas_amarillas_local }}</p>
+            <p><strong>Tarjetas Amarillas Visitante:</strong> {{ partido.tarjetas_amarillas_visitante }}</p>
+            <p><strong>Tarjetas Rojas Local:</strong> {{ partido.tarjetas_rojas_local }}</p>
+            <p><strong>Tarjetas Rojas Visitante:</strong> {{ partido.tarjetas_rojas_visitante }}</p>
             <div class="actions">
                 <a href="/partidos/{{ partido.id }}/edit" class="btn btn-primary">Editar</a>
                 <form action="/partidos/{{ partido.id }}/" method="post" style="display:inline;">
                     <input type="hidden" name="method" value="DELETE">
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                 </form>
-                <a href="/partidos/" class="btn btn-secondary">Volver</a>
+                <a href="/partidos/" class="btn btn-secondary">Volver a la Lista</a>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
+        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>

@@ -30,11 +30,7 @@
     <div class="container">
         <div class="card">
             <form action="/partidos/{{ partido.id }}/" method="post">
-                <input type="hidden" name="method" value="PUT">
-                <div class="form-group">
-                    <label for="id">ID del Partido:</label>
-                    <input type="text" id="id" name="id" value="{{ partido.id }}" readonly>
-                </div>
+                <input type="hidden" name="method" value="UPDATE">
                 <div class="form-group">
                     <label for="equipo_local">Equipo Local:</label>
                     <input type="text" id="equipo_local" name="equipo_local" value="{{ partido.equipo_local }}" required>
@@ -45,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label for="fecha">Fecha (YYYY-MM-DD):</label>
-                    <input type="date" id="fecha" name="fecha" value="{{ partido.fecha.strftime('%Y-%m-%d') if partido.fecha else '' }}" required>
+                    <input type="date" id="fecha" name="fecha" value="{{ partido.fecha }}" required>
                 </div>
                 <div class="form-group">
                     <label for="goles_local">Goles Local:</label>
@@ -57,7 +53,7 @@
                 </div>
                 <div class="form-group">
                     <label for="torneo_id">ID del Torneo:</label>
-                    <input type="text" id="torneo_id" name="torneo_id" value="{{ partido.torneo_id }}" required>
+                    <input type="text" id="torneo_id" name="torneo_id" value="{{ partido.torneo_id or '' }}">
                 </div>
                 <div class="form-group">
                     <label for="eliminado">Equipo Eliminado (opcional):</label>
@@ -65,19 +61,19 @@
                 </div>
                 <div class="form-group">
                     <label for="tarjetas_amarillas_local">Tarjetas Amarillas Local:</label>
-                    <input type="number" id="tarjetas_amarillas_local" name="tarjetas_amarillas_local" value="{{ partido.tarjetas_amarillas_local or 0 }}">
+                    <input type="number" id="tarjetas_amarillas_local" name="tarjetas_amarillas_local" value="{{ partido.tarjetas_amarillas_local }}">
                 </div>
                 <div class="form-group">
                     <label for="tarjetas_amarillas_visitante">Tarjetas Amarillas Visitante:</label>
-                    <input type="number" id="tarjetas_amarillas_visitante" name="tarjetas_amarillas_visitante" value="{{ partido.tarjetas_amarillas_visitante or 0 }}">
+                    <input type="number" id="tarjetas_amarillas_visitante" name="tarjetas_amarillas_visitante" value="{{ partido.tarjetas_amarillas_visitante }}">
                 </div>
                 <div class="form-group">
                     <label for="tarjetas_rojas_local">Tarjetas Rojas Local:</label>
-                    <input type="number" id="tarjetas_rojas_local" name="tarjetas_rojas_local" value="{{ partido.tarjetas_rojas_local or 0 }}">
+                    <input type="number" id="tarjetas_rojas_local" name="tarjetas_rojas_local" value="{{ partido.tarjetas_rojas_local }}">
                 </div>
                 <div class="form-group">
                     <label for="tarjetas_rojas_visitante">Tarjetas Rojas Visitante:</label>
-                    <input type="number" id="tarjetas_rojas_visitante" name="tarjetas_rojas_visitante" value="{{ partido.tarjetas_rojas_visitante or 0 }}">
+                    <input type="number" id="tarjetas_rojas_visitante" name="tarjetas_rojas_visitante" value="{{ partido.tarjetas_rojas_visitante }}">
                 </div>
                 <button type="submit" class="btn btn-primary">Actualizar Partido</button>
                 <a href="/partidos/" class="btn btn-secondary">Cancelar</a>
@@ -86,7 +82,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
+        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
