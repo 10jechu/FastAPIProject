@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 
 class Partido(BaseModel):
-    id: str
+    id: int
     equipo_local: str
     equipo_visitante: str
     fecha: date

@@ -1,8 +1,8 @@
-import csv
 from typing import List, Dict, Any, TypeVar, Type
 from datetime import date
 import logging
 import os
+import csv
 
 T = TypeVar('T')
 

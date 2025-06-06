@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Partido - Selección Colombia</title>
+    <title>Jugadores - Selección Colombia</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
 </head>
 <body>
@@ -17,66 +17,41 @@
                 <li><a href="/partidos/">Partidos</a></li>
                 <li><a href="/torneos/">Torneos</a></li>
                 <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-                <li><a href="/documentacion/">Documentación</a></li>
             </ul>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>Crear Nuevo Partido</h1>
+        <h1>Lista de Jugadores</h1>
     </section>
 
     <div class="container">
         <div class="card">
-            <form action="/partidos/" method="post">
-                <div class="form-group">
-                    <label for="equipo_local">Equipo Local:</label>
-                    <input type="text" id="equipo_local" name="equipo_local" required>
-                </div>
-                <div class="form-group">
-                    <label for="equipo_visitante">Equipo Visitante:</label>
-                    <input type="text" id="equipo_visitante" name="equipo_visitante" required>
-                </div>
-                <div class="form-group">
-                    <label for="fecha">Fecha (YYYY-MM-DD):</label>
-                    <input type="date" id="fecha" name="fecha" required>
-                </div>
-                <div class="form-group">
-                    <label for="goles_local">Goles Local:</label>
-                    <input type="number" id="goles_local" name="goles_local" required>
-                </div>
-                <div class="form-group">
-                    <label for="goles_visitante">Goles Visitante:</label>
-                    <input type="number" id="goles_visitante" name="goles_visitante" required>
-                </div>
-                <div class="form-group">
-                    <label for="torneo_id">ID del Torneo:</label>
-                    <input type="text" id="torneo_id" name="torneo_id">
-                </div>
-                <div class="form-group">
-                    <label for="eliminado">Equipo Eliminado (opcional):</label>
-                    <input type="text" id="eliminado" name="eliminado">
-                </div>
-                <div class="form-group">
-                    <label for="tarjetas_amarillas_local">Tarjetas Amarillas Local:</label>
-                    <input type="number" id="tarjetas_amarillas_local" name="tarjetas_amarillas_local" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="tarjetas_amarillas_visitante">Tarjetas Amarillas Visitante:</label>
-                    <input type="number" id="tarjetas_amarillas_visitante" name="tarjetas_amarillas_visitante" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="tarjetas_rojas_local">Tarjetas Rojas Local:</label>
-                    <input type="number" id="tarjetas_rojas_local" name="tarjetas_rojas_local" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="tarjetas_rojas_visitante">Tarjetas Rojas Visitante:</label>
-                    <input type="number" id="tarjetas_rojas_visitante" name="tarjetas_rojas_visitante" value="0">
-                </div>
-                <button type="submit" class="btn btn-primary">Crear Partido</button>
-                <a href="/partidos/" class="btn btn-secondary">Cancelar</a>
-            </form>
+            <a href="/jugadores/crear/" class="btn btn-primary">Crear Jugador</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for jugador in jugadores %}
+                    <tr>
+                        <td><a href="/jugadores/{{ jugador.id }}">{{ jugador.Jugadores }}</a></td>
+                        <td>{{ jugador.F_Nacim_Edad }}</td>
+                        <td>
+                            <a href="/jugadores/{{ jugador.id }}/edit" class="btn btn-primary">Editar</a>
+                            <form action="/jugadores/{{ jugador.id }}/" method="post" style="display:inline;">
+                                <input type="hidden" name="method" value="DELETE">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 

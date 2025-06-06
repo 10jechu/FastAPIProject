@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selección Colombia - Gestión</title>
+    <title>Selección Colombia</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -19,246 +17,41 @@
                 <li><a href="/partidos/">Partidos</a></li>
                 <li><a href="/torneos/">Torneos</a></li>
                 <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-                <li><a href="/documentacion/">Documentación</a></li>
             </ul>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>Gestión de la Selección Colombia</h1>
-        <p>Administra jugadores, equipos, partidos, torneos y plantillas de manera eficiente.</p>
+        <h1>Bienvenido a la Gestión de la Selección Colombia</h1>
     </section>
 
     <div class="container">
-        <!-- Jugadores -->
-        <section>
-            <div class="card">
-                <h2>Jugadores Recientes</h2>
-                {% if jugadores %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Club</th>
-                                <th>Año</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for jugador in jugadores %}
-                            <tr>
-                                <td data-label="ID">{{ jugador.id }}</td>
-                                <td data-label="Nombre"><a href="/jugadores/{{ jugador.id }}">{{ jugador.Jugadores }}</a></td>
-                                <td data-label="Club">{{ jugador.Club or 'N/A' }}</td>
-                                <td data-label="Año">{{ jugador.anio }}</td>
-                                <td data-label="Acciones">
-                                    <a href="/jugadores/{{ jugador.id }}/edit" class="btn btn-primary">Editar</a>
-                                    <form action="/jugadores/{{ jugador.id }}/" method="post" style="display:inline;">
-                                        <input type="hidden" name="method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <a href="/jugadores/" class="btn btn-primary">Ver Todos los Jugadores</a>
-                {% else %}
-                    <p>No hay jugadores registrados.</p>
-                {% endif %}
-            </div>
-        </section>
-
-        <!-- Equipos -->
-        <section>
-            <div class="card">
-                <h2>Equipos Recientes</h2>
-                {% if equipos %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>País</th>
-                                <th>Enfrentamientos</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for equipo in equipos %}
-                            <tr>
-                                <td data-label="ID">{{ equipo.id }}</td>
-                                <td data-label="Nombre"><a href="/equipos/{{ equipo.id }}">{{ equipo.nombre }}</a></td>
-                                <td data-label="País">{{ equipo.pais }}</td>
-                                <td data-label="Enfrentamientos">{{ equipo.enfrentamientos_con_colombia }}</td>
-                                <td data-label="Acciones">
-                                    <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-primary">Editar</a>
-                                    <form action="/equipos/{{ equipo.id }}/" method="post" style="display:inline;">
-                                        <input type="hidden" name="method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <a href="/equipos/" class="btn btn-primary">Ver Todos los Equipos</a>
-                {% else %}
-                    <p>No hay equipos registrados.</p>
-                {% endif %}
-            </div>
-        </section>
-
-        <!-- Partidos -->
-        <section>
-            <div class="card">
-                <h2>Partidos Recientes</h2>
-                {% if partidos %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Local</th>
-                                <th>Visitante</th>
-                                <th>Fecha</th>
-                                <th>Resultado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for partido in partidos %}
-                            <tr>
-                                <td data-label="ID">{{ partido.id }}</td>
-                                <td data-label="Local">{{ partido.equipo_local }}</td>
-                                <td data-label="Visitante">{{ partido.equipo_visitante }}</td>
-                                <td data-label="Fecha">{{ partido.fecha }}</td>
-                                <td data-label="Resultado">{{ partido.goles_local }} - {{ partido.goles_visitante }}</td>
-                                <td data-label="Acciones">
-                                    <a href="/partidos/{{ partido.id }}/edit" class="btn btn-primary">Editar</a>
-                                    <form action="/partidos/{{ partido.id }}/" method="post" style="display:inline;">
-                                        <input type="hidden" name="method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <a href="/partidos/" class="btn btn-primary">Ver Todos los Partidos</a>
-                {% else %}
-                    <p>No hay partidos registrados.</p>
-                {% endif %}
-            </div>
-        </section>
-
-        <!-- Torneos -->
-        <section>
-            <div class="card">
-                <h2>Torneos Recientes</h2>
-                {% if torneos %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Año</th>
-                                <th>País Anfitrión</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for torneo in torneos %}
-                            <tr>
-                                <td data-label="ID">{{ torneo.id }}</td>
-                                <td data-label="Nombre"><a href="/torneos/{{ torneo.id }}">{{ torneo.nombre }}</a></td>
-                                <td data-label="Año">{{ torneo.anio }}</td>
-                                <td data-label="País Anfitrión">{{ torneo.pais_anfitrion or 'N/A' }}</td>
-                                <td data-label="Estado">{{ torneo.estado }}</td>
-                                <td data-label="Acciones">
-                                    <a href="/torneos/{{ torneo.id }}/edit" class="btn btn-primary">Editar</a>
-                                    <form action="/torneos/{{ torneo.id }}/" method="post" style="display:inline;">
-                                        <input type="hidden" name="method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <a href="/torneos/" class="btn btn-primary">Ver Todos los Torneos</a>
-                {% else %}
-                    <p>No hay torneos registrados.</p>
-                {% endif %}
-            </div>
-        </section>
-
-        <!-- Plantillas -->
-        <section>
-            <div class="card">
-                <h2>Plantillas Recientes</h2>
-                {% if plantillas %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Equipo ID</th>
-                                <th>Nombre</th>
-                                <th>Posición</th>
-                                <th>Año</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for plantilla in plantillas %}
-                            <tr>
-                                <td data-label="ID">{{ plantilla.id }}</td>
-                                <td data-label="Equipo ID">{{ plantilla.equipo_id }}</td>
-                                <td data-label="Nombre">{{ plantilla.nombre or 'N/A' }}</td>
-                                <td data-label="Posición">{{ plantilla.posicion or 'N/A' }}</td>
-                                <td data-label="Año">{{ plantilla.anio }}</td>
-                                <td data-label="Acciones">
-                                    <a href="/plantillas/{{ plantilla.id }}/edit" class="btn btn-primary">Editar</a>
-                                    <form action="/plantillas/{{ plantilla.id }}/" method="post" style="display:inline;">
-                                        <input type="hidden" name="method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <a href="/plantillas/" class="btn btn-primary">Ver Todas las Plantillas</a>
-                {% else %}
-                    <p>No hay plantillas registradas.</p>
-                {% endif %}
-            </div>
-        </section>
-
-        <!-- Resumen de Documentación -->
-        <section>
-            <div class="card">
-                <h2>Documentación del Proyecto</h2>
-                <p>
-                    Este sistema permite la gestión integral de la Selección Colombia. Sus objetivos incluyen implementar operaciones CRUD para jugadores, equipos, partidos, torneos y plantillas, además de ofrecer estadísticas y un diseño responsivo.
-                </p>
-                <p><strong>Modelos principales:</strong></p>
-                <ul>
-                    <li><strong>Jugador</strong>: Gestiona datos de los jugadores (nombre, club, posición, etc.).</li>
-                    <li><strong>Equipo</strong>: Registra equipos rivales (nombre, país, enfrentamientos).</li>
-                    <li><strong>Partido</strong>: Administra partidos (equipos, fecha, goles, tarjetas).</li>
-                    <li><strong>Torneo</strong>: Maneja torneos (nombre, año, estado).</li>
-                    <li><strong>Plantilla</strong>: Organiza plantillas por equipo y año.</li>
-                </ul>
-                <a href="/documentacion/" class="btn btn-primary">Ver Documentación Completa</a>
-            </div>
-        </section>
+        <div class="card">
+            <h2>Últimos Jugadores</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for jugador in jugadores %}
+                    <tr>
+                        <td>{{ jugador.Jugadores }}</td>
+                        <td>{{ jugador.F_Nacim_Edad }}</td>
+                        <td><a href="/jugadores/{{ jugador.id }}" class="btn btn-info">Ver</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Repetir para equipos, partidos, torneos, plantillas -->
     </div>
 
     <footer>
-        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi. Todos los derechos reservados.</p>
+        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
