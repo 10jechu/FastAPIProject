@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Detalles Equipo - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Detalles del Equipo</h2>
+<p><strong>ID:</strong> {{ equipo.id }}</p>
+<p><strong>Nombre:</strong> {{ equipo.nombre }}</p>
+<p><strong>País:</strong> {{ equipo.pais }}</p>
+<p><strong>Enfrentamientos con Colombia:</strong> {{ equipo.enfrentamientos_con_colombia }}</p>
+<a href="/equipos/{{ equipo.id }}/edit"><button>Editar</button></a>
+<a href="/equipos/"><button>Volver</button></a>
+{% endblock %}

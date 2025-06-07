@@ -1,53 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas - Selección Colombia</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">Selección Colombia</a>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-                <li><a href="/documentacion/">Documentación</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <h1>Estadísticas</h1>
-    </section>
-
-    <div class="container">
-        <div class="card">
-            <h2>Estadísticas de la Selección</h2>
-            <div class="form-group">
-                <label for="year">Seleccionar Año:</label>
-                <select id="year" name="year">
-                    <option value="">Todos los años</option>
-                    <option value="2021">2021</option>
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                </select>
-            </div>
-            <div id="stats"></div>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
-    </footer>
-
-    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Estadísticas - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Estadísticas</h2>
+<p><strong>Total de Jugadores:</strong> {{ total_jugadores }}</p>
+<p><strong>Promedio de Goles por Jugador:</strong> {{ promedio_goles }}</p>
+<p><strong>Promedio de Partidos por Jugador:</strong> {{ promedio_partidos }}</p>
+<p><strong>Total de Partidos:</strong> {{ total_partidos }}</p>
+<p><strong>Victorias de Colombia:</strong> {{ victorias_colombia }}</p>
+<h3>Jugadores por Posición</h3>
+<canvas id="jugadoresPorPosicion" width="400" height="200"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('jugadoresPorPosicion').getContext('2d');
+    const chart = new Chart(ctx, {{ chart_config | tojson }});
+</script>
+{% endblock %}

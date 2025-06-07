@@ -1,58 +1,36 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Plantilla - Selección Colombia</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">Selección Colombia</a>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/">Estadísticas</a></li>
-                <li><a href="/docs">Documentación</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="hero">
-        <h1>Editar Plantilla</h1>
-    </div>
-
-    <div class="container">
-        <div class="card">
-            <h2>Formulario de Edición</h2>
-            <form action="/plantillas/{{ plantilla.id }}/" method="post">
-                <label for="equipo_id">Equipo:</label>
-                <select id="equipo_id" name="equipo_id" required>
-                    {% for equipo in equipos %}
-                    <option value="{{ equipo.id }}" {% if equipo.id == plantilla.equipo_id %}selected{% endif %}>{{ equipo.nombre }}</option>
-                    {% endfor %}
-                </select><br>
-
-                <label for="anio">Año:</label>
-                <input type="number" id="anio" name="anio" value="{{ plantilla.anio }}" required><br>
-
-                <button type="submit" class="btn btn-primary">Actualizar</button>
-            </form>
-
-            <form action="/plantillas/{{ plantilla.id }}/" method="post">
-                <input type="hidden" name="method" value="DELETE">
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Editar Plantilla - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Editar Plantilla</h2>
+<form method="post" action="/plantillas/{{ plantilla.id }}/">
+    <label>Equipo:</label>
+    <select name="equipo_id" required>
+        {% for equipo in equipos %}
+        <option value="{{ equipo.id }}" {% if equipo.id == plantilla.equipo_id %}selected{% endif %}>{{ equipo.nombre }}</option>
+        {% endfor %}
+    </select>
+    <label>Nombre:</label>
+    <input type="text" name="nombre" value="{{ plantilla.nombre }}">
+    <label>Posición:</label>
+    <input type="text" name="posicion" value="{{ plantilla.posicion }}">
+    <label>Año:</label>
+    <input type="number" name="anio" value="{{ plantilla.anio }}" required>
+    <label>Torneo:</label>
+    <select name="torneo_id">
+        <option value="">Ninguno</option>
+        {% for torneo in torneos %}
+        <option value="{{ torneo.id }}" {% if torneo.id == plantilla.torneo_id %}selected{% endif %}>{{ torneo.nombre }}</option>
+        {% endfor %}
+    </select>
+    <label>Jugador:</label>
+    <select name="jugador_id">
+        <option value="">Ninguno</option>
+        {% for jugador in jugadores %}
+        <option value="{{ jugador.id }}" {% if jugador.id == plantilla.jugador_id %}selected{% endif %}>{{ jugador.Jugadores }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Actualizar">
+    <input type="hidden" name="method" value="DELETE">
+    <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
+</form>
+{% endblock %}

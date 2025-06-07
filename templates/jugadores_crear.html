@@ -1,85 +1,30 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Jugador - Selección Colombia</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">Selección Colombia</a>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <h1>Crear Nuevo Jugador</h1>
-    </section>
-
-    <div class="container">
-        <div class="card">
-            <form action="/jugadores/" method="post">
-                <div class="form-group">
-                    <label for="Jugadores">Nombre:</label>
-                    <input type="text" id="Jugadores" name="Jugadores" required>
-                </div>
-                <div class="form-group">
-                    <label for="F_Nacim_Edad">Fecha de Nacimiento y Edad:</label>
-                    <input type="text" id="F_Nacim_Edad" name="F_Nacim_Edad" required>
-                </div>
-                <div class="form-group">
-                    <label for="Club">Club:</label>
-                    <input type="text" id="Club" name="Club" required>
-                </div>
-                <div class="form-group">
-                    <label for="Altura">Altura:</label>
-                    <input type="text" id="Altura" name="Altura" required>
-                </div>
-                <div class="form-group">
-                    <label for="Pie">Pie Dominante:</label>
-                    <input type="text" id="Pie" name="Pie" required>
-                </div>
-                <div class="form-group">
-                    <label for="Partidos_con_la_seleccion">Partidos con la Selección:</label>
-                    <input type="number" id="Partidos_con_la_seleccion" name="Partidos_con_la_seleccion" required>
-                </div>
-                <div class="form-group">
-                    <label for="Goles">Goles:</label>
-                    <input type="number" id="Goles" name="Goles" required>
-                </div>
-                <div class="form-group">
-                    <label for="Numero_de_camisa">Número de Camisa:</label>
-                    <input type="number" id="Numero_de_camisa" name="Numero_de_camisa" required>
-                </div>
-                <div class="form-group">
-                    <label for="anio">Año:</label>
-                    <input type="number" id="anio" name="anio" required>
-                </div>
-                <div class="form-group">
-                    <label for="posicion">Posición:</label>
-                    <input type="text" id="posicion" name="posicion">
-                </div>
-                <div class="form-group">
-                    <label for="activo">Activo:</label>
-                    <input type="checkbox" id="activo" name="activo" checked>
-                </div>
-                <button type="submit" class="btn btn-primary">Crear Jugador</button>
-                <a href="/jugadores/" class="btn btn-secondary">Cancelar</a>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Crear Jugador - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Crear Jugador</h2>
+<form method="post" action="/jugadores/">
+    <label>Nombre:</label>
+    <input type="text" name="Jugadores" required>
+    <label>Fecha de Nacimiento/Edad:</label>
+    <input type="text" name="F_Nacim_Edad" required>
+    <label>Club:</label>
+    <input type="text" name="Club" required>
+    <label>Altura:</label>
+    <input type="text" name="Altura" required>
+    <label>Pie:</label>
+    <input type="text" name="Pie" required>
+    <label>Partidos con la Selección:</label>
+    <input type="number" name="Partidos_con_la_seleccion" required>
+    <label>Goles:</label>
+    <input type="number" name="Goles" required>
+    <label>Número de Camisa:</label>
+    <input type="number" name="Numero_de_camisa" required>
+    <label>Año:</label>
+    <input type="number" name="anio" required>
+    <label>Posición:</label>
+    <input type="text" name="posicion">
+    <label>Activo:</label>
+    <input type="checkbox" name="activo" checked>
+    <input type="submit" value="Crear">
+</form>
+{% endblock %}

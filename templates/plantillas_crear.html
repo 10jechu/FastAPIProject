@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Crear Plantilla - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Crear Plantilla</h2>
+<form method="post" action="/plantillas/">
+    <label>Equipo:</label>
+    <select name="equipo_id" required>
+        {% for equipo in equipos %}
+        <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+        {% endfor %}
+    </select>
+    <label>Nombre:</label>
+    <input type="text" name="nombre">
+    <label>Posición:</label>
+    <input type="text" name="posicion">
+    <label>Año:</label>
+    <input type="number" name="anio" required>
+    <label>Torneo:</label>
+    <select name="torneo_id">
+        <option value="">Ninguno</option>
+        {% for torneo in torneos %}
+        <option value="{{ torneo.id }}">{{ torneo.nombre }}</option>
+        {% endfor %}
+    </select>
+    <label>Jugador:</label>
+    <select name="jugador_id">
+        <option value="">Ninguno</option>
+        {% for jugador in jugadores %}
+        <option value="{{ jugador.id }}">{{ jugador.Jugadores }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Crear">
+</form>
+{% endblock %}

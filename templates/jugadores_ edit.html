@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Editar Jugador - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Editar Jugador</h2>
+<form method="post" action="/jugadores/{{ jugador.id }}/">
+    <label>Nombre:</label>
+    <input type="text" name="Jugadores" value="{{ jugador.Jugadores }}" required>
+    <label>Fecha de Nacimiento/Edad:</label>
+    <input type="text" name="F_Nacim_Edad" value="{{ jugador.F_Nacim_Edad }}" required>
+    <label>Club:</label>
+    <input type="text" name="Club" value="{{ jugador.Club }}" required>
+    <label>Altura:</label>
+    <input type="text" name="Altura" value="{{ jugador.Altura }}" required>
+    <label>Pie:</label>
+    <input type="text" name="Pie" value="{{ jugador.Pie }}" required>
+    <label>Partidos con la Selección:</label>
+    <input type="number" name="Partidos_con_la_seleccion" value="{{ jugador.Partidos_con_la_seleccion }}" required>
+    <label>Goles:</label>
+    <input type="number" name="Goles" value="{{ jugador.Goles }}" required>
+    <label>Número de Camisa:</label>
+    <input type="number" name="Numero_de_camisa" value="{{ jugador.Numero_de_camisa }}" required>
+    <label>Año:</label>
+    <input type="number" name="anio" value="{{ jugador.anio }}" required>
+    <label>Posición:</label>
+    <input type="text" name="posicion" value="{{ jugador.posicion }}">
+    <label>Activo:</label>
+    <input type="checkbox" name="activo" {% if jugador.activo %}checked{% endif %}>
+    <input type="submit" value="Actualizar">
+    <input type="hidden" name="method" value="DELETE">
+    <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
+</form>
+{% endblock %}

@@ -1,57 +1,20 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Torneo - Selección Colombia</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">Selección Colombia</a>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/">Estadísticas</a></li>
-                <li><a href="/docs">Documentación</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="hero">
-        <h1>Editar Torneo</h1>
-    </div>
-
-    <div class="container">
-        <div class="card">
-            <h2>Formulario de Edición</h2>
-            <form action="/torneos/{{ torneo.id }}/" method="post">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" value="{{ torneo.nombre }}" required><br>
-
-                <label for="anio">Año:</label>
-                <input type="number" id="anio" name="anio" value="{{ torneo.anio }}" required><br>
-
-                <label for="pais">País:</label>
-                <input type="text" id="pais" name="pais" value="{{ torneo.pais }}" required><br>
-
-                <button type="submit" class="btn btn-primary">Actualizar</button>
-            </form>
-
-            <form action="/torneos/{{ torneo.id }}/" method="post">
-                <input type="hidden" name="method" value="DELETE">
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Editar Torneo - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Editar Torneo</h2>
+<form method="post" action="/torneos/{{ torneo.id }}/">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" value="{{ torneo.nombre }}" required>
+    <label>Año:</label>
+    <input type="number" name="anio" value="{{ torneo.anio }}" required>
+    <label>País Anfitrión:</label>
+    <input type="text" name="pais_anfitrion" value="{{ torneo.pais_anfitrion }}">
+    <label>Estado:</label>
+    <input type="text" name="estado" value="{{ torneo.estado }}" required>
+    <label>Eliminado:</label>
+    <input type="text" name="eliminado" value="{{ torneo.eliminado }}" required>
+    <input type="submit" value="Actualizar">
+    <input type="hidden" name="method" value="DELETE">
+    <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
+</form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Diseño - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Diseño</h2>
+<h3>Diagrama de Clases</h3>
+<p>Los modelos están definidos en los archivos equipo.py, jugador.py, partido.py, torneo.py, plantilla.py.</p>
+<h3>Mapa de Endpoints</h3>
+<ul>
+    <li>GET /jugadores/: Lista todos los jugadores.</li>
+    <li>GET /jugadores/crear/: Formulario para crear un jugador.</li>
+    <li>POST /jugadores/: Crea un nuevo jugador.</li>
+    <li>GET /jugadores/{id}: Muestra los detalles de un jugador.</li>
+    <li>GET /jugadores/{id}/edit: Formulario para editar un jugador.</li>
+    <li>POST /jugadores/{id}/: Actualiza o elimina un jugador.</li>
+    <!-- Más endpoints se añadirán para otros modelos -->
+</ul>
+<h3>Mockups/Wireframes</h3>
+<p>Interfaz HTML con navegación en barra superior, tablas para mostrar datos, y formularios para operaciones CRUD.</p>
+{% endblock %}

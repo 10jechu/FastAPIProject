@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Crear Equipo - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Crear Equipo</h2>
+<form method="post" action="/equipos/">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" required>
+    <label>País:</label>
+    <input type="text" name="pais" required>
+    <label>Enfrentamientos con Colombia:</label>
+    <input type="number" name="enfrentamientos_con_colombia" required>
+    <input type="submit" value="Crear">
+</form>
+{% endblock %}

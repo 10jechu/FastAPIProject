@@ -1,66 +1,27 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipos - Selección Colombia</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">Selección Colombia</a>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/">Estadísticas</a></li>
-                <li><a href="/docs">Documentación</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="hero">
-        <h1>Gestión de Equipos</h1>
-    </div>
-
-    <div class="container">
-        <div class="card">
-            <h2>Lista de Equipos</h2>
-            <div class="actions">
-                <a href="/equipos/crear/" class="btn btn-primary">Crear Equipo</a>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>País</th>
-                        <th>Enfrentamientos con Colombia</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for equipo in equipos %}
-                    <tr>
-                        <td>{{ equipo.nombre }}</td>
-                        <td>{{ equipo.pais }}</td>
-                        <td>{{ equipo.enfrentamientos_con_colombia }}</td>
-                        <td>
-                            <a href="/equipos/{{ equipo.id }}" class="btn btn-primary">Ver</a>
-                            <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-secondary">Editar</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Equipos - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Equipos</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>País</th>
+        <th>Enfrentamientos con Colombia</th>
+        <th>Acciones</th>
+    </tr>
+    {% for equipo in equipos %}
+    <tr>
+        <td>{{ equipo.id }}</td>
+        <td>{{ equipo.nombre }}</td>
+        <td>{{ equipo.pais }}</td>
+        <td>{{ equipo.enfrentamientos_con_colombia }}</td>
+        <td>
+            <a href="/equipos/{{ equipo.id }}">Ver</a>
+            <a href="/equipos/{{ equipo.id }}/edit">Editar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="/equipos/crear/"><button>Crear Equipo</button></a>
+{% endblock %}

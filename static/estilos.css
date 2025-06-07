@@ -1,181 +1,80 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
 }
 
-.navbar {
+header {
     background-color: #003087;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
     color: white;
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links li {
-    margin-left: 2rem;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.nav-links a:hover {
-    color: #ffcd00;
-}
-
-.hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/stadium.jpg') no-repeat center center/cover;
-    padding: 4rem;
+    padding: 1em;
     text-align: center;
-    color: white;
 }
 
-.hero h1 {
-    font-size: 2.5rem;
-    margin: 0;
+nav {
+    background-color: #ffcc00;
+    padding: 1em;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.card {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    min-width: 300px;
-}
-
-.card h2 {
+nav a {
     color: #003087;
-    margin-top: 0;
+    margin: 0 1em;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #d32f2f;
+}
+
+main {
+    padding: 2em;
+    max-width: 1200px;
+    margin: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
+    margin-bottom: 2em;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
 }
 
 th, td {
-    padding: 0.75rem;
+    padding: 0.8em;
     text-align: left;
-    border-bottom: 1px solid #ddd;
 }
 
 th {
     background-color: #003087;
     color: white;
-    font-weight: 600;
 }
 
-td a {
-    color: #ffcd00;
-    text-decoration: none;
-}
-
-td a:hover {
-    text-decoration: underline;
-}
-
-.btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-right: 0.5rem;
-    transition: background-color 0.3s;
-}
-
-.btn-primary {
-    background-color: #ffcd00;
-    color: #003087;
-}
-
-.btn-primary:hover {
-    background-color: #e6b800;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
+button, input[type="submit"] {
+    background-color: #003087;
     color: white;
+    padding: 0.5em 1em;
+    border: none;
+    cursor: pointer;
+    margin: 0.5em;
 }
 
-.btn-secondary:hover {
-    background-color: #5a6268;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
-.actions {
-    margin-bottom: 1rem;
+button:hover, input[type="submit"]:hover {
+    background-color: #d32f2f;
 }
 
 form {
-    display: block;
-    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    max-width: 600px;
 }
 
-form label {
-    display: block;
-    margin-top: 0.5rem;
-}
-
-form input, form select {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.25rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-form button {
-    margin-top: 1rem;
-}
-
-footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #003087;
-    color: white;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+input, select {
+    padding: 0.5em;
+    font-size: 1em;
 }

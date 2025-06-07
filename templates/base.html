@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestión Selección Colombia{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Gestión Selección Colombia</h1>
+    </header>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/estadisticas/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+        <a href="/planeacion/">Planeación</a>
+        <a href="/diseno/">Diseño</a>
+        <a href="/objetivo/">Objetivo</a>
+    </nav>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

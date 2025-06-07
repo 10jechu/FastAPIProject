@@ -1,70 +1,29 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Partidos</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">Selección Colombia</a>
-            <ul class="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/jugadores/">Jugadores</a></li>
-                <li><a href="/equipos/">Equipos</a></li>
-                <li><a href="/partidos/">Partidos</a></li>
-                <li><a href="/torneos/">Torneos</a></li>
-                <li><a href="/plantillas/">Plantillas</a></li>
-                <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-                <li><a href="/documentacion/">Documentación</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <h1>Lista de Partidos</h1>
-    </section>
-
-    <div class="container">
-        <div class="card">
-            <a href="/partidos/crear/" class="btn btn-primary">Crear Partido</a>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Local</th>
-                        <th>Visitante</th>
-                        <th>Fecha</th>
-                        <th>Resultado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for partido in partidos %}
-                    <tr>
-                        <td>{{ partido.id }}</td>
-                        <td><a href="/partidos/{{ partido.id }}">{{ partido.equipo_local }}</a></td>
-                        <td>{{ partido.equipo_visitante }}</td>
-                        <td>{{ partido.fecha }}</td>
-                        <td>{{ partido.goles_local }} - {{ partido.goles_visitante }}</td>
-                        <td>
-                            <a href="/partidos/{{ partido.id }}/edit" class="btn btn-primary">Editar</a>
-                            <form action="/partidos/{{ partido.id }}/" method="post" style="display:inline;">
-                                <input type="hidden" name="method" value="DELETE">
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2025 Selección Colombia - Gestión. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Partidos - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Partidos</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Equipo Local</th>
+        <th>Equipo Visitante</th>
+        <th>Fecha</th>
+        <th>Resultado</th>
+        <th>Acciones</th>
+    </tr>
+    {% for partido in partidos %}
+    <tr>
+        <td>{{ partido.id }}</td>
+        <td>{{ partido.equipo_local }}</td>
+        <td>{{ partido.equipo_visitante }}</td>
+        <td>{{ partido.fecha }}</td>
+        <td>{{ partido.goles_local }}-{{ partido.goles_visitante }}</td>
+        <td>
+            <a href="/partidos/{{ partido.id }}">Ver</a>
+            <a href="/partidos/{{ partido.id }}/edit">Editar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="/partidos/crear/"><button>Crear Partido</button></a>
+{% endblock %}
