@@ -2,28 +2,30 @@
 {% block title %}Jugadores - Gestión Selección Colombia{% endblock %}
 {% block content %}
 <h2>Jugadores</h2>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Club</th>
-        <th>Posición</th>
-        <th>Año</th>
-        <th>Acciones</th>
-    </tr>
-    {% for jugador in jugadores %}
-    <tr>
-        <td>{{ jugador.id }}</td>
-        <td>{{ jugador.Jugadores }}</td>
-        <td>{{ jugador.Club }}</td>
-        <td>{{ jugador.posicion }}</td>
-        <td>{{ jugador.anio }}</td>
-        <td>
-            <a href="/jugadores/{{ jugador.id }}">Ver</a>
-            <a href="/jugadores/{{ jugador.id }}/edit">Editar</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
 <a href="/jugadores/crear/"><button>Crear Jugador</button></a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Club</th>
+            <th>Posición</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for jugador in jugadores %}
+        <tr>
+            <td>{{ jugador.id }}</td>
+            <td>{{ jugador.Jugadores }}</td>
+            <td>{{ jugador.Club }}</td>
+            <td>{{ jugador.posicion }}</td>
+            <td>
+                <a href="/jugadores/{{ jugador.id }}"><button>Ver</button></a>
+                <a href="/jugadores/{{ jugador.id }}/edit"><button>Editar</button></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

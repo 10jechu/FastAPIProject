@@ -5,13 +5,13 @@ from fastapi.templating import Jinja2Templates
 from pydantic import ValidationError
 import pandas as pd
 import os
+import shutil
 from modelos.jugador import Jugador
 from modelos.equipo import Equipo
 from modelos.partido import Partido
 from modelos.torneo import Torneo
 from modelos.plantilla import Plantilla
 from datetime import date
-import shutil
 
 app = FastAPI(
     title="Gestión Selección Colombia",
@@ -114,11 +114,10 @@ async def create_jugador(
             Numero_de_camisa=Numero_de_camisa,
             anio=anio,
             posicion=posicion,
-            activo=activo
+            activo=activo,
+            imagen=imagen_filename
         )
-        jugador_dict = new_jugador.dict()
-        jugador_dict['imagen'] = imagen_filename
-        jugadores.append(jugador_dict)
+        jugadores.append(new_jugador.dict())
         save_jugadores(jugadores)
         return RedirectResponse(url="/jugadores/", status_code=303)
     except ValidationError as e:
@@ -190,11 +189,10 @@ async def update_jugador(
             Numero_de_camisa=Numero_de_camisa,
             anio=anio,
             posicion=posicion,
-            activo=activo
+            activo=activo,
+            imagen=imagen_filename
         )
-        jugador_dict = updated_jugador.dict()
-        jugador_dict['imagen'] = imagen_filename
-        jugadores = [jugador_dict if j['id'] == id else j for j in jugadores]
+        jugadores = [updated_jugador.dict() if j['id'] == id else j for j in jugadores]
         save_jugadores(jugadores)
         return RedirectResponse(url=f"/jugadores/{id}", status_code=303)
 
@@ -221,7 +219,7 @@ async def create_equipo_form(request: Request):
 async def create_equipo(
     nombre: str = Form(...),
     pais: str = Form(...),
-    enfrentamientos_con_colombia: int = Form(...)
+    enfrentamientos: int = Form(...)
 ):
     try:
         equipos = load_equipos()
@@ -230,7 +228,7 @@ async def create_equipo(
             id=new_id,
             nombre=nombre,
             pais=pais,
-            enfrentamientos_con_colombia=enfrentamientos_con_colombia
+            enfrentamientos=enfrentamientos
         )
         equipos.append(new_equipo.dict())
         save_equipos(equipos)
@@ -265,7 +263,7 @@ async def update_equipo(
     id: int,
     nombre: str = Form(...),
     pais: str = Form(...),
-    enfrentamientos_con_colombia: int = Form(...),
+    enfrentamientos: int = Form(...),
     method: str = Form(None)
 ):
     equipos = load_equipos()
@@ -278,7 +276,7 @@ async def update_equipo(
             id=id,
             nombre=nombre,
             pais=pais,
-            enfrentamientos_con_colombia=enfrentamientos_con_colombia
+            enfrentamientos=enfrentamientos
         )
         equipos = [updated_equipo.dict() if e['id'] == id else e for e in equipos]
         save_equipos(equipos)
@@ -329,7 +327,7 @@ async def create_partido(
             id=new_id,
             equipo_local=equipo_local,
             equipo_visitante=equipo_visitante,
-            fecha=date.fromisoformat(fecha),
+            fecha=fecha,
             goles_local=goles_local,
             goles_visitante=goles_visitante,
             torneo_id=torneo_id,
@@ -395,7 +393,7 @@ async def update_partido(
             id=id,
             equipo_local=equipo_local,
             equipo_visitante=equipo_visitante,
-            fecha=date.fromisoformat(fecha),
+            fecha=fecha,
             goles_local=goles_local,
             goles_visitante=goles_visitante,
             torneo_id=torneo_id,
@@ -621,19 +619,24 @@ async def get_estadisticas(request: Request):
     total_partidos = len(partidos)
     victorias_colombia = sum(1 for p in partidos if (p['equipo_local'] == 'Colombia' and p['goles_local'] > p['goles_visitante']) or (p['equipo_visitante'] == 'Colombia' and p['goles_visitante'] > p['goles_local']))
 
-    # Calculate players by position for chart
     posiciones = {}
     for j in jugadores:
         pos = j['posicion'] or 'Desconocida'
         posiciones[pos] = posiciones.get(pos, 0) + 1
+
     chart_config = {
         "type": "bar",
         "data": {
-            "labels": list(posiciones.keys()),
+            "labels": ["Arquero", "Defensa", "Mediocampista", "Delantero"],
             "datasets": [{
                 "label": "Jugadores por Posición",
-                "data": list(posiciones.values()),
-                "backgroundColor": ["#003087", "#ffcc00", "#d32f2f", "#4caf50", "#9c27b0"],
+                "data": [
+                    posiciones.get('Arquero', 0),
+                    posiciones.get('Defensa', 0),
+                    posiciones.get('Mediocampista', 0),
+                    posiciones.get('Delantero', 0)
+                ],
+                "backgroundColor": ["#003087", "#ffcc00", "#d32f2f", "#4caf50"],
                 "borderColor": ["#000000"],
                 "borderWidth": 1
             }]

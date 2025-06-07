@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Detalles Jugador - Gestión Selección Colombia{% endblock %}
+{% block content %}
+<h2>Detalles del Jugador</h2>
+{% if jugador.imagen %}
+<img src="/static/images/{{ jugador.imagen }}" alt="{{ jugador.Jugadores }}" width="200">
+{% endif %}
+<p><strong>ID:</strong> {{ jugador.id }}</p>
+<p><strong>Nombre:</strong> {{ jugador.Jugadores }}</p>
+<p><strong>Fecha de Nacimiento/Edad:</strong> {{ jugador.F_Nacim_Edad }}</p>
+<p><strong>Club:</strong> {{ jugador.Club }}</p>
+<p><strong>Altura:</strong> {{ jugador.Altura }}</p>
+<p><strong>Pie:</strong> {{ jugador.Pie }}</p>
+<p><strong>Partidos con la Selección:</strong> {{ jugador.Partidos_con_la_seleccion }}</p>
+<p><strong>Goles:</strong> {{ jugador.Goles }}</p>
+<p><strong>Número de Camisa:</strong> {{ jugador.Numero_de_camisa }}</p>
+<p><strong>Año:</strong> {{ jugador.anio }}</p>
+<p><strong>Posición:</strong> {{ jugador.posicion }}</p>
+<p><strong>Activo:</strong> {{ jugador.activo }}</p>
+<a href="/jugadores/{{ jugador.id }}/edit"><button>Editar</button></a>
+<a href="/jugadores/"><button>Volver</button></a>
+{% endblock %}

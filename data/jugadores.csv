@@ -1,4 +1,4 @@
-id,Jugadores,F_Nacim_Edad,Club,Altura,Pie,Partidos_con_la_seleccion,Goles,Numero_de_camisa,anio,posicion,activo
+id,Jugadores,F_Nacim_Edad,Club,Altura,Pie,Partidos_con_la_seleccion,Goles,Numero_de_camisa,anio,posicion,activo,imagen 
 1,David Ospina,31/08/1988 (32),Atlético Nacional,1.83m,Derecho,129,0,1,2021,Arquero,True
 2,Camilo Vargas,09/03/1989 (31),Atlas Guadalajara,1.85m,Izquierdo,37,0,12,2021,Arquero,True
 3,Álvaro Montero,29/03/1995 (25),Millonarios FC,1.99m,Derecho,8,0,22,2021,Arquero,True

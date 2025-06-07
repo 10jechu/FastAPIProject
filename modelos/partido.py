@@ -1,11 +1,12 @@
 from pydantic import BaseModel
+from typing import Optional
 from datetime import date
 
 class Partido(BaseModel):
     id: int
     equipo_local: str
     equipo_visitante: str
-    fecha: date
+    fecha: str
     goles_local: int
     goles_visitante: int
     torneo_id: int

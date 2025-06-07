@@ -2,28 +2,26 @@
 {% block title %}Inicio - Gestión Selección Colombia{% endblock %}
 {% block content %}
 <h2>Bienvenido a la Gestión de la Selección Colombia</h2>
-<p>Esta aplicación permite gestionar jugadores, equipos, partidos, torneos y plantillas de la Selección Colombia.</p>
-<h3>Jugadores</h3>
+<p>Selecciona una opción en la barra de navegación para gestionar jugadores, equipos, partidos, torneos, plantillas o ver estadísticas.</p>
+<h3>Jugadores Recientes</h3>
 <table>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Club</th>
-        <th>Posición</th>
-        <th>Acciones</th>
-    </tr>
-    {% for jugador in jugadores %}
-    <tr>
-        <td>{{ jugador.id }}</td>
-        <td>{{ jugador.Jugadores }}</td>
-        <td>{{ jugador.Club }}</td>
-        <td>{{ jugador.posicion }}</td>
-        <td>
-            <a href="/jugadores/{{ jugador.id }}">Ver</a>
-            <a href="/jugadores/{{ jugador.id }}/edit">Editar</a>
-        </td>
-    </tr>
-    {% endfor %}
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Club</th>
+            <th>Posición</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for jugador in jugadores %}
+        <tr>
+            <td>{{ jugador.id }}</td>
+            <td>{{ jugador.Jugadores }}</td>
+            <td>{{ jugador.Club }}</td>
+            <td>{{ jugador.posicion }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
-<a href="/jugadores/crear/"><button>Crear Jugador</button></a>
 {% endblock %}

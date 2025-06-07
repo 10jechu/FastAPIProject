@@ -1,17 +1,29 @@
-{% extends "base.html" %}
-{% block title %}Estadísticas - Gestión Selección Colombia{% endblock %}
-{% block content %}
-<h2>Estadísticas</h2>
-<p><strong>Total de Jugadores:</strong> {{ total_jugadores }}</p>
-<p><strong>Promedio de Goles por Jugador:</strong> {{ promedio_goles }}</p>
-<p><strong>Promedio de Partidos por Jugador:</strong> {{ promedio_partidos }}</p>
-<p><strong>Total de Partidos:</strong> {{ total_partidos }}</p>
-<p><strong>Victorias de Colombia:</strong> {{ victorias_colombia }}</p>
-<h3>Jugadores por Posición</h3>
-<canvas id="jugadoresPorPosicion" width="400" height="200"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const ctx = document.getElementById('jugadoresPorPosicion').getContext('2d');
-    const chart = new Chart(ctx, {{ chart_config | tojson }});
-</script>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'base.html' %}
+
+    <div class="container">
+        <h2>Estadísticas</h2>
+        <p>Total de Jugadores: {{ total_jugadores }}</p>
+        <p>Promedio de Goles: {{ promedio_goles }}</p>
+        <p>Promedio de Partidos: {{ promedio_partidos }}</p>
+        <p>Total de Partidos: {{ total_partidos }}</p>
+        <p>Victorias de Colombia: {{ victorias_colombia }}</p>
+
+        <canvas id="posicionesChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('posicionesChart').getContext('2d');
+        new Chart(ctx, {{ chart_config | tojson }});
+    </script>
+</body>
+</html>
