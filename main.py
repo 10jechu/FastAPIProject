@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Form, HTTPException
+from fastapi import FastAPI, Request, Form, HTTPException, File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -11,6 +11,7 @@ from modelos.partido import Partido
 from modelos.torneo import Torneo
 from modelos.plantilla import Plantilla
 from datetime import date
+import shutil
 
 app = FastAPI(
     title="Gestión Selección Colombia",
@@ -28,7 +29,9 @@ templates = Jinja2Templates(directory="templates")
 
 # Directorio de datos
 DATA_DIR = "data"
+IMAGES_DIR = os.path.join("static", "images")
 os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(IMAGES_DIR, exist_ok=True)
 JUGADORES_CSV = os.path.join(DATA_DIR, "jugadores.csv")
 EQUIPOS_CSV = os.path.join(DATA_DIR, "equipos.csv")
 PARTIDOS_CSV = os.path.join(DATA_DIR, "partidos.csv")
@@ -88,11 +91,17 @@ async def create_jugador(
     Numero_de_camisa: int = Form(...),
     anio: int = Form(...),
     posicion: str = Form(None),
-    activo: bool = Form(True)
+    activo: bool = Form(True),
+    imagen: UploadFile = File(None)
 ):
     try:
         jugadores = load_jugadores()
         new_id = max([j['id'] for j in jugadores], default=0) + 1
+        imagen_filename = None
+        if imagen:
+            imagen_filename = f"jugador_{new_id}.{imagen.filename.split('.')[-1]}"
+            with open(os.path.join(IMAGES_DIR, imagen_filename), "wb") as buffer:
+                shutil.copyfileobj(imagen.file, buffer)
         new_jugador = Jugador(
             id=new_id,
             Jugadores=Jugadores,
@@ -107,7 +116,9 @@ async def create_jugador(
             posicion=posicion,
             activo=activo
         )
-        jugadores.append(new_jugador.dict())
+        jugador_dict = new_jugador.dict()
+        jugador_dict['imagen'] = imagen_filename
+        jugadores.append(jugador_dict)
         save_jugadores(jugadores)
         return RedirectResponse(url="/jugadores/", status_code=303)
     except ValidationError as e:
@@ -149,6 +160,7 @@ async def update_jugador(
     anio: int = Form(...),
     posicion: str = Form(None),
     activo: bool = Form(True),
+    imagen: UploadFile = File(None),
     method: str = Form(None)
 ):
     jugadores = load_jugadores()
@@ -157,6 +169,15 @@ async def update_jugador(
         save_jugadores(jugadores)
         return RedirectResponse(url="/jugadores/", status_code=303)
     else:
+        imagen_filename = None
+        for j in jugadores:
+            if j['id'] == id:
+                imagen_filename = j.get('imagen')
+                break
+        if imagen:
+            imagen_filename = f"jugador_{id}.{imagen.filename.split('.')[-1]}"
+            with open(os.path.join(IMAGES_DIR, imagen_filename), "wb") as buffer:
+                shutil.copyfileobj(imagen.file, buffer)
         updated_jugador = Jugador(
             id=id,
             Jugadores=Jugadores,
@@ -171,7 +192,9 @@ async def update_jugador(
             posicion=posicion,
             activo=activo
         )
-        jugadores = [updated_jugador.dict() if j['id'] == id else j for j in jugadores]
+        jugador_dict = updated_jugador.dict()
+        jugador_dict['imagen'] = imagen_filename
+        jugadores = [jugador_dict if j['id'] == id else j for j in jugadores]
         save_jugadores(jugadores)
         return RedirectResponse(url=f"/jugadores/{id}", status_code=303)
 
@@ -279,7 +302,7 @@ async def get_partidos(request: Request):
 @app.get("/partidos/crear/", response_class=HTMLResponse)
 async def create_partido_form(request: Request):
     equipos = load_equipos()
-    torneos = load_csv(TORNEOS_CSV)
+    torneos = load_torneos()
     return templates.TemplateResponse(
         "partidos_crear.html",
         {"request": request, "equipos": equipos, "torneos": torneos}
@@ -340,7 +363,7 @@ async def edit_partido_form(request: Request, id: int):
     if not partido:
         raise HTTPException(status_code=404, detail="Partido no encontrado")
     equipos = load_equipos()
-    torneos = load_csv(TORNEOS_CSV)
+    torneos = load_torneos()
     return templates.TemplateResponse(
         "partidos_edit.html",
         {"request": request, "partido": partido, "equipos": equipos, "torneos": torneos}
@@ -550,7 +573,7 @@ async def edit_plantilla_form(request: Request, id: int):
     if not plantilla:
         raise HTTPException(status_code=404, detail="Plantilla no encontrada")
     equipos = load_equipos()
-    torneos = load_t tracing
+    torneos = load_torneos()
     jugadores = load_jugadores()
     return templates.TemplateResponse(
         "plantillas_edit.html",
@@ -588,29 +611,6 @@ async def update_plantilla(
         return RedirectResponse(url=f"/plantillas/{id}", status_code=303)
 
 # --- Estadísticas ---
-@app.get("/estadisticas/", response_class=HTMLResponse)
-async def get_estadisticas(request: Request):
-    jugadores = load_jugadores()
-    partidos = load_partidos()
-    total_jugadores = len(jugadores)
-    promedio_goles = round(sum(j['Goles'] for j in jugadores) / total_jugadores, 2) if total_jugadores > 0 else 0
-    promedio_partidos = round(sum(j['Partidos_con_la_seleccion'] for j in jugadores) / total_jugadores, 2) if total_jugadores > 0 else 0
-    total_partidos = len(partidos)
-    victorias_colombia = sum(1 for p in partidos if (p['equipo_local'] == 'Colombia' and p['goles_local'] > p['goles_visitante']) or (p['equipo_visitante'] == 'Colombia' and p['goles_visitante'] > p['goles_local']))
-    return templates.TemplateResponse(
-        "estadisticas.html",
-        {
-            "request": request,
-            "total_jugadores": total_jugadores,
-            "promedio_goles": promedio_goles,
-            "promedio_partidos": promedio_partidos,
-            "total_partidos": total_partidos,
-            "victorias_colombia": victorias_colombia
-        }
-    )
-
-# ... (previous imports and code remain the same until the estadisticas endpoint)
-
 @app.get("/estadisticas/", response_class=HTMLResponse)
 async def get_estadisticas(request: Request):
     jugadores = load_jugadores()
@@ -659,8 +659,6 @@ async def get_estadisticas(request: Request):
             "chart_config": chart_config
         }
     )
-
-# ... (rest of the code remains the same)
 
 # --- Documentación ---
 @app.get("/documentacion/", response_class=HTMLResponse)

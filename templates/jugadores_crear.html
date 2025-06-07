@@ -2,7 +2,7 @@
 {% block title %}Crear Jugador - Gestión Selección Colombia{% endblock %}
 {% block content %}
 <h2>Crear Jugador</h2>
-<form method="post" action="/jugadores/">
+<form method="post" action="/jugadores/" enctype="multipart/form-data">
     <label>Nombre:</label>
     <input type="text" name="Jugadores" required>
     <label>Fecha de Nacimiento/Edad:</label>
@@ -25,6 +25,8 @@
     <input type="text" name="posicion">
     <label>Activo:</label>
     <input type="checkbox" name="activo" checked>
+    <label>Imagen:</label>
+    <input type="file" name="imagen" accept="image/*">
     <input type="submit" value="Crear">
 </form>
 {% endblock %}

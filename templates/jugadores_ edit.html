@@ -2,7 +2,7 @@
 {% block title %}Editar Jugador - Gestión Selección Colombia{% endblock %}
 {% block content %}
 <h2>Editar Jugador</h2>
-<form method="post" action="/jugadores/{{ jugador.id }}/">
+<form method="post" action="/jugadores/{{ jugador.id }}/" enctype="multipart/form-data">
     <label>Nombre:</label>
     <input type="text" name="Jugadores" value="{{ jugador.Jugadores }}" required>
     <label>Fecha de Nacimiento/Edad:</label>
@@ -25,6 +25,11 @@
     <input type="text" name="posicion" value="{{ jugador.posicion }}">
     <label>Activo:</label>
     <input type="checkbox" name="activo" {% if jugador.activo %}checked{% endif %}>
+    <label>Imagen:</label>
+    <input type="file" name="imagen" accept="image/*">
+    {% if jugador.imagen %}
+    <p>Imagen actual: <img src="/static/images/{{ jugador.imagen }}" alt="{{ jugador.Jugadores }}" width="100"></p>
+    {% endif %}
     <input type="submit" value="Actualizar">
     <input type="hidden" name="method" value="DELETE">
     <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
