@@ -1,29 +1,41 @@
 {% extends "base.html" %}
-{% block title %}Plantillas - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Plantillas</h2>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Equipo ID</th>
-        <th>Nombre</th>
-        <th>Posición</th>
-        <th>Año</th>
-        <th>Acciones</th>
-    </tr>
-    {% for plantilla in plantillas %}
-    <tr>
-        <td>{{ plantilla.id }}</td>
-        <td>{{ plantilla.equipo_id }}</td>
-        <td>{{ plantilla.nombre }}</td>
-        <td>{{ plantilla.posicion }}</td>
-        <td>{{ plantilla.anio }}</td>
-        <td>
-            <a href="/plantillas/{{ plantilla.id }}">Ver</a>
-            <a href="/plantillas/{{ plantilla.id }}/edit">Editar</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<a href="/plantillas/crear/"><button>Crear Plantilla</button></a>
+<div class="container">
+    <h1 style="color: #FCD116;">Lista de Plantillas</h1>
+    <a href="/plantillas/crear/"><button class="btn btn-primary">Crear Nueva Plantilla</button></a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Equipo ID</th>
+                <th>Nombre</th>
+                <th>Posición</th>
+                <th>Año</th>
+                <th>Torneo ID</th>
+                <th>Jugador ID</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plantilla in plantillas %}
+            <tr>
+                <td>{{ plantilla.id }}</td>
+                <td>{{ plantilla.equipo_id }}</td>
+                <td>{{ plantilla.nombre }}</td>
+                <td>{{ plantilla.posicion }}</td>
+                <td>{{ plantilla.anio }}</td>
+                <td>{{ plantilla.torneo_id }}</td>
+                <td>{{ plantilla.jugador_id }}</td>
+                <td>
+                    <a href="/plantillas/{{ plantilla.id }}"><button class="btn btn-secondary">Ver</button></a>
+                    <a href="/plantillas/{{ plantilla.id }}/edit"><button class="btn btn-secondary">Editar</button></a>
+                    <form action="/plantillas/{{ plantilla.id }}/delete" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

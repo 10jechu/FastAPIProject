@@ -1,18 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Crear Torneo - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Crear Torneo</h2>
-<form method="post" action="/torneos/">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" required>
-    <label>Año:</label>
-    <input type="number" name="anio" required>
-    <label>País Anfitrión:</label>
-    <input type="text" name="pais_anfitrion">
-    <label>Estado:</label>
-    <input type="text" name="estado" required>
-    <label>Eliminado:</label>
-    <input type="text" name="eliminado" required>
-    <input type="submit" value="Crear">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Crear Torneo</h1>
+    <form method="post" action="/torneos/crear/">
+        <p><label>ID:</label> <input type="number" name="id" required></p>
+        <p><label>Nombre:</label> <input type="text" name="nombre" required></p>
+        <p><label>Año:</label> <input type="number" name="anio" required></p>
+        <p><label>País Anfitrión:</label> <input type="text" name="pais_anfitrion"></p>
+        <p><label>Estado:</label> <input type="text" name="estado" required></p>
+        <p><label>Eliminado:</label> <input type="text" name="eliminado"></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/torneos/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

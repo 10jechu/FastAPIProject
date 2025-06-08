@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Detalles Torneo - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Detalles del Torneo</h2>
-<p><strong>ID:</strong> {{ torneo.id }}</p>
-<p><strong>Nombre:</strong> {{ torneo.nombre }}</p>
-<p><strong>Año:</strong> {{ torneo.anio }}</p>
-<p><strong>País Anfitrión:</strong> {{ torneo.pais_anfitrion }}</p>
-<p><strong>Estado:</strong> {{ torneo.estado }}</p>
-<p><strong>Eliminado:</strong> {{ torneo.eliminado }}</p>
-<a href="/torneos/{{ torneo.id }}/edit"><button>Editar</button></a>
-<a href="/torneos/"><button>Volver</button></a>
+<div class="container">
+    <h1 style="color: #FCD116;">Detalle del Torneo</h1>
+    <p><strong>ID:</strong> {{ torneo.id }}</p>
+    <p><strong>Nombre:</strong> {{ torneo.nombre }}</p>
+    <p><strong>Año:</strong> {{ torneo.anio }}</p>
+    <p><strong>País Anfitrión:</strong> {{ torneo.pais_anfitrion }}</p>
+    <p><strong>Estado:</strong> {{ torneo.estado }}</p>
+    <p><strong>Eliminado:</strong> {{ torneo.eliminado }}</p>
+    <a href="/torneos/" class="btn btn-back">Volver</a>
+</div>
 {% endblock %}

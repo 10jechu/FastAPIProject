@@ -1,29 +1,39 @@
 {% extends "base.html" %}
-{% block title %}Torneos - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Torneos</h2>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Año</th>
-        <th>País Anfitrión</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-    </tr>
-    {% for torneo in torneos %}
-    <tr>
-        <td>{{ torneo.id }}</td>
-        <td>{{ torneo.nombre }}</td>
-        <td>{{ torneo.anio }}</td>
-        <td>{{ torneo.pais_anfitrion }}</td>
-        <td>{{ torneo.estado }}</td>
-        <td>
-            <a href="/torneos/{{ torneo.id }}">Ver</a>
-            <a href="/torneos/{{ torneo.id }}/edit">Editar</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<a href="/torneos/crear/"><button>Crear Torneo</button></a>
+<div class="container">
+    <h1 style="color: #FCD116;">Lista de Torneos</h1>
+    <a href="/torneos/crear/"><button class="btn btn-primary">Crear Nuevo Torneo</button></a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Año</th>
+                <th>País Anfitrión</th>
+                <th>Estado</th>
+                <th>Eliminado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for torneo in torneos %}
+            <tr>
+                <td>{{ torneo.id }}</td>
+                <td>{{ torneo.nombre }}</td>
+                <td>{{ torneo.anio }}</td>
+                <td>{{ torneo.pais_anfitrion }}</td>
+                <td>{{ torneo.estado }}</td>
+                <td>{{ torneo.eliminado }}</td>
+                <td>
+                    <a href="/torneos/{{ torneo.id }}"><button class="btn btn-secondary">Ver</button></a>
+                    <a href="/torneos/{{ torneo.id }}/edit"><button class="btn btn-secondary">Editar</button></a>
+                    <form action="/torneos/{{ torneo.id }}/delete" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

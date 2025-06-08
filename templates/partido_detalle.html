@@ -1,18 +1,19 @@
 {% extends "base.html" %}
-{% block title %}Detalles Partido - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Detalles del Partido</h2>
-<p><strong>ID:</strong> {{ partido.id }}</p>
-<p><strong>Equipo Local:</strong> {{ partido.equipo_local }}</p>
-<p><strong>Equipo Visitante:</strong> {{ partido.equipo_visitante }}</p>
-<p><strong>Fecha:</strong> {{ partido.fecha }}</p>
-<p><strong>Resultado:</strong> {{ partido.goles_local }}-{{ partido.goles_visitante }}</p>
-<p><strong>Torneo ID:</strong> {{ partido.torneo_id }}</p>
-<p><strong>Eliminado:</strong> {{ partido.eliminado }}</p>
-<p><strong>Tarjetas Amarillas Local:</strong> {{ partido.tarjetas_amarillas_local }}</p>
-<p><strong>Tarjetas Amarillas Visitante:</strong> {{ partido.tarjetas_amarillas_visitante }}</p>
-<p><strong>Tarjetas Rojas Local:</strong> {{ partido.tarjetas_rojas_local }}</p>
-<p><strong>Tarjetas Rojas Visitante:</strong> {{ partido.tarjetas_rojas_visitante }}</p>
-<a href="/partidos/{{ partido.id }}/edit"><button>Editar</button></a>
-<a href="/partidos/"><button>Volver</button></a>
+<div class="container">
+    <h1 style="color: #FCD116;">Detalle del Partido</h1>
+    <p><strong>ID:</strong> {{ partido.id }}</p>
+    <p><strong>Equipo Local:</strong> {{ partido.equipo_local }}</p>
+    <p><strong>Equipo Visitante:</strong> {{ partido.equipo_visitante }}</p>
+    <p><strong>Fecha:</strong> {{ partido.fecha }}</p>
+    <p><strong>Goles Local:</strong> {{ partido.goles_local }}</p>
+    <p><strong>Goles Visitante:</strong> {{ partido.goles_visitante }}</p>
+    <p><strong>Torneo ID:</strong> {{ partido.torneo_id }}</p>
+    <p><strong>Eliminado:</strong> {{ partido.eliminado }}</p>
+    <p><strong>Tarjetas Amarillas Local:</strong> {{ partido.tarjetas_amarillas_local }}</p>
+    <p><strong>Tarjetas Amarillas Visitante:</strong> {{ partido.tarjetas_amarillas_visitante }}</p>
+    <p><strong>Tarjetas Rojas Local:</strong> {{ partido.tarjetas_rojas_local }}</p>
+    <p><strong>Tarjetas Rojas Visitante:</strong> {{ partido.tarjetas_rojas_visitante }}</p>
+    <a href="/partidos/" class="btn btn-back">Volver</a>
+</div>
 {% endblock %}

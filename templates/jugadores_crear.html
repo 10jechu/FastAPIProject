@@ -1,32 +1,23 @@
 {% extends "base.html" %}
-{% block title %}Crear Jugador - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Crear Jugador</h2>
-<form method="post" action="/jugadores/" enctype="multipart/form-data">
-    <label>Nombre:</label>
-    <input type="text" name="Jugadores" required>
-    <label>Fecha de Nacimiento/Edad:</label>
-    <input type="text" name="F_Nacim_Edad" required>
-    <label>Club:</label>
-    <input type="text" name="Club" required>
-    <label>Altura:</label>
-    <input type="text" name="Altura" required>
-    <label>Pie:</label>
-    <input type="text" name="Pie" required>
-    <label>Partidos con la Selección:</label>
-    <input type="number" name="Partidos_con_la_seleccion" required>
-    <label>Goles:</label>
-    <input type="number" name="Goles" required>
-    <label>Número de Camisa:</label>
-    <input type="number" name="Numero_de_camisa" required>
-    <label>Año:</label>
-    <input type="number" name="anio" required>
-    <label>Posición:</label>
-    <input type="text" name="posicion">
-    <label>Activo:</label>
-    <input type="checkbox" name="activo" checked>
-    <label>Imagen:</label>
-    <input type="file" name="imagen" accept="image/*">
-    <input type="submit" value="Crear">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Crear Jugador</h1>
+    <form method="post" action="/jugadores/crear/">
+        <p><label>ID:</label> <input type="number" name="id" required></p>
+        <p><label>Jugador:</label> <input type="text" name="Jugadores" required></p>
+        <p><label>Fecha Nacimiento/Edad:</label> <input type="text" name="F_Nacim_Edad" required></p>
+        <p><label>Club:</label> <input type="text" name="Club" required></p>
+        <p><label>Altura:</label> <input type="text" name="Altura" required></p>
+        <p><label>Pie:</label> <input type="text" name="Pie" required></p>
+        <p><label>Partidos con la Selección:</label> <input type="number" name="Partidos_con_la_seleccion" required></p>
+        <p><label>Goles:</label> <input type="number" name="Goles" required></p>
+        <p><label>Número de Camisa:</label> <input type="number" name="Numero_de_camisa" required></p>
+        <p><label>Año:</label> <input type="number" name="anio" required></p>
+        <p><label>Posición:</label> <input type="text" name="posicion"></p>
+        <p><label>Activo:</label> <input type="checkbox" name="activo" checked></p>
+        <p><label>Imagen:</label> <input type="text" name="imagen"></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/jugadores/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

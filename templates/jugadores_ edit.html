@@ -1,37 +1,23 @@
 {% extends "base.html" %}
-{% block title %}Editar Jugador - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Editar Jugador</h2>
-<form method="post" action="/jugadores/{{ jugador.id }}/" enctype="multipart/form-data">
-    <label>Nombre:</label>
-    <input type="text" name="Jugadores" value="{{ jugador.Jugadores }}" required>
-    <label>Fecha de Nacimiento/Edad:</label>
-    <input type="text" name="F_Nacim_Edad" value="{{ jugador.F_Nacim_Edad }}" required>
-    <label>Club:</label>
-    <input type="text" name="Club" value="{{ jugador.Club }}" required>
-    <label>Altura:</label>
-    <input type="text" name="Altura" value="{{ jugador.Altura }}" required>
-    <label>Pie:</label>
-    <input type="text" name="Pie" value="{{ jugador.Pie }}" required>
-    <label>Partidos con la Selección:</label>
-    <input type="number" name="Partidos_con_la_seleccion" value="{{ jugador.Partidos_con_la_seleccion }}" required>
-    <label>Goles:</label>
-    <input type="number" name="Goles" value="{{ jugador.Goles }}" required>
-    <label>Número de Camisa:</label>
-    <input type="number" name="Numero_de_camisa" value="{{ jugador.Numero_de_camisa }}" required>
-    <label>Año:</label>
-    <input type="number" name="anio" value="{{ jugador.anio }}" required>
-    <label>Posición:</label>
-    <input type="text" name="posicion" value="{{ jugador.posicion }}">
-    <label>Activo:</label>
-    <input type="checkbox" name="activo" {% if jugador.activo %}checked{% endif %}>
-    <label>Imagen:</label>
-    <input type="file" name="imagen" accept="image/*">
-    {% if jugador.imagen %}
-    <p>Imagen actual: <img src="/static/images/{{ jugador.imagen }}" alt="{{ jugador.Jugadores }}" width="100"></p>
-    {% endif %}
-    <input type="submit" value="Actualizar">
-    <input type="hidden" name="method" value="DELETE">
-    <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Editar Jugador</h1>
+    <form method="post" action="/jugadores/{{ jugador.id }}/update">
+        <p><label>ID:</label> <input type="number" name="id" value="{{ jugador.id }}" readonly></p>
+        <p><label>Jugador:</label> <input type="text" name="Jugadores" value="{{ jugador.Jugadores }}" required></p>
+        <p><label>Fecha Nacimiento/Edad:</label> <input type="text" name="F_Nacim_Edad" value="{{ jugador.F_Nacim_Edad }}" required></p>
+        <p><label>Club:</label> <input type="text" name="Club" value="{{ jugador.Club }}" required></p>
+        <p><label>Altura:</label> <input type="text" name="Altura" value="{{ jugador.Altura }}" required></p>
+        <p><label>Pie:</label> <input type="text" name="Pie" value="{{ jugador.Pie }}" required></p>
+        <p><label>Partidos con la Selección:</label> <input type="number" name="Partidos_con_la_seleccion" value="{{ jugador.Partidos_con_la_seleccion }}" required></p>
+        <p><label>Goles:</label> <input type="number" name="Goles" value="{{ jugador.Goles }}" required></p>
+        <p><label>Número de Camisa:</label> <input type="number" name="Numero_de_camisa" value="{{ jugador.Numero_de_camisa }}" required></p>
+        <p><label>Año:</label> <input type="number" name="anio" value="{{ jugador.anio }}" required></p>
+        <p><label>Posición:</label> <input type="text" name="posicion" value="{{ jugador.posicion }}"></p>
+        <p><label>Activo:</label> <input type="checkbox" name="activo" {% if jugador.activo %}checked{% endif %}></p>
+        <p><label>Imagen:</label> <input type="text" name="imagen" value="{{ jugador.imagen }}"></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/jugadores/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

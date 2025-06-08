@@ -1,36 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Editar Plantilla - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Editar Plantilla</h2>
-<form method="post" action="/plantillas/{{ plantilla.id }}/">
-    <label>Equipo:</label>
-    <select name="equipo_id" required>
-        {% for equipo in equipos %}
-        <option value="{{ equipo.id }}" {% if equipo.id == plantilla.equipo_id %}selected{% endif %}>{{ equipo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Nombre:</label>
-    <input type="text" name="nombre" value="{{ plantilla.nombre }}">
-    <label>Posición:</label>
-    <input type="text" name="posicion" value="{{ plantilla.posicion }}">
-    <label>Año:</label>
-    <input type="number" name="anio" value="{{ plantilla.anio }}" required>
-    <label>Torneo:</label>
-    <select name="torneo_id">
-        <option value="">Ninguno</option>
-        {% for torneo in torneos %}
-        <option value="{{ torneo.id }}" {% if torneo.id == plantilla.torneo_id %}selected{% endif %}>{{ torneo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Jugador:</label>
-    <select name="jugador_id">
-        <option value="">Ninguno</option>
-        {% for jugador in jugadores %}
-        <option value="{{ jugador.id }}" {% if jugador.id == plantilla.jugador_id %}selected{% endif %}>{{ jugador.Jugadores }}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Actualizar">
-    <input type="hidden" name="method" value="DELETE">
-    <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Editar Plantilla</h1>
+    <form method="post" action="/plantillas/{{ plantilla.id }}/update">
+        <p><label>ID:</label> <input type="number" name="id" value="{{ plantilla.id }}" readonly></p>
+        <p><label>Equipo ID:</label> <input type="number" name="equipo_id" value="{{ plantilla.equipo_id }}" required></p>
+        <p><label>Nombre:</label> <input type="text" name="nombre" value="{{ plantilla.nombre }}"></p>
+        <p><label>Posición:</label> <input type="text" name="posicion" value="{{ plantilla.posicion }}"></p>
+        <p><label>Año:</label> <input type="number" name="anio" value="{{ plantilla.anio }}" required></p>
+        <p><label>Torneo ID:</label> <input type="number" name="torneo_id" value="{{ plantilla.torneo_id }}"></p>
+        <p><label>Jugador ID:</label> <input type="number" name="jugador_id" value="{{ plantilla.jugador_id }}"></p>
+        <button type="submit" class="btn-save">Guardar</button>
+        <a href="/plantillas/"><button type="button" class="btn-back">Cancelar</button></a>
+    </form>
+</div>
 {% endblock %}

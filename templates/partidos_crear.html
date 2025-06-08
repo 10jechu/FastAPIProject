@@ -1,42 +1,22 @@
 {% extends "base.html" %}
-{% block title %}Crear Partido - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Crear Partido</h2>
-<form method="post" action="/partidos/">
-    <label>Equipo Local:</label>
-    <select name="equipo_local" required>
-        {% for equipo in equipos %}
-        <option value="{{ equipo.nombre }}">{{ equipo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Equipo Visitante:</label>
-    <select name="equipo_visitante" required>
-        {% for equipo in equipos %}
-        <option value="{{ equipo.nombre }}">{{ equipo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Fecha (YYYY-MM-DD):</label>
-    <input type="text" name="fecha" required>
-    <label>Goles Local:</label>
-    <input type="number" name="goles_local" required>
-    <label>Goles Visitante:</label>
-    <input type="number" name="goles_visitante" required>
-    <label>Torneo:</label>
-    <select name="torneo_id" required>
-        {% for torneo in torneos %}
-        <option value="{{ torneo.id }}">{{ torneo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Eliminado:</label>
-    <input type="text" name="eliminado" required>
-    <label>Tarjetas Amarillas Local:</label>
-    <input type="number" name="tarjetas_amarillas_local" required>
-    <label>Tarjetas Amarillas Visitante:</label>
-    <input type="number" name="tarjetas_amarillas_visitante" required>
-    <label>Tarjetas Rojas Local:</label>
-    <input type="number" name="tarjetas_rojas_local" required>
-    <label>Tarjetas Rojas Visitante:</label>
-    <input type="number" name="tarjetas_rojas_visitante" required>
-    <input type="submit" value="Crear">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Crear Partido</h1>
+    <form method="post" action="/partidos/crear/">
+        <p><label>ID:</label> <input type="number" name="id" required></p>
+        <p><label>Equipo Local:</label> <input type="text" name="equipo_local" required></p>
+        <p><label>Equipo Visitante:</label> <input type="text" name="equipo_visitante" required></p>
+        <p><label>Fecha:</label> <input type="text" name="fecha" required></p>
+        <p><label>Goles Local:</label> <input type="number" name="goles_local" required></p>
+        <p><label>Goles Visitante:</label> <input type="number" name="goles_visitante" required></p>
+        <p><label>Torneo ID:</label> <input type="number" name="torneo_id" required></p>
+        <p><label>Eliminado:</label> <input type="text" name="eliminado" required></p>
+        <p><label>Tarjetas Amarillas Local:</label> <input type="number" name="tarjetas_amarillas_local" required></p>
+        <p><label>Tarjetas Amarillas Visitante:</label> <input type="number" name="tarjetas_amarillas_visitante" required></p>
+        <p><label>Tarjetas Rojas Local:</label> <input type="number" name="tarjetas_rojas_local" required></p>
+        <p><label>Tarjetas Rojas Visitante:</label> <input type="number" name="tarjetas_rojas_visitante" required></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/partidos/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

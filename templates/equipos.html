@@ -1,27 +1,35 @@
 {% extends "base.html" %}
-{% block title %}Equipos - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Equipos</h2>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>País</th>
-        <th>Enfrentamientos con Colombia</th>
-        <th>Acciones</th>
-    </tr>
-    {% for equipo in equipos %}
-    <tr>
-        <td>{{ equipo.id }}</td>
-        <td>{{ equipo.nombre }}</td>
-        <td>{{ equipo.pais }}</td>
-        <td>{{ equipo.enfrentamientos_con_colombia }}</td>
-        <td>
-            <a href="/equipos/{{ equipo.id }}">Ver</a>
-            <a href="/equipos/{{ equipo.id }}/edit">Editar</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<a href="/equipos/crear/"><button>Crear Equipo</button></a>
+<div class="container">
+    <h1 style="color: #FCD116;">Lista de Equipos</h1>
+    <a href="/equipos/crear/"><button class="btn btn-primary">Crear Nuevo Equipo</button></a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>País</th>
+                <th>Enfrentamientos con Colombia</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipo in equipos %}
+            <tr>
+                <td>{{ equipo.id }}</td>
+                <td>{{ equipo.nombre }}</td>
+                <td>{{ equipo.pais }}</td>
+                <td>{{ equipo.enfrentamientos_con_colombia }}</td>
+                <td>
+                    <a href="/equipos/{{ equipo.id }}"><button class="btn btn-secondary">Ver</button></a>
+                    <a href="/equipos/{{ equipo.id }}/edit"><button class="btn btn-secondary">Editar</button></a>
+                    <form action="/equipos/{{ equipo.id }}/delete" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

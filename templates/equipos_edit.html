@@ -1,16 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Editar Equipo - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Editar Equipo</h2>
-<form method="post" action="/equipos/{{ equipo.id }}/">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" value="{{ equipo.nombre }}" required>
-    <label>País:</label>
-    <input type="text" name="pais" value="{{ equipo.pais }}" required>
-    <label>Enfrentamientos con Colombia:</label>
-    <input type="number" name="enfrentamientos_con_colombia" value="{{ equipo.enfrentamientos_con_colombia }}" required>
-    <input type="submit" value="Actualizar">
-    <input type="hidden" name="method" value="DELETE">
-    <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Editar Equipo</h1>
+    <form method="post" action="/equipos/{{ equipo.id }}/update">
+        <p><label>ID:</label> <input type="number" name="id" value="{{ equipo.id }}" readonly></p>
+        <p><label>Nombre:</label> <input type="text" name="nombre" value="{{ equipo.nombre }}" required></p>
+        <p><label>País:</label> <input type="text" name="pais" value="{{ equipo.pais }}" required></p>
+        <p><label>Enfrentamientos con Colombia:</label> <input type="number" name="enfrentamientos_con_colombia" value="{{ equipo.enfrentamientos_con_colombia }}" required></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/equipos/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

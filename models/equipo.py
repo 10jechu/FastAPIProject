@@ -5,7 +5,7 @@ class Equipo(BaseModel):
     id: int
     nombre: str
     pais: str
-    enfrentamientos: Optional[int] = 0
+    enfrentamientos_con_colombia: Optional[int] = 0
 
     class Config:
         arbitrary_types_allowed = True

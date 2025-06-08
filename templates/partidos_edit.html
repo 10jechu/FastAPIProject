@@ -1,44 +1,22 @@
 {% extends "base.html" %}
-{% block title %}Editar Partido - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Editar Partido</h2>
-<form method="post" action="/partidos/{{ partido.id }}/">
-    <label>Equipo Local:</label>
-    <select name="equipo_local" required>
-        {% for equipo in equipos %}
-        <option value="{{ equipo.nombre }}" {% if equipo.nombre == partido.equipo_local %}selected{% endif %}>{{ equipo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Equipo Visitante:</label>
-    <select name="equipo_visitante" required>
-        {% for equipo in equipos %}
-        <option value="{{ equipo.nombre }}" {% if equipo.nombre == partido.equipo_visitante %}selected{% endif %}>{{ equipo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Fecha (YYYY-MM-DD):</label>
-    <input type="text" name="fecha" value="{{ partido.fecha }}" required>
-    <label>Goles Local:</label>
-    <input type="number" name="goles_local" value="{{ partido.goles_local }}" required>
-    <label>Goles Visitante:</label>
-    <input type="number" name="goles_visitante" value="{{ partido.goles_visitante }}" required>
-    <label>Torneo:</label>
-    <select name="torneo_id" required>
-        {% for torneo in torneos %}
-        <option value="{{ torneo.id }}" {% if torneo.id == partido.torneo_id %}selected{% endif %}>{{ torneo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Eliminado:</label>
-    <input type="text" name="eliminado" value="{{ partido.eliminado }}" required>
-    <label>Tarjetas Amarillas Local:</label>
-    <input type="number" name="tarjetas_amarillas_local" value="{{ partido.tarjetas_amarillas_local }}" required>
-    <label>Tarjetas Amarillas Visitante:</label>
-    <input type="number" name="tarjetas_amarillas_visitante" value="{{ partido.tarjetas_amarillas_visitante }}" required>
-    <label>Tarjetas Rojas Local:</label>
-    <input type="number" name="tarjetas_rojas_local" value="{{ partido.tarjetas_rojas_local }}" required>
-    <label>Tarjetas Rojas Visitante:</label>
-    <input type="number" name="tarjetas_rojas_visitante" value="{{ partido.tarjetas_rojas_visitante }}" required>
-    <input type="submit" value="Actualizar">
-    <input type="hidden" name="method" value="DELETE">
-    <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Editar Partido</h1>
+    <form method="post" action="/partidos/{{ partido.id }}/update">
+        <p><label>ID:</label> <input type="number" name="id" value="{{ partido.id }}" readonly></p>
+        <p><label>Equipo Local:</label> <input type="text" name="equipo_local" value="{{ partido.equipo_local }}" required></p>
+        <p><label>Equipo Visitante:</label> <input type="text" name="equipo_visitante" value="{{ partido.equipo_visitante }}" required></p>
+        <p><label>Fecha:</label> <input type="text" name="fecha" value="{{ partido.fecha }}" required></p>
+        <p><label>Goles Local:</label> <input type="number" name="goles_local" value="{{ partido.goles_local }}" required></p>
+        <p><label>Goles Visitante:</label> <input type="number" name="goles_visitante" value="{{ partido.goles_visitante }}" required></p>
+        <p><label>Torneo ID:</label> <input type="number" name="torneo_id" value="{{ partido.torneo_id }}" required></p>
+        <p><label>Eliminado:</label> <input type="text" name="eliminado" value="{{ partido.eliminado }}" required></p>
+        <p><label>Tarjetas Amarillas Local:</label> <input type="number" name="tarjetas_amarillas_local" value="{{ partido.tarjetas_amarillas_local }}" required></p>
+        <p><label>Tarjetas Amarillas Visitante:</label> <input type="number" name="tarjetas_amarillas_visitante" value="{{ partido.tarjetas_amarillas_visitante }}" required></p>
+        <p><label>Tarjetas Rojas Local:</label> <input type="number" name="tarjetas_rojas_local" value="{{ partido.tarjetas_rojas_local }}" required></p>
+        <p><label>Tarjetas Rojas Visitante:</label> <input type="number" name="tarjetas_rojas_visitante" value="{{ partido.tarjetas_rojas_visitante }}" required></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/partidos/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

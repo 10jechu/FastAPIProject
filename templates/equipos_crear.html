@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Crear Equipo - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Crear Equipo</h2>
-<form method="post" action="/equipos/">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" required>
-    <label>País:</label>
-    <input type="text" name="pais" required>
-    <label>Enfrentamientos con Colombia:</label>
-    <input type="number" name="enfrentamientos_con_colombia" required>
-    <input type="submit" value="Crear">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Crear Equipo</h1>
+    <form method="post" action="/equipos/crear/">
+        <p><label>ID:</label> <input type="number" name="id" required></p>
+        <p><label>Nombre:</label> <input type="text" name="nombre" required></p>
+        <p><label>País:</label> <input type="text" name="pais" required></p>
+        <p><label>Enfrentamientos con Colombia:</label> <input type="number" name="enfrentamientos_con_colombia" required></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/equipos/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

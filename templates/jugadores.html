@@ -1,31 +1,53 @@
 {% extends "base.html" %}
-{% block title %}Jugadores - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Jugadores</h2>
-<a href="/jugadores/crear/"><button>Crear Jugador</button></a>
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Club</th>
-            <th>Posición</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for jugador in jugadores %}
-        <tr>
-            <td>{{ jugador.id }}</td>
-            <td>{{ jugador.Jugadores }}</td>
-            <td>{{ jugador.Club }}</td>
-            <td>{{ jugador.posicion }}</td>
-            <td>
-                <a href="/jugadores/{{ jugador.id }}"><button>Ver</button></a>
-                <a href="/jugadores/{{ jugador.id }}/edit"><button>Editar</button></a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container">
+    <h1 style="color: #FCD116;">Lista de Jugadores</h1>
+    <a href="/jugadores/crear/"><button class="btn btn-primary">Crear Nuevo Jugador</button></a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Jugador</th>
+                <th>Fecha Nacimiento/Edad</th>
+                <th>Club</th>
+                <th>Altura</th>
+                <th>Pie</th>
+                <th>Partidos con la Selección</th>
+                <th>Goles</th>
+                <th>Número de Camisa</th>
+                <th>Año</th>
+                <th>Posición</th>
+                <th>Activo</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for jugador in jugadores %}
+            <tr>
+                <td>{{ jugador.id }}</td>
+                <td>{{ jugador.Jugadores }}</td>
+                <td>{{ jugador.F_Nacim_Edad }}</td>
+                <td>{{ jugador.Club }}</td>
+                <td>{{ jugador.Altura }}</td>
+                <td>{{ jugador.Pie }}</td>
+                <td>{{ jugador.Partidos_con_la_seleccion }}</td>
+                <td>{{ jugador.Goles }}</td>
+                <td>{{ jugador.Numero_de_camisa }}</td>
+                <td>{{ jugador.anio }}</td>
+                <td>{{ jugador.posicion }}</td>
+                <td>{{ jugador.activo }}</td>
+                <td>{{ jugador.imagen }}</td>
+                <td>
+                    <a href="/jugadores/{{ jugador.id }}"><button class="btn btn-secondary">Ver</button></a>
+                    <a href="/jugadores/{{ jugador.id }}/edit"><button class="btn btn-secondary">Editar</button></a>
+                    <form action="/jugadores/{{ jugador.id }}/delete" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

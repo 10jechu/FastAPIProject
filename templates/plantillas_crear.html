@@ -1,34 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Crear Plantilla - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Crear Plantilla</h2>
-<form method="post" action="/plantillas/">
-    <label>Equipo:</label>
-    <select name="equipo_id" required>
-        {% for equipo in equipos %}
-        <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Nombre:</label>
-    <input type="text" name="nombre">
-    <label>Posición:</label>
-    <input type="text" name="posicion">
-    <label>Año:</label>
-    <input type="number" name="anio" required>
-    <label>Torneo:</label>
-    <select name="torneo_id">
-        <option value="">Ninguno</option>
-        {% for torneo in torneos %}
-        <option value="{{ torneo.id }}">{{ torneo.nombre }}</option>
-        {% endfor %}
-    </select>
-    <label>Jugador:</label>
-    <select name="jugador_id">
-        <option value="">Ninguno</option>
-        {% for jugador in jugadores %}
-        <option value="{{ jugador.id }}">{{ jugador.Jugadores }}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Crear">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Crear Plantilla</h1>
+    <form method="post" action="/plantillas/crear/">
+        <p><label>ID:</label> <input type="number" name="id" required></p>
+        <p><label>Equipo ID:</label> <input type="number" name="equipo_id" required></p>
+        <p><label>Nombre:</label> <input type="text" name="nombre"></p>
+        <p><label>Posición:</label> <input type="text" name="posicion"></p>
+        <p><label>Año:</label> <input type="number" name="anio" required></p>
+        <p><label>Torneo ID:</label> <input type="number" name="torneo_id"></p>
+        <p><label>Jugador ID:</label> <input type="number" name="jugador_id"></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/plantillas/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

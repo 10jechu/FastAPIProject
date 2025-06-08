@@ -1,20 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Editar Torneo - Gestión Selección Colombia{% endblock %}
 {% block content %}
-<h2>Editar Torneo</h2>
-<form method="post" action="/torneos/{{ torneo.id }}/">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" value="{{ torneo.nombre }}" required>
-    <label>Año:</label>
-    <input type="number" name="anio" value="{{ torneo.anio }}" required>
-    <label>País Anfitrión:</label>
-    <input type="text" name="pais_anfitrion" value="{{ torneo.pais_anfitrion }}">
-    <label>Estado:</label>
-    <input type="text" name="estado" value="{{ torneo.estado }}" required>
-    <label>Eliminado:</label>
-    <input type="text" name="eliminado" value="{{ torneo.eliminado }}" required>
-    <input type="submit" value="Actualizar">
-    <input type="hidden" name="method" value="DELETE">
-    <input type="submit" value="Eliminar" onclick="this.form.method.value='DELETE';">
-</form>
+<div class="container">
+    <h1 style="color: #FCD116;">Editar Torneo</h1>
+    <form method="post" action="/torneos/{{ torneo.id }}/update">
+        <p><label>ID:</label> <input type="number" name="id" value="{{ torneo.id }}" readonly></p>
+        <p><label>Nombre:</label> <input type="text" name="nombre" value="{{ torneo.nombre }}" required></p>
+        <p><label>Año:</label> <input type="number" name="anio" value="{{ torneo.anio }}" required></p>
+        <p><label>País Anfitrión:</label> <input type="text" name="pais_anfitrion" value="{{ torneo.pais_anfitrion }}"></p>
+        <p><label>Estado:</label> <input type="text" name="estado" value="{{ torneo.estado }}" required></p>
+        <p><label>Eliminado:</label> <input type="text" name="eliminado" value="{{ torneo.eliminado }}"></p>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/torneos/" class="btn btn-back">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

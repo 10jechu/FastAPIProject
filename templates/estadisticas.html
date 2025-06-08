@@ -1,29 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    {% include 'base.html' %}
-
-    <div class="container">
-        <h2>Estadísticas</h2>
-        <p>Total de Jugadores: {{ total_jugadores }}</p>
-        <p>Promedio de Goles: {{ promedio_goles }}</p>
-        <p>Promedio de Partidos: {{ promedio_partidos }}</p>
-        <p>Total de Partidos: {{ total_partidos }}</p>
-        <p>Victorias de Colombia: {{ victorias_colombia }}</p>
-
-        <canvas id="posicionesChart"></canvas>
-    </div>
-
-    <script>
-        const ctx = document.getElementById('posicionesChart').getContext('2d');
-        new Chart(ctx, {{ chart_config | tojson }});
-    </script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1 style="color: #FCD116;">Estadísticas Completas</h1>
+    <p><strong>Total Partidos:</strong> {{ stats.total_partidos }}</p>
+    <p><strong>Goles a Favor:</strong> {{ stats.goles_a_favor }}</p>
+    <p><strong>Goles en Contra:</strong> {{ stats.goles_en_contra }}</p>
+    <p><strong>Victorias:</strong> {{ stats.victorias }}</p>
+    <a href="/" class="btn btn-back">Volver</a>
+</div>
+{% endblock %}
