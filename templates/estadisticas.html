@@ -3,28 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Estadísticas Completas</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores/">Jugadores</a>
-        <a href="/equipos/">Equipos</a>
-        <a href="/partidos/">Partidos</a>
-        <a href="/plantillas/">Plantillas</a>
-        <a href="/torneos/">Torneos</a>
-        <a href="/estadisticas/completa/">Estadísticas</a>
-        <a href="/documentacion/">Documentación</a>
-    </nav>
-    <div class="content">
-        <h1>Estadísticas Completas</h1>
-        <ul>
-            <li>Total Partidos: {{ stats.total_partidos }}</li>
-            <li>Goles a Favor: {{ stats.goles_a_favor }}</li>
-            <li>Goles en Contra: {{ stats.goles_en_contra }}</li>
-            <li>Victorias: {{ stats.victorias }}</li>
-        </ul>
-    </div>
+    <h1>Estadísticas Completas</h1>
+    <h2>Totales</h2>
+    <p>Partidos Jugados: {{ partidos_jugados_total }}</p>
+    <p>Victorias Totales: {{ victorias_total }}</p>
+    <p>Goles Totales: {{ goles_total }}</p>
+    <p>Promedio de Goles: {{ promedio_goles_total | round(2) }}</p>
+    <h2>Por Año</h2>
+    <ul>
+        {% for anio, partidos in partidos_jugados_por_anio.items() %}
+            <li>Año {{ anio }}: {{ partidos }} partidos, {{ victorias_por_anio.get(anio, 0) }} victorias, {{ goles_por_anio.get(anio, 0) }} goles, Promedio: {{ promedio_goles_por_anio.get(anio, 0) | round(2) }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/">Volver</a>
 </body>
 </html>

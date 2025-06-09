@@ -1,6 +1,6 @@
 id,Jugadores,F_Nacim_Edad,Club,Altura,Pie,Partidos_con_la_seleccion,Goles,Numero_de_camisa,anio,posicion,activo,imagen
-1,David Ospina,31/08/1988 (32),Atlético Nacional,1.83m,Derecho,129,0,1,2021,Arquero,True,
-2,Camilo Vargas,09/03/1989 (31),Atlas Guadalajara,1.85m,Izquierdo,37,0,12,2021,Arquero,True,
+1,David Ospina,31/08/1988 (32),Atlético Nacional,1.83m,Derecho,129,0,1,2021,Arquero,True,Ospina.jpg
+2,Camilo Vargas,09/03/1989 (31),Atlas Guadalajara,1.85m,Izquierdo,37,0,12,2021,Arquero,True,camilovargas.jpg
 3,Álvaro Montero,29/03/1995 (25),Millonarios FC,1.99m,Derecho,8,0,22,2021,Arquero,True,
 4,Aldair Quintana,11/07/1994 (26),Atlético Bucaramanga,1.95m,Izquierdo,0,0,25,2021,Arquero,True,
 5,Andrés Mosquera,10/09/1991 (29),Independiente Santa Fe,1.86m,Derecho,1,0,24,2021,Defensa,True,
@@ -217,4 +217,3 @@ id,Jugadores,F_Nacim_Edad,Club,Altura,Pie,Partidos_con_la_seleccion,Goles,Numero
 217,Rafael Borré,15/09/1995 (28),Sport Club Internacional,1.74m,Derecho,40,6,19,2024,Delantero,True,
 218,Miguel Borja,26/01/1993 (30),CA River Plate,1.84m,Derecho,30,9,20,2024,Delantero,True,
 219,Roger Martínez,23/06/1994 (29),Al-Taawoun FC,1.80m,Derecho,28,4,26,2024,Delantero,True,
-220,sergio motoa,30,millonarios,1.72,Derecho,25,1,0,2024,mediocampista,True,

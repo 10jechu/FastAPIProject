@@ -1,3 +1,6 @@
+from pydantic import BaseModel, Field
+from typing import Optional
+
 class Jugador(BaseModel):
     id: int
     Jugadores: str
@@ -11,4 +14,7 @@ class Jugador(BaseModel):
     anio: int
     posicion: str
     activo: bool
-    imagen: Optional[str] = None  # Permitir None como valor por defecto
+    imagen: Optional[str] = None
+
+    class Config:
+        orm_mode = True

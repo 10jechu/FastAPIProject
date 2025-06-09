@@ -4,48 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Partido</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores/">Jugadores</a>
-        <a href="/equipos/">Equipos</a>
-        <a href="/partidos/">Partidos</a>
-        <a href="/plantillas/">Plantillas</a>
-        <a href="/torneos/">Torneos</a>
-        <a href="/estadisticas/completa/">Estadísticas</a>
-        <a href="/documentacion/">Documentación</a>
-    </nav>
-    <div class="content">
-        <h1>Crear Nuevo Partido</h1>
-        <form action="/partidos/crear/" method="post">
-            <label for="id">ID:</label><br>
-            <input type="number" id="id" name="id" required><br>
-            <label for="equipo_local">Equipo Local:</label><br>
-            <input type="text" id="equipo_local" name="equipo_local" required><br>
-            <label for="equipo_visitante">Equipo Visitante:</label><br>
-            <input type="text" id="equipo_visitante" name="equipo_visitante" required><br>
-            <label for="fecha">Fecha:</label><br>
-            <input type="text" id="fecha" name="fecha" required><br>
-            <label for="goles_local">Goles Local:</label><br>
-            <input type="number" id="goles_local" name="goles_local" required><br>
-            <label for="goles_visitante">Goles Visitante:</label><br>
-            <input type="number" id="goles_visitante" name="goles_visitante" required><br>
-            <label for="torneo_id">Torneo ID:</label><br>
-            <input type="number" id="torneo_id" name="torneo_id" required><br>
-            <label for="eliminado">Eliminado:</label><br>
-            <input type="text" id="eliminado" name="eliminado" required><br>
-            <label for="tarjetas_amarillas_local">Tarjetas Amarillas Local:</label><br>
-            <input type="number" id="tarjetas_amarillas_local" name="tarjetas_amarillas_local" required><br>
-            <label for="tarjetas_amarillas_visitante">Tarjetas Amarillas Visitante:</label><br>
-            <input type="number" id="tarjetas_amarillas_visitante" name="tarjetas_amarillas_visitante" required><br>
-            <label for="tarjetas_rojas_local">Tarjetas Rojas Local:</label><br>
-            <input type="number" id="tarjetas_rojas_local" name="tarjetas_rojas_local" required><br>
-            <label for="tarjetas_rojas_visitante">Tarjetas Rojas Visitante:</label><br>
-            <input type="number" id="tarjetas_rojas_visitante" name="tarjetas_rojas_visitante" required><br><br>
-            <button type="submit">Crear</button>
-        </form>
-    </div>
+    <h1>Crear Partido</h1>
+    <form method="post" action="/partidos/crear/">
+        <div><label>Fecha:</label><input type="text" name="fecha" required></div>
+        <div><label>Equipo Local:</label><input type="text" name="equipo_local" required></div>
+        <div><label>Equipo Visitante:</label><input type="text" name="equipo_visitante" required></div>
+        <div><label>Goles Local:</label><input type="number" name="goles_local" required></div>
+        <div><label>Goles Visitante:</label><input type="number" name="goles_visitante" required></div>
+        <div>
+            <label>Torneo:</label>
+            <select name="torneo_id" required>
+                {% for torneo in torneos %}
+                    <option value="{{ torneo.id }}">{{ torneo.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div><label>Eliminado:</label><input type="text" name="eliminado" required></div>
+        <div><label>Tarjetas Amarillas Local:</label><input type="number" name="tarjetas_amarillas_local" value="0"></div>
+        <div><label>Tarjetas Amarillas Visitante:</label><input type="number" name="tarjetas_amarillas_visitante" value="0"></div>
+        <div><label>Tarjetas Rojas Local:</label><input type="number" name="tarjetas_rojas_local" value="0"></div>
+        <div><label>Tarjetas Rojas Visitante:</label><input type="number" name="tarjetas_rojas_visitante" value="0"></div>
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="/partidos/">Volver</a>
 </body>
 </html>

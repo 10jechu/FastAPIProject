@@ -85,8 +85,8 @@
                 <td>{{ jugador.posicion }}</td>
                 <td>{{ "Sí" if jugador.activo else "No" }}</td>
                 <td>
-                    {% if jugador.anio %}
-                        <img src="{{ url_for('static', path='/images/' + (jugador.anio|string + '.jpg') ) }}" alt="Imagen del año {{ jugador.anio }}" class="player-image">
+                    {% if jugador.imagen and jugador.imagen != "" %}
+                        <img src="{{ url_for('static', path='/images/' + jugador.imagen) }}" alt="{{ jugador.Jugadores }}" class="player-image">
                     {% else %}
                         <img src="{{ url_for('static', path='/images/default.jpg') }}" alt="Imagen genérica" class="player-image">
                     {% endif %}

@@ -5,47 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plantillas</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #000080; color: #ffcc00; }
+    </style>
 </head>
 <body>
-    <h1 style="color: #ff0000;">PLANTILLAS</h1>
-    <form method="get" action="/plantillas/">
-        <label for="year_filter">Buscar por Año:</label>
-        <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
-        <button type="submit">Filtrar</button>
-    </form>
+    <h1>PLANTILLAS</h1>
     <table>
         <thead>
-            <tr style="background-color: #000080; color: white;">
+            <tr>
                 <th>ID</th>
-                <th>EQUIPO ID</th>
-                <th>NOMBRE</th>
-                <th>POSICIÓN</th>
-                <th>AÑO</th>
-                <th>TORNEO ID</th>
-                <th>JUGADOR ID</th>
-                <th>ACCIONES</th>
+                <th>Equipo ID</th>
+                <th>Nombre</th>
+                <th>Posición</th>
+                <th>Año</th>
+                <th>Torneo ID</th>
+                <th>Jugador ID</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for plantilla in plantillas %}
-            {% if not request.query_params.get('year') or plantilla.anio == request.query_params.get('year')|int %}
             <tr>
                 <td>{{ plantilla.id }}</td>
                 <td>{{ plantilla.equipo_id }}</td>
-                <td>{{ plantilla.nombre or 'N/A' }}</td>
-                <td>{{ plantilla.posicion or 'N/A' }}</td>
-                <td>{{ plantilla.anio or 'N/A' }}</td>
-                <td>{{ plantilla.torneo_id or 'N/A' }}</td>
-                <td>{{ plantilla.jugador_id or 'N/A' }}</td>
+                <td>{{ plantilla.nombre }}</td>
+                <td>{{ plantilla.posicion }}</td>
+                <td>{{ plantilla.anio }}</td>
+                <td>{{ torneos|selectattr('id', 'equalto', plantilla.torneo_id)|first.nombre if plantilla.torneo_id and torneos|selectattr('id', 'equalto', plantilla.torneo_id)|list else 'Sin torneo' }}</td>
+                <td>{{ plantilla.jugador_id }}</td>
                 <td>
                     <a href="/plantillas/{{ plantilla.id }}/edit" class="btn-edit">Editar</a>
                     <a href="/plantillas/{{ plantilla.id }}/delete" class="btn-delete">Eliminar</a>
                 </td>
             </tr>
-            {% endif %}
             {% endfor %}
+            <tr>
+                <td colspan="7"></td>
+                <td><a href="/plantillas/crear/" class="btn-add">Añadir Plantilla</a></td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <div class="papelera">
+                        <h3>Papelera</h3>
+                        {% for item in load_papelera() if item.tipo == "plantilla" %}
+                            <p>ID: {{ item.id }}, Tipo: {{ item.tipo }} - <a href="/plantillas/{{ item.id }}/restore">Restaurar</a></p>
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
-    <a href="/plantillas/crear/" class="btn-add">Añadir Plantilla</a>
 </body>
 </html>

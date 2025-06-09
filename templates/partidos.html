@@ -6,72 +6,29 @@
     <title>Partidos</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
     <style>
-        .filter-container {
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            display: inline-block;
-        }
-        .filter-container label {
-            margin-right: 10px;
-            font-weight: bold;
-        }
-        .filter-container input {
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-        .filter-container button {
-            padding: 5px 10px;
-            background-color: #000080;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        .filter-container button:hover {
-            background-color: #0000a0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-        }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        .action-btn { margin: 0 5px; }
     </style>
 </head>
 <body>
-    <h1 style="color: #ff0000;">PARTIDOS</h1>
-    <div class="filter-container">
-        <form method="get" action="/partidos/">
-            <label for="year_filter">Buscar por Año:</label>
-            <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
-            <button type="submit">Filtrar</button>
-        </form>
-    </div>
+    <h1>PARTIDOS</h1>
     <table>
         <thead>
-            <tr style="background-color: #000080; color: white;">
+            <tr>
                 <th>ID</th>
-                <th>FECHA</th>
-                <th>EQUIPO LOCAL</th>
-                <th>EQUIPO VISITANTE</th>
-                <th>GOLES LOCAL</th>
-                <th>GOLES VISITANTE</th>
-                <th>TORNEO</th>
-                <th>ELIMINADO</th>
-                <th>TARJETAS AMARILLAS</th>
-                <th>TARJETAS ROJAS</th>
-                <th>ACCIONES</th>
+                <th>Fecha</th>
+                <th>Equipo Local</th>
+                <th>Equipo Visitante</th>
+                <th>Goles Local</th>
+                <th>Goles Visitante</th>
+                <th>Torneo</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for partido in partidos %}
-            {% set matching_torneo = torneos|selectattr('id', 'eq', partido.torneo_id)|first %}
-            {% if not request.query_params.get('year') or (matching_torneo and matching_torneo.anio == request.query_params.get('year')|int) %}
             <tr>
                 <td>{{ partido.id }}</td>
                 <td>{{ partido.fecha }}</td>
@@ -79,18 +36,25 @@
                 <td>{{ partido.equipo_visitante }}</td>
                 <td>{{ partido.goles_local }}</td>
                 <td>{{ partido.goles_visitante }}</td>
-                <td>{{ matching_torneo.nombre if matching_torneo else 'Sin torneo' }}</td>
-                <td>{{ partido.eliminado or 'No' }}</td>
-                <td>{{ partido.tarjetas_amarillas_local + partido.tarjetas_amarillas_visitante }}</td>
-                <td>{{ partido.tarjetas_rojas_local + partido.tarjetas_rojas_visitante }}</td>
+                <td>{{ torneos|selectattr('id', 'equalto', partido.torneo_id)|first.nombre if partido.torneo_id and torneos|selectattr('id', 'equalto', partido.torneo_id)|list else 'Sin torneo' }}</td>
                 <td>
-                    <a href="/partidos/{{ partido.id }}/edit" class="btn-edit">Editar</a>
-                    <a href="/partidos/{{ partido.id }}/delete" class="btn-delete">Eliminar</a>
-                    <a href="/partidos/crear/" class="btn-add">Añadir</a>
+                    <a href="/partidos/{{ partido.id }}/edit" class="action-btn">Editar</a>
+                    <a href="/partidos/{{ partido.id }}/delete" class="action-btn">Eliminar</a>
                 </td>
             </tr>
-            {% endif %}
             {% endfor %}
+            <tr>
+                <td colspan="7"></td>
+                <td><a href="/partidos/crear/" class="action-btn">Añadir Partido</a></td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <h3>Papelera</h3>
+                    {% for item in load_papelera() if item.tipo == "partido" %}
+                        <p>ID: {{ item.id }}, Tipo: {{ item.tipo }} - <a href="/partidos/{{ item.id }}/restore">Restaurar</a></p>
+                    {% endfor %}
+                </td>
+            </tr>
         </tbody>
     </table>
 </body>
