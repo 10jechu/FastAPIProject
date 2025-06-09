@@ -1,39 +1,48 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container">
-    <h1 style="color: #FCD116;">Lista de Torneos</h1>
-    <a href="/torneos/crear/"><button class="btn btn-primary">Crear Nuevo Torneo</button></a>
-    <table>
-        <thead>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneos</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/estadisticas/completa/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+    </nav>
+    <div class="content">
+        <h1>Torneos</h1>
+        <table>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Año</th>
                 <th>País Anfitrión</th>
-                <th>Estado</th>
-                <th>Eliminado</th>
                 <th>Acciones</th>
             </tr>
-        </thead>
-        <tbody>
             {% for torneo in torneos %}
             <tr>
                 <td>{{ torneo.id }}</td>
                 <td>{{ torneo.nombre }}</td>
                 <td>{{ torneo.anio }}</td>
                 <td>{{ torneo.pais_anfitrion }}</td>
-                <td>{{ torneo.estado }}</td>
-                <td>{{ torneo.eliminado }}</td>
                 <td>
-                    <a href="/torneos/{{ torneo.id }}"><button class="btn btn-secondary">Ver</button></a>
-                    <a href="/torneos/{{ torneo.id }}/edit"><button class="btn btn-secondary">Editar</button></a>
+                    <a href="/torneos/{{ torneo.id }}/edit">Editar</a>
                     <form action="/torneos/{{ torneo.id }}/delete" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <button type="submit">Eliminar</button>
                     </form>
                 </td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+        </table>
+        <a href="/torneos/crear/">Añadir Torneo</a>
+    </div>
+</body>
+</html>

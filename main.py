@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 import pandas as pd
 from pydantic import BaseModel
 from typing import List, Optional
@@ -8,6 +9,7 @@ import os
 from datetime import datetime
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Rutas de los archivos CSV
@@ -67,17 +69,19 @@ def save_csv(data, file_path):
 
 # Funciones CRUD
 def update_csv(data_list, file_path, new_data):
-    data_list = [d for d in data_list if d.get('id') != new_data.get('id')]
-    data_list.append(new_data.dict(exclude_unset=True))
-    save_csv(data_list, file_path)
-    return data_list
+    data_dicts = [d.dict(exclude_unset=True) for d in data_list]
+    new_data_dict = new_data.dict(exclude_unset=True)
+    data_dicts = [d for d in data_dicts if d.get('id') != new_data_dict.get('id')]
+    data_dicts.append(new_data_dict)
+    save_csv(data_dicts, file_path)
+    return [Equipo(**d) if 'nombre' in d else Jugador(**d) if 'Jugadores' in d else Partido(**d) if 'equipo_local' in d else Plantilla(**d) if 'equipo_id' in d else Torneo(**d) for d in data_dicts]
 
 def delete_from_csv(data_list, file_path, id_to_delete):
-    data_to_delete = next((d for d in data_list if d.get('id') == id_to_delete), None)
+    data_dicts = [d.dict(exclude_unset=True) for d in data_list]
+    data_to_delete = next((d for d in data_dicts if d.get('id') == id_to_delete), None)
     if data_to_delete:
-        data_list = [d for d in data_list if d.get('id') != id_to_delete]
-        save_csv(data_list, file_path)
-        # Guardar en historial y papelera
+        data_dicts = [d for d in data_dicts if d.get('id') != id_to_delete]
+        save_csv(data_dicts, file_path)
         history_file = file_path.replace(DATA_DIR, HISTORY_DIR).replace('.csv', f'_history_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv')
         trash_file = file_path.replace(DATA_DIR, TRASH_DIR).replace('.csv', '_trash.csv')
         os.makedirs(os.path.dirname(history_file), exist_ok=True)
@@ -85,7 +89,7 @@ def delete_from_csv(data_list, file_path, id_to_delete):
         pd.DataFrame([data_to_delete]).to_csv(history_file, index=False)
         with open(trash_file, 'a') as f:
             pd.DataFrame([data_to_delete]).to_csv(f, index=False, header=not os.path.exists(trash_file))
-    return data_list
+    return [Equipo(**d) if 'nombre' in d else Jugador(**d) if 'Jugadores' in d else Partido(**d) if 'equipo_local' in d else Plantilla(**d) if 'equipo_id' in d else Torneo(**d) for d in data_dicts]
 
 # Rutas principales
 @app.get("/", response_class=HTMLResponse)

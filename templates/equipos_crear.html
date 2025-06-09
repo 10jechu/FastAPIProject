@@ -1,14 +1,35 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container">
-    <h1 style="color: #FCD116;">Crear Equipo</h1>
-    <form method="post" action="/equipos/crear/">
-        <p><label>ID:</label> <input type="number" name="id" required></p>
-        <p><label>Nombre:</label> <input type="text" name="nombre" required></p>
-        <p><label>País:</label> <input type="text" name="pais" required></p>
-        <p><label>Enfrentamientos con Colombia:</label> <input type="number" name="enfrentamientos_con_colombia" required></p>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="/equipos/" class="btn btn-back">Cancelar</a>
-    </form>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Equipo</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/estadisticas/completa/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+    </nav>
+    <div class="content">
+        <h1>Crear Nuevo Equipo</h1>
+        <form action="/equipos/crear/" method="post">
+            <label for="id">ID:</label><br>
+            <input type="number" id="id" name="id" required><br>
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" required><br>
+            <label for="pais">País:</label><br>
+            <input type="text" id="pais" name="pais" required><br>
+            <label for="enfrentamientos_con_colombia">Enfrentamientos con Colombia:</label><br>
+            <input type="number" id="enfrentamientos_con_colombia" name="enfrentamientos_con_colombia" required><br><br>
+            <button type="submit">Crear</button>
+        </form>
+    </div>
+</body>
+</html>

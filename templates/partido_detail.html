@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Partido</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/estadisticas/completa/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+    </nav>
+    <div class="content">
+        <h1>Detalle del Partido</h1>
+        <p><strong>ID:</strong> {{ partido.id }}</p>
+        <p><strong>Equipo Local:</strong> {{ partido.equipo_local }}</p>
+        <p><strong>Equipo Visitante:</strong> {{ partido.equipo_visitante }}</p>
+        <p><strong>Fecha:</strong> {{ partido.fecha }}</p>
+        <p><strong>Goles Local:</strong> {{ partido.goles_local }}</p>
+        <p><strong>Goles Visitante:</strong> {{ partido.goles_visitante }}</p>
+        <p><strong>Torneo ID:</strong> {{ partido.torneo_id }}</p>
+        <p><strong>Eliminado:</strong> {{ partido.eliminado }}</p>
+        <p><strong>Tarjetas Amarillas Local:</strong> {{ partido.tarjetas_amarillas_local }}</p>
+        <p><strong>Tarjetas Amarillas Visitante:</strong> {{ partido.tarjetas_amarillas_visitante }}</p>
+        <p><strong>Tarjetas Rojas Local:</strong> {{ partido.tarjetas_rojas_local }}</p>
+        <p><strong>Tarjetas Rojas Visitante:</strong> {{ partido.tarjetas_rojas_visitante }}</p>
+        <a href="/partidos/{{ partido.id }}/edit">Editar</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Jugador</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/estadisticas/completa/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+    </nav>
+    <div class="content">
+        <h1>Detalle del Jugador</h1>
+        <p><strong>ID:</strong> {{ jugador.id }}</p>
+        <p><strong>Nombre:</strong> {{ jugador.Jugadores }}</p>
+        <p><strong>Fecha Nacimiento/Edad:</strong> {{ jugador.F_Nacim_Edad }}</p>
+        <p><strong>Club:</strong> {{ jugador.Club }}</p>
+        <p><strong>Altura:</strong> {{ jugador.Altura }}</p>
+        <p><strong>Pie:</strong> {{ jugador.Pie }}</p>
+        <p><strong>Partidos con Selección:</strong> {{ jugador.Partidos_con_la_seleccion }}</p>
+        <p><strong>Goles:</strong> {{ jugador.Goles }}</p>
+        <p><strong>Número de Camisa:</strong> {{ jugador.Numero_de_camisa }}</p>
+        <p><strong>Año:</strong> {{ jugador.anio }}</p>
+        <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
+        <p><strong>Activo:</strong> {{ jugador.activo }}</p>
+        <p><strong>Imagen:</strong> {{ jugador.imagen }}</p>
+        <a href="/jugadores/{{ jugador.id }}/edit">Editar</a>
+    </div>
+</body>
+</html>

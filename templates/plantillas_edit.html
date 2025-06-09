@@ -1,17 +1,39 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container">
-    <h1 style="color: #FCD116;">Editar Plantilla</h1>
-    <form method="post" action="/plantillas/{{ plantilla.id }}/update">
-        <p><label>ID:</label> <input type="number" name="id" value="{{ plantilla.id }}" readonly></p>
-        <p><label>Equipo ID:</label> <input type="number" name="equipo_id" value="{{ plantilla.equipo_id }}" required></p>
-        <p><label>Nombre:</label> <input type="text" name="nombre" value="{{ plantilla.nombre }}"></p>
-        <p><label>Posición:</label> <input type="text" name="posicion" value="{{ plantilla.posicion }}"></p>
-        <p><label>Año:</label> <input type="number" name="anio" value="{{ plantilla.anio }}" required></p>
-        <p><label>Torneo ID:</label> <input type="number" name="torneo_id" value="{{ plantilla.torneo_id }}"></p>
-        <p><label>Jugador ID:</label> <input type="number" name="jugador_id" value="{{ plantilla.jugador_id }}"></p>
-        <button type="submit" class="btn-save">Guardar</button>
-        <a href="/plantillas/"><button type="button" class="btn-back">Cancelar</button></a>
-    </form>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Plantilla</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/estadisticas/completa/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+    </nav>
+    <div class="content">
+        <h1>Editar Plantilla</h1>
+        <form action="/plantillas/{{ plantilla.id }}/update" method="post">
+            <label for="equipo_id">Equipo ID:</label><br>
+            <input type="number" id="equipo_id" name="equipo_id" value="{{ plantilla.equipo_id }}" required><br>
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" value="{{ plantilla.nombre }}" required><br>
+            <label for="posicion">Posición:</label><br>
+            <input type="text" id="posicion" name="posicion" value="{{ plantilla.posicion }}" required><br>
+            <label for="anio">Año:</label><br>
+            <input type="number" id="anio" name="anio" value="{{ plantilla.anio }}" required><br>
+            <label for="torneo_id">Torneo ID:</label><br>
+            <input type="number" id="torneo_id" name="torneo_id" value="{{ plantilla.torneo_id }}" required><br>
+            <label for="jugador_id">Jugador ID:</label><br>
+            <input type="number" id="jugador_id" name="jugador_id" value="{{ plantilla.jugador_id }}" required><br><br>
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+</body>
+</html>

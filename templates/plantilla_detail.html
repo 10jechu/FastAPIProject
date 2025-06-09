@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas</title>
+    <title>Detalle Plantilla</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
@@ -18,13 +18,15 @@
         <a href="/documentacion/">Documentación</a>
     </nav>
     <div class="content">
-        <h1>Estadísticas Completas</h1>
-        <ul>
-            <li>Total Partidos: {{ stats.total_partidos }}</li>
-            <li>Goles a Favor: {{ stats.goles_a_favor }}</li>
-            <li>Goles en Contra: {{ stats.goles_en_contra }}</li>
-            <li>Victorias: {{ stats.victorias }}</li>
-        </ul>
+        <h1>Detalle de la Plantilla</h1>
+        <p><strong>ID:</strong> {{ plantilla.id }}</p>
+        <p><strong>Equipo ID:</strong> {{ plantilla.equipo_id }}</p>
+        <p><strong>Nombre:</strong> {{ plantilla.nombre }}</p>
+        <p><strong>Posición:</strong> {{ plantilla.posicion }}</p>
+        <p><strong>Año:</strong> {{ plantilla.anio }}</p>
+        <p><strong>Torneo ID:</strong> {{ plantilla.torneo_id }}</p>
+        <p><strong>Jugador ID:</strong> {{ plantilla.jugador_id }}</p>
+        <a href="/plantillas/{{ plantilla.id }}/edit">Editar</a>
     </div>
 </body>
 </html>

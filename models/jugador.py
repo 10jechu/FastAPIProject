@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from typing import Optional
 
 class Jugador(BaseModel):
     id: int
@@ -12,9 +11,6 @@ class Jugador(BaseModel):
     Goles: int
     Numero_de_camisa: int
     anio: int
-    posicion: Optional[str] = None
-    activo: bool = True
-    imagen: Optional[str] = None
-
-    class Config:
-        arbitrary_types_allowed = True
+    posicion: str
+    activo: bool
+    imagen: str

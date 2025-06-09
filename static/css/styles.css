@@ -1,64 +1,204 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+/* Reset básico para consistencia */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navegación */
 nav {
-    background-color: #003087; /* Azul de la bandera colombiana */
-    color: white;
-    padding: 10px;
-    display: flex;
-    justify-content: space-around;
+    background-color: #003087; /* Azul profundo, inspirado en Colombia */
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
+
 nav a {
-    color: white;
+    color: #fff;
     text-decoration: none;
-    font-weight: bold;
+    margin: 0 1.5rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
+
 nav a:hover {
+    color: #ffcc00; /* Amarillo vibrante */
     text-decoration: underline;
 }
+
+/* Contenido principal */
 .content {
-    padding: 20px;
-    text-align: center;
-    background-color: white;
-    margin: 20px auto;
-    max-width: 800px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.5s ease-in;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 .content h1 {
-    color: #ffcc00; /* Amarillo de la bandera colombiana */
+    color: #ce1126; /* Rojo de la bandera colombiana */
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
-.content ul {
-    list-style-type: none;
-    padding: 0;
+
+.content p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #555;
 }
-.content ul li {
-    margin: 10px 0;
-}
-.content ul li a {
-    color: #003087;
-    text-decoration: none;
-    font-weight: bold;
-}
-.content ul li a:hover {
-    text-decoration: underline;
-}
+
+/* Tablas */
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #fff;
+    overflow: hidden;
+    border-radius: 8px;
 }
-table, th, td {
-    border: 1px solid #ddd;
-}
+
 th, td {
-    padding: 8px;
+    padding: 1rem;
     text-align: left;
+    border-bottom: 1px solid #eee;
 }
+
 th {
     background-color: #003087;
-    color: white;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    color: #666;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+/* Formularios */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+label {
+    font-weight: 500;
+    color: #333;
+}
+
+input, select, button {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #003087;
+    box-shadow: 0 0 5px rgba(0, 48, 135, 0.3);
+}
+
+button {
+    background-color: #ce1126;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #a50a1a;
+}
+
+a {
+    color: #003087;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #ffcc00;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav a {
+        margin: 0.5rem 0;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    th {
+        text-align: right;
+        padding: 0.5rem;
+    }
+
+    td {
+        text-align: left;
+        padding: 0.5rem;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 1rem;
+        font-weight: bold;
+        color: #333;
+    }
+}
+
+/* Animaciones y detalles */
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.content table {
+    animation: slideIn 0.5s ease-out;
 }

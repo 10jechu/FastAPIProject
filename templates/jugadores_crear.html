@@ -1,23 +1,53 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container">
-    <h1 style="color: #FCD116;">Crear Jugador</h1>
-    <form method="post" action="/jugadores/crear/">
-        <p><label>ID:</label> <input type="number" name="id" required></p>
-        <p><label>Jugador:</label> <input type="text" name="Jugadores" required></p>
-        <p><label>Fecha Nacimiento/Edad:</label> <input type="text" name="F_Nacim_Edad" required></p>
-        <p><label>Club:</label> <input type="text" name="Club" required></p>
-        <p><label>Altura:</label> <input type="text" name="Altura" required></p>
-        <p><label>Pie:</label> <input type="text" name="Pie" required></p>
-        <p><label>Partidos con la Selección:</label> <input type="number" name="Partidos_con_la_seleccion" required></p>
-        <p><label>Goles:</label> <input type="number" name="Goles" required></p>
-        <p><label>Número de Camisa:</label> <input type="number" name="Numero_de_camisa" required></p>
-        <p><label>Año:</label> <input type="number" name="anio" required></p>
-        <p><label>Posición:</label> <input type="text" name="posicion"></p>
-        <p><label>Activo:</label> <input type="checkbox" name="activo" checked></p>
-        <p><label>Imagen:</label> <input type="text" name="imagen"></p>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="/jugadores/" class="btn btn-back">Cancelar</a>
-    </form>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Jugador</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/estadisticas/completa/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+    </nav>
+    <div class="content">
+        <h1>Crear Nuevo Jugador</h1>
+        <form action="/jugadores/crear/" method="post">
+            <label for="id">ID:</label><br>
+            <input type="number" id="id" name="id" required><br>
+            <label for="Jugadores">Nombre:</label><br>
+            <input type="text" id="Jugadores" name="Jugadores" required><br>
+            <label for="F_Nacim_Edad">Fecha Nacimiento/Edad:</label><br>
+            <input type="text" id="F_Nacim_Edad" name="F_Nacim_Edad" required><br>
+            <label for="Club">Club:</label><br>
+            <input type="text" id="Club" name="Club" required><br>
+            <label for="Altura">Altura:</label><br>
+            <input type="text" id="Altura" name="Altura" required><br>
+            <label for="Pie">Pie:</label><br>
+            <input type="text" id="Pie" name="Pie" required><br>
+            <label for="Partidos_con_la_seleccion">Partidos con Selección:</label><br>
+            <input type="number" id="Partidos_con_la_seleccion" name="Partidos_con_la_seleccion" required><br>
+            <label for="Goles">Goles:</label><br>
+            <input type="number" id="Goles" name="Goles" required><br>
+            <label for="Numero_de_camisa">Número de Camisa:</label><br>
+            <input type="number" id="Numero_de_camisa" name="Numero_de_camisa" required><br>
+            <label for="anio">Año:</label><br>
+            <input type="number" id="anio" name="anio" required><br>
+            <label for="posicion">Posición:</label><br>
+            <input type="text" id="posicion" name="posicion" required><br>
+            <label for="activo">Activo:</label><br>
+            <input type="checkbox" id="activo" name="activo" value="true"><br>
+            <label for="imagen">Imagen:</label><br>
+            <input type="text" id="imagen" name="imagen" required><br><br>
+            <button type="submit">Crear</button>
+        </form>
+    </div>
+</body>
+</html>

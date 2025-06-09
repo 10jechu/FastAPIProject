@@ -1,53 +1,48 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container">
-    <h1 style="color: #FCD116;">Lista de Jugadores</h1>
-    <a href="/jugadores/crear/"><button class="btn btn-primary">Crear Nuevo Jugador</button></a>
-    <table>
-        <thead>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugadores</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/estadisticas/completa/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+    </nav>
+    <div class="content">
+        <h1>Jugadores</h1>
+        <table>
             <tr>
                 <th>ID</th>
-                <th>Jugador</th>
-                <th>Fecha Nacimiento/Edad</th>
+                <th>Nombre</th>
                 <th>Club</th>
-                <th>Altura</th>
-                <th>Pie</th>
-                <th>Partidos con la Selección</th>
                 <th>Goles</th>
-                <th>Número de Camisa</th>
-                <th>Año</th>
-                <th>Posición</th>
-                <th>Activo</th>
-                <th>Imagen</th>
                 <th>Acciones</th>
             </tr>
-        </thead>
-        <tbody>
             {% for jugador in jugadores %}
             <tr>
                 <td>{{ jugador.id }}</td>
                 <td>{{ jugador.Jugadores }}</td>
-                <td>{{ jugador.F_Nacim_Edad }}</td>
                 <td>{{ jugador.Club }}</td>
-                <td>{{ jugador.Altura }}</td>
-                <td>{{ jugador.Pie }}</td>
-                <td>{{ jugador.Partidos_con_la_seleccion }}</td>
                 <td>{{ jugador.Goles }}</td>
-                <td>{{ jugador.Numero_de_camisa }}</td>
-                <td>{{ jugador.anio }}</td>
-                <td>{{ jugador.posicion }}</td>
-                <td>{{ jugador.activo }}</td>
-                <td>{{ jugador.imagen }}</td>
                 <td>
-                    <a href="/jugadores/{{ jugador.id }}"><button class="btn btn-secondary">Ver</button></a>
-                    <a href="/jugadores/{{ jugador.id }}/edit"><button class="btn btn-secondary">Editar</button></a>
+                    <a href="/jugadores/{{ jugador.id }}/edit">Editar</a>
                     <form action="/jugadores/{{ jugador.id }}/delete" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <button type="submit">Eliminar</button>
                     </form>
                 </td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+        </table>
+        <a href="/jugadores/crear/">Añadir Jugador</a>
+    </div>
+</body>
+</html>

@@ -1,13 +1,9 @@
 from pydantic import BaseModel
-from typing import Optional
 
 class Torneo(BaseModel):
     id: int
     nombre: str
     anio: int
-    pais_anfitrion: Optional[str]
+    pais_anfitrion: str
     estado: str
     eliminado: str
-
-    class Config:
-        arbitrary_types_allowed = True

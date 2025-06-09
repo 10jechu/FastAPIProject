@@ -1,6 +1,4 @@
 from pydantic import BaseModel
-from typing import Optional
-from datetime import date
 
 class Partido(BaseModel):
     id: int
@@ -15,6 +13,3 @@ class Partido(BaseModel):
     tarjetas_amarillas_visitante: int
     tarjetas_rojas_local: int
     tarjetas_rojas_visitante: int
-
-    class Config:
-        arbitrary_types_allowed = True

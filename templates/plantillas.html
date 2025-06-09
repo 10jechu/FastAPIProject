@@ -1,41 +1,48 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container">
-    <h1 style="color: #FCD116;">Lista de Plantillas</h1>
-    <a href="/plantillas/crear/"><button class="btn btn-primary">Crear Nueva Plantilla</button></a>
-    <table>
-        <thead>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantillas</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores/">Jugadores</a>
+        <a href="/equipos/">Equipos</a>
+        <a href="/partidos/">Partidos</a>
+        <a href="/plantillas/">Plantillas</a>
+        <a href="/torneos/">Torneos</a>
+        <a href="/estadisticas/completa/">Estadísticas</a>
+        <a href="/documentacion/">Documentación</a>
+    </nav>
+    <div class="content">
+        <h1>Plantillas</h1>
+        <table>
             <tr>
                 <th>ID</th>
                 <th>Equipo ID</th>
                 <th>Nombre</th>
                 <th>Posición</th>
-                <th>Año</th>
-                <th>Torneo ID</th>
-                <th>Jugador ID</th>
                 <th>Acciones</th>
             </tr>
-        </thead>
-        <tbody>
             {% for plantilla in plantillas %}
             <tr>
                 <td>{{ plantilla.id }}</td>
                 <td>{{ plantilla.equipo_id }}</td>
                 <td>{{ plantilla.nombre }}</td>
                 <td>{{ plantilla.posicion }}</td>
-                <td>{{ plantilla.anio }}</td>
-                <td>{{ plantilla.torneo_id }}</td>
-                <td>{{ plantilla.jugador_id }}</td>
                 <td>
-                    <a href="/plantillas/{{ plantilla.id }}"><button class="btn btn-secondary">Ver</button></a>
-                    <a href="/plantillas/{{ plantilla.id }}/edit"><button class="btn btn-secondary">Editar</button></a>
+                    <a href="/plantillas/{{ plantilla.id }}/edit">Editar</a>
                     <form action="/plantillas/{{ plantilla.id }}/delete" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <button type="submit">Eliminar</button>
                     </form>
                 </td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+        </table>
+        <a href="/plantillas/crear/">Añadir Plantilla</a>
+    </div>
+</body>
+</html>
