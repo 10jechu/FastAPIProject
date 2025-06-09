@@ -17,7 +17,6 @@ id,equipo_id,nombre,posicion,anio,torneo_id,jugador_id
 18,17,Darwin Núñez,Delantero,2024,1,16
 19,17,Federico Valverde,Mediocampista,2024,1,17
 20,1,Manuel Neuer,Arquero,2024,1,18
-21,1,Thomas Müller,Delantero,2024,1,19
 22,2,Mohammed Al-Owais,Arquero,2024,1,20
 23,6,Alexis Sánchez,Delantero,2024,1,21
 24,7,Keylor Navas,Arquero,2024,1,22
@@ -30,3 +29,4 @@ id,equipo_id,nombre,posicion,anio,torneo_id,jugador_id
 31,15,Luis Mejía,Arquero,2024,1,29
 32,18,Nicolae Stanciu,Mediocampista,2024,1,30
 33,19,Yangel Herrera,Mediocampista,2024,1,31
+21,21,teo ,delantero,2024,10,21
