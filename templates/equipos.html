@@ -4,45 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipos</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores/">Jugadores</a>
-        <a href="/equipos/">Equipos</a>
-        <a href="/partidos/">Partidos</a>
-        <a href="/plantillas/">Plantillas</a>
-        <a href="/torneos/">Torneos</a>
-        <a href="/estadisticas/completa/">Estadísticas</a>
-        <a href="/documentacion/">Documentación</a>
-    </nav>
-    <div class="content">
-        <h1>Equipos</h1>
-        <table>
-            <tr>
+    <h1 style="color: #ff0000;">EQUIPOS</h1>
+    <form method="get" action="/equipos/">
+        <label for="year_filter">Buscar por Año:</label>
+        <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.args.get('year') }}">
+        <button type="submit">Filtrar</button>
+    </form>
+    <table>
+        <thead>
+            <tr style="background-color: #000080; color: white;">
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>País</th>
-                <th>Enfrentamientos</th>
-                <th>Acciones</th>
+                <th>NOMBRE</th>
+                <th>PAÍS</th>
+                <th>ENFRENTAMIENTOS CON COLOMBIA</th>
+                <th>ACCIONES</th>
             </tr>
+        </thead>
+        <tbody>
             {% for equipo in equipos %}
+            {% if not request.args.get('year') or equipo.anio == request.args.get('year')|int %}
             <tr>
                 <td>{{ equipo.id }}</td>
                 <td>{{ equipo.nombre }}</td>
                 <td>{{ equipo.pais }}</td>
                 <td>{{ equipo.enfrentamientos_con_colombia }}</td>
                 <td>
-                    <a href="/equipos/{{ equipo.id }}/edit">Editar</a>
-                    <form action="/equipos/{{ equipo.id }}/delete" method="post" style="display:inline;">
-                        <button type="submit">Eliminar</button>
-                    </form>
+                    <a href="/equipos/{{ equipo.id }}/edit" class="btn-edit">Editar</a>
+                    <a href="/equipos/{{ equipo.id }}/delete" class="btn-delete">Eliminar</a>
                 </td>
             </tr>
+            {% endif %}
             {% endfor %}
-        </table>
-        <a href="/equipos/crear/">Añadir Equipo</a>
-    </div>
+        </tbody>
+    </table>
+    <a href="/equipos/crear/" class="btn-add">Añadir Equipo</a>
 </body>
 </html>

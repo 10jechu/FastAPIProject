@@ -7,10 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
 </head>
 <body>
-    <h1 style="color: red;">PARTIDOS</h1>
+    <h1 style="color: #ff0000;">PARTIDOS</h1>
+    <form method="get" action="/partidos/">
+        <label for="year_filter">Buscar por Año:</label>
+        <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.args.get('year') }}">
+        <button type="submit">Filtrar</button>
+    </form>
     <table>
         <thead>
-            <tr style="background-color: navy; color: white;">
+            <tr style="background-color: #000080; color: white;">
                 <th>ID</th>
                 <th>FECHA</th>
                 <th>EQUIPO LOCAL</th>
@@ -28,6 +33,7 @@
         </thead>
         <tbody>
             {% for partido in partidos %}
+            {% if not request.args.get('year') or partido.torneo_id|int in [t.id for t in torneos if t.anio == request.args.get('year')|int] %}
             <tr>
                 <td>{{ partido.id }}</td>
                 <td>{{ partido.fecha }}</td>
@@ -46,6 +52,7 @@
                     <a href="/partidos/{{ partido.id }}/delete" class="btn-delete">Eliminar</a>
                 </td>
             </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>

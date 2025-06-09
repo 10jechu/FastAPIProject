@@ -1,32 +1,32 @@
 id,equipo_id,nombre,posicion,anio,torneo_id,jugador_id
-  3,3,Emiliano Martínez,Arquero,2021,,  # Argentina
-  4,5,Neymar,Delantero,2021,,  # Brasil
-  5,5,Marquinhos,Defensa,2021,,  # Brasil
-  6,5,Alisson,Arquero,2021,,  # Brasil
-  7,14,Guaraní,Mediocampista,2021,,  # Paraguay
-  8,14,Ángel Romero,Delantero,2021,,  # Paraguay
-  9,17,Edinson Cavani,Delantero,2021,,  # Uruguay
-  10,17,Luis Suárez,Delantero,2021,,  # Uruguay
-  11,3,Lionel Messi,Delantero,2024,1,  # Argentina
-  12,3,Julián Álvarez,Delantero,2024,1,  # Argentina
-  13,3,Emiliano Martínez,Arquero,2024,1,  # Argentina
-  14,5,Neymar,Delantero,2024,1,  # Brasil
-  15,5,Vinícius Jr.,Delantero,2024,1,  # Brasil
-  16,5,Alisson,Arquero,2024,1,  # Brasil
-  17,14,Miguel Almirón,Mediocampista,2024,1,  # Paraguay
-  18,17,Darwin Núñez,Delantero,2024,1,  # Uruguay
-  19,17,Federico Valverde,Mediocampista,2024,1,  # Uruguay
-  20,1,Manuel Neuer,Arquero,2024,1,  # Alemania
-  21,1,Thomas Müller,Delantero,2024,1,  # Alemania
-  22,2,Mohammed Al-Owais,Arquero,2024,1,  # Arabia Saudita
-  23,6,Alexis Sánchez,Delantero,2024,1,  # Chile
-  24,7,Keylor Navas,Arquero,2024,1,  # Costa Rica
-  25,8,Son Heung-min,Delantero,2024,1,  # Corea del Sur
-  26,9,Enner Valencia,Delantero,2024,1,  # Ecuador
-  27,10,Rodri,Mediocampista,2024,1,  # España
-  28,11,Christian Pulisic,Delantero,2024,1,  # Estados Unidos
-  29,12,Ali Adnan,Defensa,2024,1,  # Irak
-  30,13,Takumi Minamino,Delantero,2024,1,  # Japón
-  31,15,Luis Mejía,Arquero,2024,1,  # Panamá
-  32,18,Nicolae Stanciu,Mediocampista,2024,1,  # Rumania
-  33,19,Yangel Herrera,Mediocampista,2024,1,  # Venezuela
+3,3,Emiliano Martínez,Arquero,2021,2,1
+4,5,Neymar,Delantero,2021,2,2
+5,5,Marquinhos,Defensa,2021,2,3
+6,5,Alisson,Arquero,2021,2,4
+7,14,Guaraní,Mediocampista,2021,2,5
+8,14,Ángel Romero,Delantero,2021,2,6
+9,17,Edinson Cavani,Delantero,2021,2,7
+10,17,Luis Suárez,Delantero,2021,2,8
+11,3,Lionel Messi,Delantero,2024,1,9
+12,3,Julián Álvarez,Delantero,2024,1,10
+13,3,Emiliano Martínez,Arquero,2024,1,11
+14,5,Neymar,Delantero,2024,1,12
+15,5,Vinícius Jr.,Delantero,2024,1,13
+16,5,Alisson,Arquero,2024,1,14
+17,14,Miguel Almirón,Mediocampista,2024,1,15
+18,17,Darwin Núñez,Delantero,2024,1,16
+19,17,Federico Valverde,Mediocampista,2024,1,17
+20,1,Manuel Neuer,Arquero,2024,1,18
+21,1,Thomas Müller,Delantero,2024,1,19
+22,2,Mohammed Al-Owais,Arquero,2024,1,20
+23,6,Alexis Sánchez,Delantero,2024,1,21
+24,7,Keylor Navas,Arquero,2024,1,22
+25,8,Son Heung-min,Delantero,2024,1,23
+26,9,Enner Valencia,Delantero,2024,1,24
+27,10,Rodri,Mediocampista,2024,1,25
+28,11,Christian Pulisic,Delantero,2024,1,26
+29,12,Ali Adnan,Defensa,2024,1,27
+30,13,Takumi Minamino,Delantero,2024,1,28
+31,15,Luis Mejía,Arquero,2024,1,29
+32,18,Nicolae Stanciu,Mediocampista,2024,1,30
+33,19,Yangel Herrera,Mediocampista,2024,1,31

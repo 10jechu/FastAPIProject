@@ -265,3 +265,110 @@ async def create_torneo(
                         estado=estado, eliminado=eliminado)
     update_csv(torneos, TORNEOS_CSV, new_torneo)
     return RedirectResponse(url="/torneos/", status_code=303)
+
+# Rutas para editar
+@app.get("/equipos/{id}/edit", response_class=HTMLResponse)
+async def edit_equipo_form(request: Request, id: int):
+    equipos = load_equipos()
+    equipo = next((e for e in equipos if e.id == id), None)
+    if not equipo:
+        raise HTTPException(status_code=404, detail="Equipo no encontrado")
+    return templates.TemplateResponse("equipos_edit.html", {"request": request, "equipo": equipo})
+
+@app.post("/equipos/{id}/edit", response_class=HTMLResponse)
+async def edit_equipo(id: int, nombre: str = Form(...), pais: str = Form(...), enfrentamientos_con_colombia: int = Form(...)):
+    equipos = load_equipos()
+    new_equipo = Equipo(id=id, nombre=nombre, pais=pais, enfrentamientos_con_colombia=enfrentamientos_con_colombia)
+    update_csv(equipos, EQUIPOS_CSV, new_equipo)
+    return RedirectResponse(url="/equipos/", status_code=303)
+
+@app.get("/jugadores/{id}/edit", response_class=HTMLResponse)
+async def edit_jugador_form(request: Request, id: int):
+    jugadores = load_jugadores()
+    jugador = next((j for j in jugadores if j.id == id), None)
+    if not jugador:
+        raise HTTPException(status_code=404, detail="Jugador no encontrado")
+    return templates.TemplateResponse("jugadores_edit.html", {"request": request, "jugador": jugador})
+
+@app.post("/jugadores/{id}/edit", response_class=HTMLResponse)
+async def edit_jugador(id: int, Jugadores: str = Form(...), F_Nacim_Edad: str = Form(...), Club: str = Form(...), Altura: str = Form(...), Pie: str = Form(...), Partidos_con_la_seleccion: int = Form(...), Goles: int = Form(...), Numero_de_camisa: int = Form(...), anio: int = Form(...), posicion: str = Form(...), activo: bool = Form(...), imagen: Optional[str] = Form(None)):
+    jugadores = load_jugadores()
+    new_jugador = Jugador(id=id, Jugadores=Jugadores, F_Nacim_Edad=F_Nacim_Edad, Club=Club, Altura=Altura, Pie=Pie, Partidos_con_la_seleccion=Partidos_con_la_seleccion, Goles=Goles, Numero_de_camisa=Numero_de_camisa, anio=anio, posicion=posicion, activo=activo, imagen=imagen)
+    update_csv(jugadores, JUGADORES_CSV, new_jugador)
+    return RedirectResponse(url="/jugadores/", status_code=303)
+
+@app.get("/partidos/{id}/edit", response_class=HTMLResponse)
+async def edit_partido_form(request: Request, id: int):
+    partidos = load_partidos()
+    partido = next((p for p in partidos if p.id == id), None)
+    if not partido:
+        raise HTTPException(status_code=404, detail="Partido no encontrado")
+    return templates.TemplateResponse("partidos_edit.html", {"request": request, "partido": partido})
+
+@app.post("/partidos/{id}/edit", response_class=HTMLResponse)
+async def edit_partido(id: int, equipo_local: str = Form(...), equipo_visitante: str = Form(...), fecha: str = Form(...), goles_local: int = Form(...), goles_visitante: int = Form(...), torneo_id: int = Form(...), eliminado: Optional[str] = Form(None), tarjetas_amarillas_local: int = Form(...), tarjetas_amarillas_visitante: int = Form(...), tarjetas_rojas_local: int = Form(...), tarjetas_rojas_visitante: int = Form(...)):
+    partidos = load_partidos()
+    new_partido = Partido(id=id, equipo_local=equipo_local, equipo_visitante=equipo_visitante, fecha=fecha, goles_local=goles_local, goles_visitante=goles_visitante, torneo_id=torneo_id, eliminado=eliminado, tarjetas_amarillas_local=tarjetas_amarillas_local, tarjetas_amarillas_visitante=tarjetas_amarillas_visitante, tarjetas_rojas_local=tarjetas_rojas_local, tarjetas_rojas_visitante=tarjetas_rojas_visitante)
+    update_csv(partidos, PARTIDOS_CSV, new_partido)
+    return RedirectResponse(url="/partidos/", status_code=303)
+
+@app.get("/plantillas/{id}/edit", response_class=HTMLResponse)
+async def edit_plantilla_form(request: Request, id: int):
+    plantillas = load_plantillas()
+    plantilla = next((p for p in plantillas if p.id == id), None)
+    if not plantilla:
+        raise HTTPException(status_code=404, detail="Plantilla no encontrada")
+    return templates.TemplateResponse("plantillas_edit.html", {"request": request, "plantilla": plantilla})
+
+@app.post("/plantillas/{id}/edit", response_class=HTMLResponse)
+async def edit_plantilla(id: int, equipo_id: int = Form(...), nombre: Optional[str] = Form(None), posicion: Optional[str] = Form(None), anio: Optional[int] = Form(None), torneo_id: Optional[int] = Form(None), jugador_id: Optional[int] = Form(None)):
+    plantillas = load_plantillas()
+    new_plantilla = Plantilla(id=id, equipo_id=equipo_id, nombre=nombre, posicion=posicion, anio=anio, torneo_id=torneo_id, jugador_id=jugador_id)
+    update_csv(plantillas, PLANTILLA_CSV, new_plantilla)
+    return RedirectResponse(url="/plantillas/", status_code=303)
+
+@app.get("/torneos/{id}/edit", response_class=HTMLResponse)
+async def edit_torneo_form(request: Request, id: int):
+    torneos = load_torneos()
+    torneo = next((t for t in torneos if t.id == id), None)
+    if not torneo:
+        raise HTTPException(status_code=404, detail="Torneo no encontrado")
+    return templates.TemplateResponse("torneos_edit.html", {"request": request, "torneo": torneo})
+
+@app.post("/torneos/{id}/edit", response_class=HTMLResponse)
+async def edit_torneo(id: int, nombre: str = Form(...), anio: int = Form(...), pais_anfitrion: Optional[str] = Form(None), estado: str = Form(...), eliminado: Optional[str] = Form(None)):
+    torneos = load_torneos()
+    new_torneo = Torneo(id=id, nombre=nombre, anio=anio, pais_anfitrion=pais_anfitrion, estado=estado, eliminado=eliminado)
+    update_csv(torneos, TORNEOS_CSV, new_torneo)
+    return RedirectResponse(url="/torneos/", status_code=303)
+
+# Rutas para eliminar
+@app.get("/equipos/{id}/delete", response_class=HTMLResponse)
+async def delete_equipo(request: Request, id: int):
+    equipos = load_equipos()
+    equipos = delete_from_csv(equipos, EQUIPOS_CSV, id)
+    return RedirectResponse(url="/equipos/", status_code=303)
+
+@app.get("/jugadores/{id}/delete", response_class=HTMLResponse)
+async def delete_jugador(request: Request, id: int):
+    jugadores = load_jugadores()
+    jugadores = delete_from_csv(jugadores, JUGADORES_CSV, id)
+    return RedirectResponse(url="/jugadores/", status_code=303)
+
+@app.get("/partidos/{id}/delete", response_class=HTMLResponse)
+async def delete_partido(request: Request, id: int):
+    partidos = load_partidos()
+    partidos = delete_from_csv(partidos, PARTIDOS_CSV, id)
+    return RedirectResponse(url="/partidos/", status_code=303)
+
+@app.get("/plantillas/{id}/delete", response_class=HTMLResponse)
+async def delete_plantilla(request: Request, id: int):
+    plantillas = load_plantillas()
+    plantillas = delete_from_csv(plantillas, PLANTILLA_CSV, id)
+    return RedirectResponse(url="/plantillas/", status_code=303)
+
+@app.get("/torneos/{id}/delete", response_class=HTMLResponse)
+async def delete_torneo(request: Request, id: int):
+    torneos = load_torneos()
+    torneos = delete_from_csv(torneos, TORNEOS_CSV, id)
+    return RedirectResponse(url="/torneos/", status_code=303)
