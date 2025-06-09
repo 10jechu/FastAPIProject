@@ -5,14 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partidos</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+    <style>
+        .filter-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .filter-container label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .filter-container input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .filter-container button {
+            padding: 5px 10px;
+            background-color: #000080;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .filter-container button:hover {
+            background-color: #0000a0;
+        }
+    </style>
 </head>
 <body>
     <h1 style="color: #ff0000;">PARTIDOS</h1>
-    <form method="get" action="/partidos/">
-        <label for="year_filter">Buscar por Año:</label>
-        <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.args.get('year') }}">
-        <button type="submit">Filtrar</button>
-    </form>
+    <div class="filter-container">
+        <form method="get" action="/partidos/">
+            <label for="year_filter">Buscar por Año:</label>
+            <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
     <table>
         <thead>
             <tr style="background-color: #000080; color: white;">
@@ -33,7 +64,8 @@
         </thead>
         <tbody>
             {% for partido in partidos %}
-            {% if not request.args.get('year') or partido.torneo_id|int in [t.id for t in torneos if t.anio == request.args.get('year')|int] %}
+            {% set matching_torneo = torneos|selectattr('id', 'eq', partido.torneo_id)|first %}
+            {% if not request.query_params.get('year') or (matching_torneo and matching_torneo.anio == request.query_params.get('year')|int) %}
             <tr>
                 <td>{{ partido.id }}</td>
                 <td>{{ partido.fecha }}</td>
@@ -50,12 +82,12 @@
                 <td>
                     <a href="/partidos/{{ partido.id }}/edit" class="btn-edit">Editar</a>
                     <a href="/partidos/{{ partido.id }}/delete" class="btn-delete">Eliminar</a>
+                    <a href="/partidos/crear/" class="btn-add">Añadir</a>
                 </td>
             </tr>
             {% endif %}
             {% endfor %}
         </tbody>
     </table>
-    <a href="/partidos/crear/" class="btn-add">Añadir Partido</a>
 </body>
 </html>

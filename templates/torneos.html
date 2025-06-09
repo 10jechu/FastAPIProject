@@ -10,7 +10,7 @@
     <h1 style="color: #ff0000;">TORNEOS</h1>
     <form method="get" action="/torneos/">
         <label for="year_filter">Buscar por Año:</label>
-        <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.args.get('year') }}">
+        <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
         <button type="submit">Filtrar</button>
     </form>
     <table>
@@ -27,7 +27,7 @@
         </thead>
         <tbody>
             {% for torneo in torneos %}
-            {% if not request.args.get('year') or torneo.anio == request.args.get('year')|int %}
+            {% if not request.query_params.get('year') or torneo.anio == request.query_params.get('year')|int %}
             <tr>
                 <td>{{ torneo.id }}</td>
                 <td>{{ torneo.nombre }}</td>

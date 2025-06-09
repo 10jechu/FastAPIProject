@@ -111,7 +111,8 @@ async def get_jugadores(request: Request):
 @app.get("/partidos/", response_class=HTMLResponse)
 async def get_partidos(request: Request):
     partidos = load_partidos()
-    return templates.TemplateResponse("partidos.html", {"request": request, "partidos": partidos})
+    torneos = load_torneos()  # Añadimos torneos para el filtrado
+    return templates.TemplateResponse("partidos.html", {"request": request, "partidos": partidos, "torneos": torneos})
 
 @app.get("/plantillas/", response_class=HTMLResponse)
 async def get_plantillas(request: Request):
