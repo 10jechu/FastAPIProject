@@ -1,7 +1,8 @@
 id,nombre,anio,pais_anfitrion,estado,eliminado
-2,Eliminatorias Catar 2022,2021,,Finalizado,si
-3,Copa América,2021,Brasil,Finalizado,si
-4,Amistoso 2022,2022,,Finalizado,No
-5,Amistoso 2023,2023,,Finalizado,No
-6,Eliminatorias 2026,2023,,Activo,No
-7,Amistoso 2024,2024,,Finalizado,No
+  1,Copa América 2024,2024,Estados Unidos,Finalizado,No
+  2,Eliminatorias Catar 2022,2021,,Finalizado,Sí
+  3,Copa América 2021,2021,Brasil,Finalizado,Sí
+  4,Amistoso 2022,2022,,Finalizado,No
+  5,Amistoso 2023,2023,,Finalizado,No
+  6,Eliminatorias 2026,2023,,Activo,No
+  7,Amistoso 2024,2024,,Finalizado,No

@@ -1,10 +1,11 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class Plantilla(BaseModel):
-    id: int
-    equipo_id: int
-    nombre: str
-    posicion: str
-    anio: int
-    torneo_id: int
-    jugador_id: int
+      id: int  # Cambiado a int para coincidir con plantilla.csv
+      equipo_id: int  # Cambiado a int para coincidir con equipos.csv
+      nombre: Optional[str] = None
+      posicion: Optional[str] = None
+      anio: Optional[int] = None
+      torneo_id: Optional[int] = None  # Cambiado a int y opcional
+      jugador_id: Optional[int] = None  # Cambiado a int y opcional

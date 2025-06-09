@@ -4,47 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partidos</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores/">Jugadores</a>
-        <a href="/equipos/">Equipos</a>
-        <a href="/partidos/">Partidos</a>
-        <a href="/plantillas/">Plantillas</a>
-        <a href="/torneos/">Torneos</a>
-        <a href="/estadisticas/completa/">Estadísticas</a>
-        <a href="/documentacion/">Documentación</a>
-    </nav>
-    <div class="content">
-        <h1>Partidos</h1>
-        <table>
-            <tr>
+    <h1 style="color: red;">PARTIDOS</h1>
+    <table>
+        <thead>
+            <tr style="background-color: navy; color: white;">
                 <th>ID</th>
-                <th>Local</th>
-                <th>Visitante</th>
-                <th>Fecha</th>
-                <th>Resultado</th>
-                <th>Acciones</th>
+                <th>FECHA</th>
+                <th>EQUIPO LOCAL</th>
+                <th>EQUIPO VISITANTE</th>
+                <th>GOLES LOCAL</th>
+                <th>GOLES VISITANTE</th>
+                <th>TORNEO ID</th>
+                <th>ELIMINADO</th>
+                <th>TARJETAS AMARILLAS LOCAL</th>
+                <th>TARJETAS AMARILLAS VISITANTE</th>
+                <th>TARJETAS ROJAS LOCAL</th>
+                <th>TARJETAS ROJAS VISITANTE</th>
+                <th>ACCIONES</th>
             </tr>
+        </thead>
+        <tbody>
             {% for partido in partidos %}
             <tr>
                 <td>{{ partido.id }}</td>
+                <td>{{ partido.fecha }}</td>
                 <td>{{ partido.equipo_local }}</td>
                 <td>{{ partido.equipo_visitante }}</td>
-                <td>{{ partido.fecha }}</td>
-                <td>{{ partido.goles_local }} - {{ partido.goles_visitante }}</td>
+                <td>{{ partido.goles_local }}</td>
+                <td>{{ partido.goles_visitante }}</td>
+                <td>{{ partido.torneo_id }}</td>
+                <td>{{ partido.eliminado or 'No' }}</td>
+                <td>{{ partido.tarjetas_amarillas_local }}</td>
+                <td>{{ partido.tarjetas_amarillas_visitante }}</td>
+                <td>{{ partido.tarjetas_rojas_local }}</td>
+                <td>{{ partido.tarjetas_rojas_visitante }}</td>
                 <td>
-                    <a href="/partidos/{{ partido.id }}/edit">Editar</a>
-                    <form action="/partidos/{{ partido.id }}/delete" method="post" style="display:inline;">
-                        <button type="submit">Eliminar</button>
-                    </form>
+                    <a href="/partidos/{{ partido.id }}/edit" class="btn-edit">Editar</a>
+                    <a href="/partidos/{{ partido.id }}/delete" class="btn-delete">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}
-        </table>
-        <a href="/partidos/crear/">Añadir Partido</a>
-    </div>
+        </tbody>
+    </table>
+    <a href="/partidos/crear/" class="btn-add">Añadir Partido</a>
 </body>
 </html>
