@@ -5,14 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jugadores</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+    <style>
+        .filter-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .filter-container label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .filter-container input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .filter-container button {
+            padding: 5px 10px;
+            background-color: #000080;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .filter-container button:hover {
+            background-color: #0000a0;
+        }
+        img.player-image {
+            max-width: 50px;
+            max-height: 50px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <h1 style="color: #ff0000;">JUGADORES</h1>
-    <form method="get" action="/jugadores/">
-        <label for="year_filter">Buscar por Año:</label>
-        <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
-        <button type="submit">Filtrar</button>
-    </form>
+    <div class="filter-container">
+        <form method="get" action="/jugadores/">
+            <label for="year_filter">Buscar por Año:</label>
+            <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
     <table>
         <thead>
             <tr style="background-color: #000080; color: white;">
@@ -48,16 +84,22 @@
                 <td>{{ jugador.anio }}</td>
                 <td>{{ jugador.posicion }}</td>
                 <td>{{ "Sí" if jugador.activo else "No" }}</td>
-                <td>{{ jugador.imagen or 'No disponible' }}</td>
+                <td>
+                    {% if jugador.anio %}
+                        <img src="{{ url_for('static', path='/images/' + (jugador.anio|string + '.jpg') ) }}" alt="Imagen del año {{ jugador.anio }}" class="player-image">
+                    {% else %}
+                        <img src="{{ url_for('static', path='/images/default.jpg') }}" alt="Imagen genérica" class="player-image">
+                    {% endif %}
+                </td>
                 <td>
                     <a href="/jugadores/{{ jugador.id }}/edit" class="btn-edit">Editar</a>
                     <a href="/jugadores/{{ jugador.id }}/delete" class="btn-delete">Eliminar</a>
+                    <a href="/jugadores/crear/" class="btn-add">Añadir</a>
                 </td>
             </tr>
             {% endif %}
             {% endfor %}
         </tbody>
     </table>
-    <a href="/jugadores/crear/" class="btn-add">Añadir Jugador</a>
 </body>
 </html>

@@ -33,6 +33,14 @@
         .filter-container button:hover {
             background-color: #0000a0;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -53,12 +61,10 @@
                 <th>EQUIPO VISITANTE</th>
                 <th>GOLES LOCAL</th>
                 <th>GOLES VISITANTE</th>
-                <th>TORNEO ID</th>
+                <th>TORNEO</th>
                 <th>ELIMINADO</th>
-                <th>TARJETAS AMARILLAS LOCAL</th>
-                <th>TARJETAS AMARILLAS VISITANTE</th>
-                <th>TARJETAS ROJAS LOCAL</th>
-                <th>TARJETAS ROJAS VISITANTE</th>
+                <th>TARJETAS AMARILLAS</th>
+                <th>TARJETAS ROJAS</th>
                 <th>ACCIONES</th>
             </tr>
         </thead>
@@ -73,12 +79,10 @@
                 <td>{{ partido.equipo_visitante }}</td>
                 <td>{{ partido.goles_local }}</td>
                 <td>{{ partido.goles_visitante }}</td>
-                <td>{{ partido.torneo_id }}</td>
+                <td>{{ matching_torneo.nombre if matching_torneo else 'Sin torneo' }}</td>
                 <td>{{ partido.eliminado or 'No' }}</td>
-                <td>{{ partido.tarjetas_amarillas_local }}</td>
-                <td>{{ partido.tarjetas_amarillas_visitante }}</td>
-                <td>{{ partido.tarjetas_rojas_local }}</td>
-                <td>{{ partido.tarjetas_rojas_visitante }}</td>
+                <td>{{ partido.tarjetas_amarillas_local + partido.tarjetas_amarillas_visitante }}</td>
+                <td>{{ partido.tarjetas_rojas_local + partido.tarjetas_rojas_visitante }}</td>
                 <td>
                     <a href="/partidos/{{ partido.id }}/edit" class="btn-edit">Editar</a>
                     <a href="/partidos/{{ partido.id }}/delete" class="btn-delete">Eliminar</a>
