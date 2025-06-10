@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 10px; text-align: center;">
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
         <h1>Jugadores</h1>
         <nav>
             <a href="/" class="nav-btn">Inicio</a>
@@ -22,6 +22,11 @@
     <main>
         <section>
             <h2>Lista de Jugadores</h2>
+            <form id="year-filter-form" method="get" action="/jugadores/">
+                <label for="year-filter">Filtrar por Año:</label>
+                <input type="number" id="year-filter" name="year" min="2021" max="2025" value="{{ year if year else '' }}">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
             <a href="/jugadores/crear/" class="btn btn-primary">Crear Jugador</a>
             <div class="player-list">
                 {% for jugador in jugadores %}
@@ -47,5 +52,6 @@
     <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
+    <!-- Elimino script.js temporalmente para evitar redirecciones no deseadas -->
 </body>
 </html>

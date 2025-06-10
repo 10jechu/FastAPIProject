@@ -1,16 +1,91 @@
-{% extends "base.html" %}
-{% block title %}Inicio - Selección Colombia{% endblock %}
-{% block header_title %}Selección Colombia (2021-2024){% endblock %}
-{% block content %}
-<div class="content">
-    <section class="card">
-        <h2>Bienvenido al Sistema de Gestión</h2>
-        <p>Este sistema permite gestionar la información de la Selección Colombia entre 2021 y 2024, incluyendo jugadores, equipos rivales, partidos y torneos. Explora las funcionalidades a través del menú de navegación.</p>
-        <div class="actions">
-            <a href="/jugadores/" class="btn btn-primary">Ver Jugadores</a>
-            <a href="/partidos/" class="btn btn-primary">Ver Partidos</a>
-            <a href="/estadisticas/completa/" class="btn btn-primary">Ver Estadísticas</a>
-        </div>
-    </section>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        .hero {
+            background: url('/static/images/hero-bg.jpg') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FCD116;
+            text-shadow: 2px 2px 4px #CE1126;
+        }
+        .stats-card {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .news-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #FCD116;
+        }
+    </style>
+</head>
+<body>
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
+        <h1 style="margin: 0; font-size: 32px;">Selección Colombia - Gestión</h1>
+        <nav>
+            <a href="/" class="nav-btn active">Inicio</a>
+            <a href="/jugadores/" class="nav-btn">Jugadores</a>
+            <a href="/partidos/" class="nav-btn">Partidos</a>
+            <a href="/torneos/" class="nav-btn">Torneos</a>
+            <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
+            <a href="/documentacion/" class="nav-btn">Documentación</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>¡Vive la Pasión Colombiana!</h2>
+            <img src="/static/images/colombia_flag.png" alt="Bandera Colombia" class="hero-flag">
+        </section>
+
+        <section class="stats-card">
+            <h2>Resumen Rápido</h2>
+            <p><strong>Victorias Totales (2021-2024):</strong> {{ victorias_total }}</p>
+            <p><strong>Goles Totales:</strong> {{ goles_total }}</p>
+            <p><strong>Partidos Jugados:</strong> {{ partidos_jugados_total }}</p>
+            <a href="/estadisticas/completa/" class="btn btn-primary">Ver Todas las Estadísticas</a>
+        </section>
+
+        <section class="stats-card">
+            <h2>Sobre el Proyecto</h2>
+            <p>Este proyecto rastrea el progreso de la Selección Colombia de fútbol desde 2021 hasta 2024, destacando su evolución, rachas y estadísticas clave. Inspirado en la pasión colombiana y plataformas como Transfermarkt, ofrece una gestión completa de jugadores, partidos, torneos y estadísticas.</p>
+            <h3>Última Actualización</h3>
+            <p>10 de junio de 2025, 03:10 AM -05</p>
+            <h3>Destacados</h3>
+            <ul>
+                <li><strong>2024:</strong> Gran racha con múltiples victorias.</li>
+                <li><strong>2021-2023:</strong> Crecimiento constante en rendimiento.</li>
+            </ul>
+        </section>
+
+        <section class="stats-card">
+            <h2>Noticias Recientes</h2>
+            <div class="news-item">¡Colombia clasifica a cuartos en Copa América 2024!</div>
+            <div class="news-item">Récord de goles en el partido contra Brasil (2-1).</div>
+        </section>
+
+        <section class="stats-card">
+            <h2>Próximos Partidos</h2>
+            <p><strong>15/06/2025:</strong> Colombia vs Argentina</p>
+            <p><strong>20/06/2025:</strong> Colombia vs Uruguay</p>
+            <a href="/partidos/" class="btn btn-primary">Ver Calendario Completo</a>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
+    </footer>
+</body>
+</html>

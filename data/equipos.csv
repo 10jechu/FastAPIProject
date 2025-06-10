@@ -1,20 +1,20 @@
-id,nombre,pais,enfrentamientos_con_colombia
-3,Argentina,Argentina,8
-4,Bolivia,Bolivia,2
-5,Brasil,Brasil,5
-6,Chile,Chile,3
-7,Costa Rica,Costa Rica,4
-8,Corea del Sur,Corea del Sur,2
-9,Ecuador,Ecuador,4
-10,España,España,1
-11,Estados Unidos,Estados Unidos,2
-12,Irak,Irak,1
-13,Japón,Japón,1
-14,México,México,3
-15,Panamá,Panamá,4
-16,Paraguay,Paraguay,9
-17,Perú,Perú,6
-18,Rumania,Rumania,1
-19,Uruguay,Uruguay,7
-20,Venezuela,Venezuela,5
-1,Alemania,Alemania,3
+id,nombre,pais,enfrentamientos_con_colombia,bandera
+1,Argentina,Argentina,8,/static/images/flags/argentina.png
+2,Bolivia,Bolivia,2,/static/images/flags/bolivia.png
+3,Brasil,Brasil,5,/static/images/flags/brasil.png
+4,Chile,Chile,3,/static/images/flags/chile.png
+5,Costa Rica,Costa Rica,4,/static/images/flags/costa_rica.png
+6,Corea del Sur,Corea del Sur,2,/static/images/flags/corea_del_sur.png
+7,Ecuador,Ecuador,4,/static/images/flags/ecuador.png
+8,España,España,1,/static/images/flags/espana.png
+9,Estados Unidos,Estados Unidos,2,/static/images/flags/estados_unidos.png
+10,Irak,Irak,1,/static/images/flags/irak.png
+11,Japón,Japón,1,/static/images/flags/japon.png
+12,México,México,3,/static/images/flags/mexico.png
+13,Panamá,Panamá,4,/static/images/flags/panama.png
+14,Paraguay,Paraguay,9,/static/images/flags/paraguay.png
+15,Perú,Perú,6,/static/images/flags/peru.png
+16,Rumania,Rumania,1,/static/images/flags/rumania.png
+17,Uruguay,Uruguay,7,/static/images/flags/uruguay.png
+18,Venezuela,Venezuela,5,/static/images/flags/venezuela.png
+19,Alemania,Alemania,3,/static/images/flags/alemania.png

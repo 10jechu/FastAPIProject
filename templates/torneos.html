@@ -1,37 +1,56 @@
-{% extends "base.html" %}
-{% block title %}Torneos - Selección Colombia{% endblock %}
-{% block header_title %}Torneos{% endblock %}
-{% block content %}
-<div class="content">
-    <section class="card">
-        <h2>Lista de Torneos</h2>
-        <a href="/torneos/crear/" class="btn btn-primary">Crear Torneo</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Año</th>
-                    <th>País Anfitrión</th>
-                    <th>Eliminado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneos - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
+        <h1>Torneos</h1>
+        <nav>
+            <a href="/" class="nav-btn">Inicio</a>
+            <a href="/jugadores/" class="nav-btn">Jugadores</a>
+            <a href="/partidos/" class="nav-btn">Partidos</a>
+            <a href="/torneos/" class="nav-btn active">Torneos</a>
+            <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
+            <a href="/documentacion/" class="nav-btn">Documentación</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Lista de Torneos</h2>
+            <form id="year-filter-form" method="get" action="/torneos/">
+                <label for="year-filter">Filtrar por Año:</label>
+                <input type="number" id="year-filter" name="year" min="2021" max="2024" value="{{ year if year else '' }}">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+            <a href="/torneos/crear/" class="btn btn-primary">Crear Torneo</a>
+            <div class="tournament-list">
                 {% for torneo in torneos %}
-                <tr>
-                    <td>{{ torneo.nombre }}</td>
-                    <td>{{ torneo.anio }}</td>
-                    <td>{{ torneo.pais_anfitrion or 'N/A' }}</td>
-                    <td>{{ torneo.eliminado }}</td>
-                    <td>
-                        <a href="/torneos/{{ torneo.id }}" class="btn btn-primary">Ver</a>
-                        <a href="/torneos/{{ torneo.id }}/edit" class="btn btn-edit">Editar</a>
-                        <a href="/torneos/{{ torneo.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar el torneo {{ torneo.nombre }}?')">Eliminar</a>
-                    </td>
-                </tr>
+                <div class="tournament-card">
+                    <h3>{{ torneo.nombre }}</h3>
+                    {% if torneo.imagen %}
+                        <img src="{{ torneo.imagen }}" alt="Imagen de {{ torneo.nombre }}" class="tournament-image">
+                    {% else %}
+                        <img src="/static/images/generic_tournament.png" alt="Imagen genérica" class="tournament-image">
+                    {% endif %}
+                    <p>Año: {{ torneo.anio }}</p>
+                    <p>Eliminado: {{ torneo.eliminado }}</p>
+                    <a href="/torneos/{{ torneo.id }}/edit" class="btn btn-edit">Editar</a>
+                    <a href="/torneos/{{ torneo.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar {{ torneo.nombre }}?')">Eliminar</a>
+                    <a href="/torneos/{{ torneo.id }}" class="btn btn-view">Ver</a>
+                </div>
                 {% endfor %}
-            </tbody>
-        </table>
-    </section>
-</div>
-{% endblock %}
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
+    </footer>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

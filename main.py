@@ -39,7 +39,7 @@ class Jugador(BaseModel):
     def validate_image(cls, imagen: str) -> Optional[str]:
         if not imagen or pd.isna(imagen):
             return None
-        if not imagen.startswith(('http://', 'https://')):
+        if not imagen.startswith(('http://', 'https://')) and not imagen.endswith('.png'):
             return None
         return imagen
 
@@ -48,6 +48,15 @@ class Equipo(BaseModel):
     nombre: str
     pais: str
     enfrentamientos_con_colombia: int
+    bandera: Optional[str] = None
+
+    @classmethod
+    def validate_bandera(cls, bandera: str) -> Optional[str]:
+        if not bandera or pd.isna(bandera):
+            return None
+        if not bandera.startswith(('http://', 'https://')) and not bandera.endswith('.png'):
+            return None
+        return bandera
 
 class Partido(BaseModel):
     id: int
@@ -70,6 +79,15 @@ class Torneo(BaseModel):
     eliminado: str
     pais_anfitrion: Optional[str] = None
     estado: Optional[str] = None
+    imagen: Optional[str] = None
+
+    @classmethod
+    def validate_image(cls, imagen: str) -> Optional[str]:
+        if not imagen or pd.isna(imagen):
+            return None
+        if not imagen.startswith(('http://', 'https://')) and not imagen.endswith('.png'):
+            return None
+        return imagen
 
 # Funciones de carga y actualización de datos
 def load_csv(csv_file):
@@ -94,7 +112,7 @@ def load_csv(csv_file):
             'activo': 'activo'
         }
         df = df.rename(columns=column_mapping)
-        for col in ['nombre', 'fecha_nacimiento', 'club', 'altura', 'pie', 'partidos', 'goles', 'numero_camisa', 'anio', 'posicion', 'activo']:
+        for col in ['nombre', 'fecha_nacimiento', 'club', 'altura', 'pie', 'partidos', 'goles', 'numero_camisa', 'anio', 'posicion', 'activo', 'imagen']:
             if col not in df.columns:
                 df[col] = None
         df['id'] = df['id'].fillna(0).astype(int)
@@ -103,13 +121,27 @@ def load_csv(csv_file):
         df['numero_camisa'] = df['numero_camisa'].fillna(0).astype(int)
         df['anio'] = df['anio'].fillna(2025).astype(int)
         df['activo'] = df['activo'].fillna(False).astype(bool)
+    elif csv_file == EQUIPOS_CSV:
+        for col in ['nombre', 'pais', 'enfrentamientos_con_colombia', 'bandera']:
+            if col not in df.columns:
+                df[col] = None
+        df['id'] = df['id'].fillna(0).astype(int)
+        df['enfrentamientos_con_colombia'] = df['enfrentamientos_con_colombia'].fillna(0).astype(int)
+    elif csv_file == TORNEOS_CSV:
+        for col in ['nombre', 'anio', 'eliminado', 'pais_anfitrion', 'estado', 'imagen']:
+            if col not in df.columns:
+                df[col] = None
+        df['id'] = df['id'].fillna(0).astype(int)
+        df['anio'] = df['anio'].fillna(2025).astype(int)
     for column in df.columns:
-        if column in ['imagen', 'pais_anfitrion', 'estado', 'torneo_id', 'eliminado']:
+        if column in ['imagen', 'bandera', 'pais_anfitrion', 'estado', 'torneo_id', 'eliminado']:
             df[column] = df[column].apply(lambda x: str(x).strip() if isinstance(x, str) and pd.notna(x) else None)
         elif df[column].dtype in ['float64', 'int64']:
             df[column] = df[column].apply(lambda x: 0 if pd.isna(x) else x)
     if 'imagen' in df.columns:
-        df['imagen'] = df['imagen'].apply(lambda x: Jugador.validate_image(x))
+        df['imagen'] = df['imagen'].apply(lambda x: Jugador.validate_image(x) if csv_file == JUGADORES_CSV else Torneo.validate_image(x))
+    if 'bandera' in df.columns:
+        df['bandera'] = df['bandera'].apply(lambda x: Equipo.validate_bandera(x))
     return df.to_dict(orient="records")
 
 def update_csv(data_list, csv_file, new_item=None):
@@ -131,9 +163,11 @@ def load_torneos(): return [Torneo(**item) for item in load_csv(TORNEOS_CSV)]
 
 # Rutas para Jugadores
 @app.get("/jugadores/", response_class=HTMLResponse)
-async def get_jugadores(request: Request):
+async def get_jugadores(request: Request, year: Optional[int] = None):
     jugadores = load_jugadores()
-    return templates.TemplateResponse("jugadores.html", {"request": request, "jugadores": jugadores})
+    if year:
+        jugadores = [j for j in jugadores if j.anio == year]
+    return templates.TemplateResponse("jugadores.html", {"request": request, "jugadores": jugadores, "year": year})
 
 @app.get("/jugadores/crear/", response_class=HTMLResponse)
 async def create_jugador_form(request: Request):
@@ -210,19 +244,22 @@ async def get_jugador_detalle(request: Request, id: int):
 
 # Rutas para Equipos
 @app.get("/equipos/", response_class=HTMLResponse)
-async def get_equipos(request: Request):
+async def get_equipos(request: Request, year: Optional[int] = None):
     equipos = load_equipos()
-    return templates.TemplateResponse("equipos.html", {"request": request, "equipos": equipos})
+    if year:
+        equipos = [e for e in equipos if any(p.fecha.startswith(str(year)) for p in load_partidos() if e.nombre in [p.equipo_local, p.equipo_visitante])]
+    return templates.TemplateResponse("equipos.html", {"request": request, "equipos": equipos, "year": year})
 
 @app.get("/equipos/crear/", response_class=HTMLResponse)
 async def create_equipo_form(request: Request):
     return templates.TemplateResponse("equipos_crear.html", {"request": request})
 
 @app.post("/equipos/crear/")
-async def create_equipo(nombre: str = Form(...), pais: str = Form(...), enfrentamientos_con_colombia: int = Form(...)):
+async def create_equipo(nombre: str = Form(...), pais: str = Form(...), enfrentamientos_con_colombia: int = Form(...), bandera: str = Form("")):
     equipos = load_equipos()
     new_id = max([e.id for e in equipos] + [0]) + 1
-    new_equipo = Equipo(id=new_id, nombre=nombre, pais=pais, enfrentamientos_con_colombia=enfrentamientos_con_colombia)
+    bandera_validada = Equipo.validate_bandera(bandera) if bandera else None
+    new_equipo = Equipo(id=new_id, nombre=nombre, pais=pais, enfrentamientos_con_colombia=enfrentamientos_con_colombia, bandera=bandera_validada)
     update_csv(equipos, EQUIPOS_CSV, new_equipo)
     return RedirectResponse(url="/equipos/", status_code=303)
 
@@ -235,14 +272,16 @@ async def edit_equipo_form(request: Request, id: int):
     return templates.TemplateResponse("equipos_edit.html", {"request": request, "equipo": equipo})
 
 @app.post("/equipos/{id}/update")
-async def update_equipo(id: int, nombre: str = Form(...), pais: str = Form(...), enfrentamientos_con_colombia: int = Form(...)):
+async def update_equipo(id: int, nombre: str = Form(...), pais: str = Form(...), enfrentamientos_con_colombia: int = Form(...), bandera: str = Form("")):
     equipos = load_equipos()
     equipo = next((e for e in equipos if e.id == id), None)
     if not equipo:
         raise HTTPException(status_code=404, detail="Equipo no encontrado")
+    bandera_validada = Equipo.validate_bandera(bandera) if bandera else None
     equipo.nombre = nombre
     equipo.pais = pais
     equipo.enfrentamientos_con_colombia = enfrentamientos_con_colombia
+    equipo.bandera = bandera_validada
     update_csv(equipos, EQUIPOS_CSV)
     return RedirectResponse(url="/equipos/", status_code=303)
 
@@ -254,6 +293,14 @@ async def delete_equipo(id: int):
         equipos = [e for e in equipos if e.id != id]
         update_csv(equipos, EQUIPOS_CSV)
     return RedirectResponse(url="/equipos/", status_code=303)
+
+@app.get("/equipos/{id}", response_class=HTMLResponse)
+async def get_equipo_detalle(request: Request, id: int):
+    equipos = load_equipos()
+    equipo = next((e for e in equipos if e.id == id), None)
+    if not equipo:
+        raise HTTPException(status_code=404, detail="Equipo no encontrado")
+    return templates.TemplateResponse("equipo_detail.html", {"request": request, "equipo": equipo})
 
 # Rutas para Partidos
 @app.get("/partidos/", response_class=HTMLResponse)
@@ -342,9 +389,11 @@ async def get_partido_detalle(request: Request, id: int):
 
 # Rutas para Torneos
 @app.get("/torneos/", response_class=HTMLResponse)
-async def get_torneos(request: Request):
+async def get_torneos(request: Request, year: Optional[int] = None):
     torneos = load_torneos()
-    return templates.TemplateResponse("torneos.html", {"request": request, "torneos": torneos})
+    if year:
+        torneos = [t for t in torneos if t.anio == year]
+    return templates.TemplateResponse("torneos.html", {"request": request, "torneos": torneos, "year": year})
 
 @app.get("/torneos/crear/", response_class=HTMLResponse)
 async def create_torneo_form(request: Request):
@@ -352,12 +401,13 @@ async def create_torneo_form(request: Request):
 
 @app.post("/torneos/crear/")
 async def create_torneo(nombre: str = Form(...), anio: int = Form(...), eliminado: str = Form(...),
-                       pais_anfitrion: str = Form(""), estado: str = Form("")):
+                       pais_anfitrion: str = Form(""), estado: str = Form(""), imagen: str = Form("")):
     torneos = load_torneos()
     new_id = max([t.id for t in torneos] + [0]) + 1
+    imagen_validada = Torneo.validate_image(imagen) if imagen else None
     new_torneo = Torneo(id=new_id, nombre=nombre, anio=anio, eliminado=eliminado,
                         pais_anfitrion=pais_anfitrion if pais_anfitrion else None,
-                        estado=estado if estado else None)
+                        estado=estado if estado else None, imagen=imagen_validada)
     update_csv(torneos, TORNEOS_CSV, new_torneo)
     return RedirectResponse(url="/torneos/", status_code=303)
 
@@ -371,16 +421,18 @@ async def edit_torneo_form(request: Request, id: int):
 
 @app.post("/torneos/{id}/update")
 async def update_torneo(id: int, nombre: str = Form(...), anio: int = Form(...), eliminado: str = Form(...),
-                       pais_anfitrion: str = Form(""), estado: str = Form("")):
+                       pais_anfitrion: str = Form(""), estado: str = Form(""), imagen: str = Form("")):
     torneos = load_torneos()
     torneo = next((t for t in torneos if t.id == id), None)
     if not torneo:
         raise HTTPException(status_code=404, detail="Torneo no encontrado")
+    imagen_validada = Torneo.validate_image(imagen) if imagen else None
     torneo.nombre = nombre
     torneo.anio = anio
     torneo.eliminado = eliminado
     torneo.pais_anfitrion = pais_anfitrion if pais_anfitrion else None
     torneo.estado = estado if estado else None
+    torneo.imagen = imagen_validada
     update_csv(torneos, TORNEOS_CSV)
     return RedirectResponse(url="/torneos/", status_code=303)
 
@@ -407,7 +459,7 @@ async def get_estadisticas_completa(request: Request):
     jugadores = load_jugadores()
     partidos = load_partidos()
     torneos = load_torneos()
-    torneos_dict = {t.id: t.nombre for t in torneos}  # Mapa de ID a nombre del torneo
+    torneos_dict = {t.id: t for t in torneos}
 
     victorias_total = 0
     goles_total = 0
@@ -419,7 +471,7 @@ async def get_estadisticas_completa(request: Request):
     for p in partidos:
         try:
             anio = p.fecha.split('-')[0] if p.fecha and '-' in p.fecha else "Sin año"
-            if p.equipo_local.lower() == "colombia" or p.equipo_visitante.lower() == "colombia":
+            if 2021 <= int(anio) <= 2024 and (p.equipo_local.lower() == "colombia" or p.equipo_visitante.lower() == "colombia"):
                 partidos_jugados_total += 1
                 partidos_jugados_por_anio[anio] = partidos_jugados_por_anio.get(anio, 0) + 1
                 goles_colombia = (p.goles_local if p.equipo_local.lower() == "colombia" else 0) + (p.goles_visitante if p.equipo_visitante.lower() == "colombia" else 0)
@@ -428,17 +480,16 @@ async def get_estadisticas_completa(request: Request):
                 if (p.equipo_local.lower() == "colombia" and p.goles_local > p.goles_visitante) or (p.equipo_visitante.lower() == "colombia" and p.goles_visitante > p.goles_local):
                     victorias_total += 1
                     victorias_por_anio[anio] = victorias_por_anio.get(anio, 0) + 1
-        except (IndexError, AttributeError):
+        except (IndexError, AttributeError, ValueError):
             continue
 
     promedio_goles_total = round(goles_total / partidos_jugados_total, 2) if partidos_jugados_total > 0 else 0
     promedio_goles_por_anio = {anio: round(goles / partidos, 2) for anio, goles in goles_por_anio.items() for partidos in [partidos_jugados_por_anio.get(anio, 1)] if partidos_jugados_por_anio.get(anio, 1) > 0}
 
-    # Agregar datos de torneos jugados
     torneos_jugados = {}
     for p in partidos:
-        if p.torneo_id and p.torneo_id in torneos_dict:
-            torneos_jugados[p.torneo_id] = torneos_dict[p.torneo_id]
+        if p.torneo_id and p.torneo_id in torneos_dict and 2021 <= int(p.fecha.split('-')[0]) <= 2024:
+            torneos_jugados[p.torneo_id] = torneos_dict[p.torneo_id].nombre
 
     return templates.TemplateResponse("estadisticas.html", {
         "request": request, "jugadores": jugadores, "partidos": partidos, "torneos": torneos,
@@ -452,7 +503,30 @@ async def get_estadisticas_completa(request: Request):
 # Página principal y documentación
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    jugadores = load_jugadores()
+    partidos = load_partidos()
+    torneos = load_torneos()
+    victorias_total = 0
+    goles_total = 0
+    partidos_jugados_total = 0
+    for p in partidos:
+        try:
+            anio = p.fecha.split('-')[0] if p.fecha and '-' in p.fecha else "Sin año"
+            if 2021 <= int(anio) <= 2024 and (p.equipo_local.lower() == "colombia" or p.equipo_visitante.lower() == "colombia"):
+                partidos_jugados_total += 1
+                goles_colombia = (p.goles_local if p.equipo_local.lower() == "colombia" else 0) + (p.goles_visitante if p.equipo_visitante.lower() == "colombia" else 0)
+                goles_total += goles_colombia
+                if (p.equipo_local.lower() == "colombia" and p.goles_local > p.goles_visitante) or (p.equipo_visitante.lower() == "colombia" and p.goles_visitante > p.goles_local):
+                    victorias_total += 1
+        except (IndexError, AttributeError, ValueError):
+            continue
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "victorias_total": victorias_total,
+        "goles_total": goles_total,
+        "partidos_jugados_total": partidos_jugados_total,
+        "last_update": "10 de junio de 2025, 03:00 AM -05"
+    })
 
 @app.get("/documentacion/", response_class=HTMLResponse)
 async def get_documentacion(request: Request):

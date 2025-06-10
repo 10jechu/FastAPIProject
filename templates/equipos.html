@@ -1,35 +1,59 @@
-{% extends "base.html" %}
-{% block title %}Equipos - Selección Colombia{% endblock %}
-{% block header_title %}Equipos{% endblock %}
-{% block content %}
-<div class="content">
-    <section class="card">
-        <h2>Lista de Equipos</h2>
-        <a href="/equipos/crear/" class="btn btn-primary">Crear Equipo</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>País</th>
-                    <th>Enfrentamientos</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for equipo in equipos %}
-                <tr>
-                    <td>{{ equipo.nombre }}</td>
-                    <td>{{ equipo.pais }}</td>
-                    <td>{{ equipo.enfrentamientos_con_colombia }}</td>
-                    <td>
-                        <a href="/equipos/{{ equipo.id }}" class="btn btn-primary">Ver</a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipos - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
+        <h1>Equipos</h1>
+        <nav>
+            <a href="/" class="nav-btn">Inicio</a>
+            <a href="/jugadores/" class="nav-btn">Jugadores</a>
+            <a href="/partidos/" class="nav-btn">Partidos</a>
+            <a href="/torneos/" class="nav-btn">Torneos</a>
+            <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
+            <a href="/documentacion/" class="nav-btn">Documentación</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Lista de Equipos</h2>
+            <form id="year-filter-form" method="get" action="/equipos/">
+                <label for="year-filter">Filtrar por Año:</label>
+                <input type="number" id="year-filter" name="year" min="2021" max="2025" value="{{ year if year else '' }}">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+            <a href="/equipos/crear/" class="btn btn-primary">Crear Equipo</a>
+            <div class="team-list">
+                {% if not equipos %}
+                    <p>No hay equipos registrados. Crea uno para empezar.</p>
+                {% else %}
+                    {% for equipo in equipos %}
+                    <div class="team-card">
+                        <h3>{{ equipo.nombre }}</h3>
+                        {% if equipo.bandera %}
+                            <img src="{{ equipo.bandera }}" alt="Bandera de {{ equipo.nombre }}" class="flag-image">
+                        {% else %}
+                            <img src="/static/images/generic_flag.png" alt="Bandera genérica" class="flag-image">
+                        {% endif %}
+                        <p>País: {{ equipo.pais }}</p>
+                        <p>Enfrentamientos con Colombia: {{ equipo.enfrentamientos_con_colombia }}</p>
                         <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-edit">Editar</a>
                         <a href="/equipos/{{ equipo.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar a {{ equipo.nombre }}?')">Eliminar</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
-</div>
-{% endblock %}
+                        <a href="/equipos/{{ equipo.id }}" class="btn btn-view">Ver</a>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
+    </footer>
+</body>
+</html>

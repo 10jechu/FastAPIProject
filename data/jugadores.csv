@@ -7,35 +7,35 @@ id,nombre,fecha_nacimiento,club,altura,pie,partidos,goles,numero_camisa,anio,pos
 6,Davinson Sánchez,12/06/1996 (24),Galatasaray,1.87m,Derecho,69,3,23,2021,Defensa,True,https://img.uefa.com/imgml/TP/players/14/2025/324x324/250099374.jpg
 7,Yerry Mina,23/09/1994 (26),Cagliari,1.95m,Derecho,49,7,13,2021,Defensa,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReFyh5GkPncrtIg9qeQB48p6NK7WjBE56Y-A&s
 8,Jhon Lucumí,26/06/1998 (22),Bolonia,1.87m,Izquierdo,28,0,3,2021,Defensa,True,https://files.antena2.com/antena2/public/styles/seo1500x1500/public/2025-05/jhon-lucumi-llegaria-a-la-premier-league.jpg?VersionId=kpl57_KlVOqSn1WAWbN6JeFSCSPh0Xty&h=a9ae5a94&itok=5Uat3iVZ
-9,Carlos Cuesta,09/03/1999 (21),Galatasaray,1.79m,Derecho,23,0,4,2021,Mediocampista,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-N3lug-a2yNwICXUAamTGMOvtq5EBSTaYyQ&s
+9,Carlos Cuesta,09/03/1999 (21),Galatasaray,1.79m,Derecho,23,0,4,2021,Defensa,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-N3lug-a2yNwICXUAamTGMOvtq5EBSTaYyQ&s
 11,William Tesillo,02/02/1990 (30),Atlético Nacional,1.85m,Izquierdo,30,1,6,2021,Defensa,True,https://cloudfront-us-east-1.images.arcpublishing.com/prisaradioco/52ZTU5Z3TNGQVKVZ3FWMETHFXQ.jpg
 12,Óscar Murillo,18/04/1988 (32),Retirado,1.84m,Izquierdo,23,0,2,2021,Defensa,False,https://s.hs-data.com/bilder/spieler/gross/117380.jpg
-13,Frank Fabra,22/02/1991 (29),CA Boca Juniors,1.74m,Izquierdo,28,1,26,2021,Defensa,True,
-14,Johan Mojica,21/08/1992 (28),RCD Mallorca,1.85m,Izquierdo,38,1,17,2021,Defensa,True,
-15,Dairon Mosquera,23/07/1992 (28),AD Union Magdalena,1.82m,Izquierdo,0,0,27,2021,Defensa,True,
-16,Stefan Medina,14/06/1992 (28),CF Monterrey,1.79m,Derecho,30,0,2,2021,Defensa,True,
-17,Daniel Muñoz,26/05/1996 (24),Crystal Palace,1.81m,Derecho,38,3,20,2021,Defensa,True,
-18,Yerson Candelo,24/02/1992 (28),CD América de Cali,1.70m,Derecho,1,0,28,2021,Mediocampista,True,
-19,Andrés Felipe Román,05/10/1995 (25),Atlético Nacional,1.83m,Derecho,1,0,29,2021,Defensa,True,
-20,Wilmar Barrios,16/10/1993 (27),Zenit de San Petersburgo,1.78m,Derecho,57,1,5,2021,Mediocampista,True,
-21,Jefferson Lerma,25/10/1994 (26),Crystal Palace,1.79m,Derecho,54,3,16,2021,Mediocampista,True,
-22,Matheus Uribe,21/03/1991 (29),Atlético Nacional,1.82m,Derecho,62,6,15,2021,Mediocampista,True,
-23,Éder Balanta,28/02/1993 (27),CD América de Cali,1.80m,Izquierdo,9,0,8,2021,Mediocampista,True,
-24,Gustavo Cuéllar,14/10/1992 (28),Grêmio Foot-Ball Porto Alegrense,1.76m,Derecho,24,1,8,2021,Mediocampista,True,
-25,Víctor Cantillo,15/10/1993 (27),CA Huracán,1.80m,Derecho,2,0,14,2021,Mediocampista,True,
-26,Alexander Mejía,11/07/1988 (32),Sin equipo,1.78m,Derecho,27,0,18,2021,Mediocampista,True,
-27,Seba Pérez,29/03/1993 (27),Boavista FC,1.75m,Derecho,10,1,21,2021,Mediocampista,True,
-28,Baldomero Perlaza,02/06/1992 (28),Independiente Medellín,1.87m,Derecho,0,0,30,2021,Mediocampista,True,
-29,Sebastián Gómez,03/06/1996 (24),Coritiba Foot Ball Club,1.77m,Izquierdo,2,0,31,2021,Mediocampista,True,
-30,Juan Cuadrado,26/05/1988 (32),Atalanta de Bérgamo,1.76m,Derecho,116,10,11,2021,Mediocampista,True,
-31,Yairo Moreno,04/04/1995 (25),Sin equipo,1.84m,Izquierdo,16,0,17,2021,Mediocampista,True,
-32,James Rodríguez,12/07/1991 (29),Club León FC,1.80m,Izquierdo,114,29,10,2021,Mediocampista,True,
-33,Juan Fernando Quintero,18/01/1993 (27),CD América de Cali,1.68m,Izquierdo,41,5,10,2021,Mediocampista,True,
+13,Frank Fabra,22/02/1991 (29),CA Boca Juniors,1.74m,Izquierdo,28,1,26,2021,Defensa,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR23aFqZ_9yZmJZIzwWqleopgRKvpqlC5_jQw&s
+14,Johan Mojica,21/08/1992 (28),RCD Mallorca,1.85m,Izquierdo,38,1,17,2021,Defensa,True,https://caracol.com.co/resizer/v2/4J7USN7A6ZC4TIVJEDRCG2DV2Q.jpg?auth=16e38a934e97c22ccee92896da396eadbfa155532bc391027803a067d0605e4b&width=650&height=488&quality=70&smart=true
+15,Dairon Mosquera,23/07/1992 (28),AD Union Magdalena,1.82m,Izquierdo,0,0,27,2021,Defensa,True,https://cloudfront-us-east-1.images.arcpublishing.com/semana/S2NBCI3VPJGRTAM2TSGAIATTOQ.jpg
+16,Stefan Medina,14/06/1992 (28),CF Monterrey,1.79m,Derecho,30,0,2,2021,Defensa,True,https://www.footballdatabase.eu/images/photos/players/2021/a_131/131997.jpg
+17,Daniel Muñoz,26/05/1996 (24),Crystal Palace,1.81m,Derecho,38,3,20,2021,Defensa,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ80ShLiXkfdMwTI065EnP-vBcOslGIDUeDLA&s
+18,Yerson Candelo,24/02/1992 (28),CD América de Cali,1.70m,Derecho,1,0,28,2021,Defensa,True,https://capsulas.com.co/wp-content/uploads/2015/08/Yerson-Candelo-1.jpg
+19,Andrés Felipe Román,05/10/1995 (25),Atlético Nacional,1.83m,Derecho,1,0,29,2021,Defensa,True,https://www.futbolred.com/files/article_main/files/crop/uploads/2021/09/10/613b98f883f67.r_1728299524830.0-363-1080-903.jpeg
+20,Wilmar Barrios,16/10/1993 (27),Zenit de San Petersburgo,1.78m,Derecho,57,1,5,2021,Medio,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjXrrQ9xGydEaFbUMDgOISsOJEUJOK4ALSpg&s
+21,Jefferson Lerma,25/10/1994 (26),Crystal Palace,1.79m,Derecho,54,3,16,2021,Medio,True,https://img.asmedia.epimg.net/resizer/v2/TFJOWMOE65G7RBFLR37TNHWS7Q.jpg?auth=9973972465cea4d29078166524282d55ac88ed9d1b823629a175be097d4b18d9&width=1472&height=828&focal=1990%2C47
+22,Matheus Uribe,21/03/1991 (29),Atlético Nacional,1.82m,Derecho,62,6,15,2021,Medio,True,https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQaOcGgtliCG1uoHnrBs6aU02sQHxtLcz5r2fT6-YXnvI9wyxM6R0M8buBQ37l_3tXeJ1pIz41QX4sYKLZlGHOx7g
+23,Éder Balanta,28/02/1993 (27),CD América de Cali,1.80m,Izquierdo,9,0,8,2021,Medio,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn8SVXqGcfbzbyzI4TumVKqU4kjFcNTo-Bsg&s
+24,Gustavo Cuéllar,14/10/1992 (28),Grêmio Foot-Ball Porto Alegrense,1.76m,Derecho,24,1,8,2021,Medio,True,https://files.antena2.com/antena2/public/styles/imagen_despliegue/public/2025-01/GutsavoCuellar.jpg.webp?VersionId=MtVAZ5GAo9Cz2np7sUy5OL60Q3TjGx2o&itok=r9e37973
+25,Víctor Cantillo,15/10/1993 (27),CA Huracán,1.80m,Derecho,2,0,14,2021,Medio,True,https://d2yoo3qu6vrk5d.cloudfront.net/images/20220122220133/cropped-gettyimages-1353702713-11.webp
+26,Alexander Mejía,11/07/1988 (32),Sin equipo,1.78m,Derecho,27,0,18,2021,Medio,True,https://www.futbolred.com/files/article_main/uploads/2018/02/09/5a7e18c63c882.jpeg
+27,Seba Pérez,29/03/1993 (27),Boavista FC,1.75m,Derecho,10,1,21,2021,Medio,True,https://www.futbolred.com/files/article_main/uploads/2018/05/16/5afbce118e999.jpeg
+28,Baldomero Perlaza,02/06/1992 (28),Independiente Medellín,1.87m,Derecho,0,0,30,2021,Medio,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYOdRLGWGQLHxXTBkPTOU0zjKyF5EQ_HFaHQ&s
+29,Sebastián Gómez,03/06/1996 (24),Coritiba Foot Ball Club,1.77m,Izquierdo,2,0,31,2021,Medio,True,https://caracol.com.co/resizer/v2/IMGGZV25GRCYNPGDI2B433XYFM.png?auth=34ab9e49f56cf978e96d8c837dff0aac7cdc6de4fb2b51016ebed29dc8d26bf9&width=1600&quality=70&smart=true
+30,Juan Cuadrado,26/05/1988 (32),Atalanta de Bérgamo,1.76m,Derecho,116,10,11,2021,Delantero,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjRgYuPk6fkLbe71avmuqIQWj_24IGsc7xkQ&s
+31,Yairo Moreno,04/04/1995 (25),Sin equipo,1.84m,Izquierdo,16,0,17,2021,Medio,True,https://www.tudn.com/api/image/x/us/futbol/copa-america/yairo-moreno-baja-copa-america-2021-lesion-colombia
+32,James Rodríguez,12/07/1991 (29),Club León FC,1.80m,Izquierdo,114,29,10,2021,Medio,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOczRX-6QxDM05Li2fUZBSsUjGJ0JGOMdWA&s
+33,Juan Fernando Quintero,18/01/1993 (27),CD América de Cali,1.68m,Izquierdo,41,5,10,2021,Medio,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXSJrpXyVxAiXdbg-RUAD47hZcrDXe47XAgQ&s
 34,Edwin Cardona,08/12/1992 (28),Atlético Nacional,1.83m,Derecho,45,6,10,2021,Mediocampista,True,
 35,Luis Díaz,13/01/1997 (23),Liverpool FC,1.80m,Derecho,63,18,14,2021,Delantero,True,
 36,Luis Sinisterra,17/06/1999 (21),AFC Bournemouth,1.72m,Derecho,18,5,18,2021,Delantero,True,
 37,Jáminton Campaz,24/05/2000 (20),CA Rosario Central,1.65m,Izquierdo,3,0,20,2021,Delantero,True,
-38,Andrés Andrade,23/02/1989 (31),Atlético Bucaramanga,1.83m,Derecho,1,0,7,2021,Mediocampista,True,
+38,Andrés Andrade,23/02/1989 (31),Atlético Bucaramanga,1.83m,Derecho,1,0,7,2021,Medio,True,https://cloudfront-us-east-1.images.arcpublishing.com/semana/A65MELDXBFBHHGNSL6MRHQG2Y4.jpg
 39,Yimmi Chará,02/04/1991 (29),Junior de Barranquilla,1.68m,Derecho,16,1,28,2021,Delantero,True,
 40,Diego Valoyes,22/09/1996 (24),FC Juárez,1.81m,Derecho,8,0,22,2021,Delantero,True,
 41,Duván Zapata,01/04/1991 (29),Torino FC,1.88m,Derecho,34,4,7,2021,Delantero,True,
@@ -211,9 +211,9 @@ id,nombre,fecha_nacimiento,club,altura,pie,partidos,goles,numero_camisa,anio,pos
 211,Yáser Asprilla,19/11/2003 (20),Girona FC,1.76m,Izquierdo,8,2,24,2024,Delantero,True,
 212,Carlos Andrés Gómez,12/09/2002 (21),Stade Rennais FC,1.71m,Derecho,4,2,19,2024,Delantero,True,
 213,Jhon Durán,13/12/2003 (20),Al-Nassr FC,1.85m,Izquierdo,16,3,14,2024,Delantero,True,
-214,Cucho Hernández,20/04/1999 (24),Real Betis Balompié,1.76m,Derecho,5,2,17,2024,Delantero,True,
-215,Jhon Córdoba,11/05/1993 (30),FK Krasnodar,1.88m,Derecho,16,4,19,2024,Delantero,True,
-216,Mateo Cassierra,13/04/1997 (26),Zenit de San Petersburgo,1.86m,Derecho,3,1,18,2024,Delantero,True,
-217,Rafael Borré,15/09/1995 (28),Sport Club Internacional,1.74m,Derecho,40,6,19,2024,Delantero,True,
-218,Miguel Borja,26/01/1993 (30),CA River Plate,1.84m,Derecho,30,9,20,2024,Delantero,True,
-219,Roger Martínez,23/06/1994 (29),Al-Taawoun FC,1.80m,Derecho,28,4,26,2024,Delantero,True,
+214,Cucho Hernández,20/04/1999 (24),Real Betis Balompié,1.76m,Derecho,5,2,17,2024,Delantero,True,https://images.mlssoccer.com/image/private/t_q-best/mls/tkytavkxoe8v2lsjiqxh.jpg
+215,Jhon Córdoba,11/05/1993 (30),FK Krasnodar,1.88m,Derecho,16,4,19,2024,Delantero,True,https://www.kienyke.com/sites/default/files/2024-10/jhon-cordoba.webp
+216,Mateo Cassierra,13/04/1997 (26),Zenit de San Petersburgo,1.86m,Derecho,3,1,18,2024,Delantero,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaJHF2kTqaWExjsoSeBZQ_m1XJ4X3zXfAANw&s
+217,Rafael Borré,15/09/1995 (28),Sport Club Internacional,1.74m,Derecho,40,6,19,2024,Delantero,True,https://radionacional-v3.s3.amazonaws.com/s3fs-public/styles/portadas_relaciona_4_3/public/node/article/field_image/000_344B8YT.jpg?h=69f2b9d0&itok=dGTZ76yA
+218,Miguel Borja,26/01/1993 (30),CA River Plate,1.84m,Derecho,30,9,20,2024,Delantero,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyZUfkj4N4b1ZQJrEcOZa_76qUHIOHrRIFkQ&s
+219,Roger Martínez,23/06/1994 (29),Al-Taawoun FC,1.80m,Derecho,28,4,26,2024,Delantero,True,https://www.futbolred.com/files/article_main/uploads/2021/09/02/61315da9d20d4.jpeg

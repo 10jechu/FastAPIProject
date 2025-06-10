@@ -1,45 +1,42 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #f0f4f8; /* Fondo más claro para resaltar colores */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    color: #333;
 }
 
 header {
     background: linear-gradient(to right, #002266, #FCD116, #CE1126);
-    padding: 10px;
+    padding: 15px;
     text-align: center;
-    color: white;
+    color: #FCD116; /* Texto en amarillo para destacar */
+    box-shadow: 0 4px 10px rgba(206, 17, 38, 0.3); /* Sombra con rojo */
 }
 
 h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 28px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para texto */
 }
 
 nav a {
-    color: white;
+    color: #FCD116;
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 15px;
     font-weight: bold;
-}
-
-.nav-btn {
+    transition: color 0.3s, background-color 0.3s;
     padding: 5px 10px;
-    background-color: #444;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
-.nav-btn:hover {
-    background-color: #666;
-}
-
-.nav-btn.active {
-    background-color: #FCD116;
+nav a:hover, .nav-btn.active {
     color: #002266;
+    background-color: #FCD116;
+    box-shadow: 0 2px 5px rgba(0, 34, 102, 0.5); /* Sombra azul */
 }
 
 main {
@@ -50,107 +47,163 @@ main {
 }
 
 section {
-    background-color: white;
-    padding: 15px;
+    background-color: #ffffff;
+    padding: 20px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 2px solid #002266;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(206, 17, 38, 0.2); /* Sombra con rojo tenue */
 }
 
 h2 {
-    color: #002266;
+    color: #CE1126; /* Títulos en rojo */
+    border-bottom: 3px solid #FCD116;
+    padding-bottom: 5px;
     margin-top: 0;
 }
 
-.player-list {
+.player-list, .team-list, .tournament-list {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
 
-.player-card {
-    border: 1px solid #ddd;
-    padding: 10px;
+.player-card, .team-card, .tournament-card {
+    border: 2px solid #002266;
+    padding: 15px;
     width: 200px;
     text-align: center;
-    background-color: #f9f9f9;
+    background: linear-gradient(135deg, #ffffff, #f0f4f8); /* Gradiente sutil */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.player-image {
+.player-image, .tournament-image, .flag-image {
     max-width: 100%;
     height: auto;
-    border: 1px solid #ddd;
+    border: 2px solid #FCD116;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .btn {
     display: inline-block;
     padding: 8px 15px;
     text-decoration: none;
-    color: white;
-    border: none;
-    border-radius: 3px;
+    color: #002266;
+    border: 2px solid #FCD116;
+    border-radius: 5px;
     cursor: pointer;
     margin: 5px 0;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    background-color: #FCD116;
 }
 
 .btn-primary {
-    background-color: #002266;
+    background-color: #CE1126;
+    border-color: #FCD116;
+    color: #FCD116;
 }
 
 .btn-primary:hover {
-    background-color: #00194d;
+    background-color: #a50d1c;
+    border-color: #002266;
 }
 
 .btn-edit {
     background-color: #006600;
+    border-color: #FCD116;
+    color: #FCD116;
 }
 
 .btn-edit:hover {
     background-color: #004d00;
+    border-color: #002266;
 }
 
 .btn-delete {
-    background-color: #cc0000;
+    background-color: #CE1126;
+    border-color: #FCD116;
+    color: #FCD116;
 }
 
 .btn-delete:hover {
-    background-color: #990000;
+    background-color: #a50d1c;
+    border-color: #002266;
 }
 
 .btn-view {
     background-color: #FCD116;
+    border-color: #002266;
     color: #002266;
 }
 
 .btn-view:hover {
     background-color: #e0b800;
+    border-color: #CE1126;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #002266;
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: 1px solid #FCD116;
+    padding: 10px;
     text-align: left;
+    color: #002266;
 }
 
 th {
-    background-color: #002266;
-    color: white;
+    background-color: #CE1126;
+    color: #FCD116;
 }
 
 tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+.chart-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border: 2px solid #002266;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(206, 17, 38, 0.1);
+    margin-bottom: 20px;
+}
+
+.stats-card {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px 0;
+    border: 2px solid #002266;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(206, 17, 38, 0.2);
+    text-align: center;
+    color: #CE1126;
+}
+
+.news-item {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f0f4f8;
+    border-left: 4px solid #FCD116;
+    border-radius: 5px;
+    color: #002266;
+}
+
 footer {
-    background-color: #002266;
-    color: white;
+    background: linear-gradient(to right, #CE1126, #FCD116, #002266);
+    color: #FCD116;
     text-align: center;
     padding: 10px;
     width: 100%;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
 }

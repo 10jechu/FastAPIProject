@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Torneo - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
+        <h1>Detalle del Torneo</h1>
+        <nav>
+            <a href="/" class="nav-btn">Inicio</a>
+            <a href="/torneos/" class="nav-btn">Torneos</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="stats-card">
+            <h2>{{ torneo.nombre }}</h2>
+            {% if torneo.imagen %}
+                <img src="{{ torneo.imagen }}" alt="Imagen de {{ torneo.nombre }}" class="tournament-image">
+            {% else %}
+                <img src="/static/images/generic_tournament.png" alt="Imagen genérica" class="tournament-image">
+            {% endif %}
+            <p><strong>Año:</strong> {{ torneo.anio }}</p>
+            <p><strong>Eliminado:</strong> {{ torneo.eliminado }}</p>
+            <p><strong>País Anfitrión:</strong> {{ torneo.pais_anfitrion if torneo.pais_anfitrion else 'Sin definir' }}</p>
+            <p><strong>Estado:</strong> {{ torneo.estado if torneo.estado else 'Sin definir' }}</p>
+            <a href="/torneos/" class="btn btn-primary">Volver</a>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
+    </footer>
+</body>
+</html>
