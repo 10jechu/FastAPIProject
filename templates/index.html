@@ -8,47 +8,26 @@
     <style>
         .hero {
             background: url('/static/images/hero-bg.jpg') no-repeat center center/cover;
-            height: 400px;
+            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #FCD116;
-            text-shadow: 2px 2px 4px #CE1126;
-            position: relative;
-        }
-        .hero img {
-            max-width: 200px;
-            margin-left: 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
         .stats-card {
-            background-color: #ffffff;
+            background-color: white;
             padding: 20px;
             margin: 20px 0;
-            border: 2px solid #002266;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(206, 17, 38, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        .highlight-card {
-            background: linear-gradient(135deg, #f0f4f8, #ffffff);
-            padding: 15px;
+        .news-item {
             margin: 10px 0;
-            border-left: 5px solid #FCD116;
-            border-radius: 5px;
-        }
-        .featured-players {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-        .player-card {
-            border: 2px solid #002266;
             padding: 10px;
-            width: 150px;
-            text-align: center;
-            background: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            border-left: 4px solid #FCD116;
         }
     </style>
 </head>
@@ -58,7 +37,6 @@
         <nav>
             <a href="/" class="nav-btn active">Inicio</a>
             <a href="/jugadores/" class="nav-btn">Jugadores</a>
-            <a href="/equipos/" class="nav-btn">Equipos</a>
             <a href="/partidos/" class="nav-btn">Partidos</a>
             <a href="/torneos/" class="nav-btn">Torneos</a>
             <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
@@ -69,17 +47,13 @@
     <main>
         <section class="hero">
             <h2>¡Vive la Pasión Colombiana!</h2>
-            <img src="https://a.espncdn.com/photo/2024/1230/r1433244_1296x729_16-9.png" alt="Bandera Colombia" class="hero-flag">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/FCF-Logo-2023.svg/2024px-FCF-Logo-2023.svg.png" alt="Logo FCF" class="hero-flag">
         </section>
 
         <section class="stats-card">
             <h2>Resumen Rápido</h2>
-            <div class="highlight-card">
-                <p><strong>Victorias Totales (2021-2024):</strong> {{ victorias_total }}</p>
-                <p><strong>Goles Totales:</strong> {{ goles_total }}</p>
-                <p><strong>Partidos Jugados:</strong> {{ partidos_jugados_total }}</p>
-            </div>
+            <p><strong>Victorias Totales (2021-2024):</strong> {{ victorias_total }}</p>
+            <p><strong>Goles Totales:</strong> {{ goles_total }}</p>
+            <p><strong>Partidos Jugados:</strong> {{ partidos_jugados_total }}</p>
             <a href="/estadisticas/completa/" class="btn btn-primary">Ver Todas las Estadísticas</a>
         </section>
 
@@ -87,7 +61,7 @@
             <h2>Sobre el Proyecto</h2>
             <p>Este proyecto rastrea el progreso de la Selección Colombia de fútbol desde 2021 hasta 2024, destacando su evolución, rachas y estadísticas clave. Inspirado en la pasión colombiana y plataformas como Transfermarkt, ofrece una gestión completa de jugadores, partidos, torneos y estadísticas.</p>
             <h3>Última Actualización</h3>
-            <p>10 de junio de 2025, 04:16 AM -05</p>
+            <p>{{ last_update }}</p>
             <h3>Destacados</h3>
             <ul>
                 <li><strong>2024:</strong> Gran racha con múltiples victorias.</li>
@@ -96,34 +70,15 @@
         </section>
 
         <section class="stats-card">
-            <h2>Historial Reciente</h2>
-            <div class="highlight-card">
-                <p><strong>15/05/2024:</strong> Colombia 2 - 1 Brasil</p>
-                <p><strong>10/06/2024:</strong> Colombia 1 - 0 Argentina</p>
-            </div>
-            <a href="/partidos/" class="btn btn-primary">Ver Historial Completo</a>
-        </section>
-
-        <section class="stats-card">
-            <h2>Jugadores Destacados</h2>
-            <div class="featured-players">
-                {% for jugador in jugadores[:3] %} <!-- Mostrar los primeros 3 jugadores -->
-                <div class="player-card">
-                    <h3>{{ jugador.nombre }}</h3>
-                    <p>Goles: {{ jugador.goles }}</p>
-                    <p>Posición: {{ jugador.posicion }}</p>
-                </div>
-                {% endfor %}
-            </div>
-            <a href="/jugadores/" class="btn btn-primary">Ver Todos los Jugadores</a>
+            <h2>Noticias Recientes</h2>
+            <div class="news-item">¡Colombia clasifica a cuartos en Copa América 2024!</div>
+            <div class="news-item">Récord de goles en el partido contra Brasil (2-1).</div>
         </section>
 
         <section class="stats-card">
             <h2>Próximos Partidos</h2>
-            <div class="highlight-card">
-                <p><strong>15/06/2025:</strong> Colombia vs Argentina</p>
-                <p><strong>20/06/2025:</strong> Colombia vs Uruguay</p>
-            </div>
+            <p><strong>15/06/2025:</strong> Colombia vs Argentina</p>
+            <p><strong>20/06/2025:</strong> Colombia vs Uruguay</p>
             <a href="/partidos/" class="btn btn-primary">Ver Calendario Completo</a>
         </section>
     </main>

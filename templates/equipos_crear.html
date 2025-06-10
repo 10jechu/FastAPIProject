@@ -5,46 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Equipo - Selección Colombia</title>
     <link rel="stylesheet" href="/static/css/styles.css">
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
-        header { background: linear-gradient(to right, #ffcc00, #ff6600); padding: 10px; text-align: center; }
-        header h1 { color: #fff; margin: 0; font-size: 24px; }
-        nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
-        nav a.active { text-decoration: underline; }
-        .container { max-width: 600px; margin: 20px auto; padding: 20px; background: #fff; border: 2px solid #000080; border-radius: 5px; }
-        h2 { color: #ff0000; margin-top: 0; }
-        form { display: flex; flex-direction: column; }
-        label { margin-top: 10px; }
-        input, select { padding: 5px; margin-top: 5px; }
-        button { background: #008000; color: #fff; border: none; padding: 10px; margin-top: 20px; cursor: pointer; }
-        button:hover { background: #006600; }
-        footer { background: #ffcc00; color: #000; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
-    </style>
 </head>
 <body>
-    <header>
-        <h1>Selección Colombia - Gestión</h1>
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
+        <h1>Crear Equipo</h1>
         <nav>
-            <a href="/" class="">Inicio</a>
-            <a href="/jugadores/" class="">Jugadores</a>
-            <a href="/equipos/" class="active">Equipos</a>
-            <a href="/partidos/" class="">Partidos</a>
-            <a href="/torneos/" class="">Torneos</a>
-            <a href="/estadisticas/completa/" class="">Estadísticas</a>
-            <a href="/documentacion/" class="">Documentación</a>
+            <a href="/" class="nav-btn">Inicio</a>
+            <a href="/equipos/" class="nav-btn">Equipos</a>
         </nav>
     </header>
-    <div class="container">
-        <h2>Crear Equipo</h2>
-        <form method="post" action="/equipos/crear/">
-            <label for="nombre">Nombre:</label><input type="text" id="nombre" name="nombre" required>
-            <label for="pais">País:</label><input type="text" id="pais" name="pais" required>
-            <label for="enfrentamientos_con_colombia">Enfrentamientos:</label><input type="number" id="enfrentamientos_con_colombia" name="enfrentamientos_con_colombia" required>
-            <label for="bandera">Bandera URL:</label><input type="text" id="bandera" name="bandera">
-            <button type="submit">Crear</button>
-        </form>
-    </div>
-    <footer>
+
+    <main>
+        <section class="stats-card">
+            <h2>Formulario de Creación</h2>
+            <form method="post" action="/equipos/crear/">
+                <label for="nombre">Nombre:</label><br>
+                <input type="text" id="nombre" name="nombre" required><br>
+                <label for="pais">País:</label><br>
+                <input type="text" id="pais" name="pais" required><br>
+                <label for="enfrentamientos_con_colombia">Enfrentamientos con Colombia:</label><br>
+                <input type="number" id="enfrentamientos_con_colombia" name="enfrentamientos_con_colombia" required><br>
+                <label for="bandera">URL de la Bandera (ej. /static/images/flags/pais.png):</label><br>
+                <input type="text" id="bandera" name="bandera"><br>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </form>
+            <a href="/equipos/" class="btn btn-primary">Volver</a>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
 </body>
