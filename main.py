@@ -51,7 +51,7 @@ class Partido(BaseModel):
     goles_local: int
     goles_visitante: int
     torneo_id: Optional[int] = None
-    eliminado: Optional[str] = None  # Cambiado a Optional para manejar casos nulos
+    eliminado: Optional[str] = None
     tarjetas_amarillas_local: int
     tarjetas_amarillas_visitante: int
     tarjetas_rojas_local: int
@@ -60,11 +60,11 @@ class Partido(BaseModel):
 class Plantilla(BaseModel):
     id: int
     equipo_id: int
-    nombre: Optional[str] = None  # Añadido para coincidir con plantillas.csv
-    posicion: Optional[str] = None  # Añadido para coincidir con plantillas.csv
-    anio: Optional[int] = None  # Añadido y hecho opcional
-    torneo_id: Optional[int] = None  # Añadido y hecho opcional
-    jugador_id: Optional[int] = None  # Añadido y hecho opcional
+    nombre: Optional[str] = None
+    posicion: Optional[str] = None
+    anio: Optional[int] = None
+    torneo_id: Optional[int] = None
+    jugador_id: Optional[int] = None
 
 class Torneo(BaseModel):
     id: int
@@ -88,7 +88,7 @@ def load_csv(csv_file):
         if column in ['imagen', 'pais_anfitrion', 'estado', 'torneo_id', 'eliminado']:
             df[column] = df[column].apply(lambda x: str(x).strip() if isinstance(x, str) and pd.notna(x) else None)
         elif df[column].dtype in ['float64', 'int64']:
-            df[column] = df[column].apply(lambda x: None if pd.isna(x) else x)
+            df[column] = df[column].apply(lambda x: 0 if pd.isna(x) else x)
     return df.to_dict(orient="records")
 
 def update_csv(data_list, csv_file, new_item=None):
@@ -130,10 +130,11 @@ def load_torneos(): return [Torneo(**item) for item in load_csv(TORNEOS_CSV)]
 @app.get("/jugadores/", response_class=HTMLResponse)
 async def get_jugadores(request: Request):
     jugadores = load_jugadores()
+    papelera = load_papelera()
     year = request.query_params.get("year")
     if year:
         jugadores = [j for j in jugadores if str(j.anio) == year]
-    return templates.TemplateResponse("jugadores.html", {"request": request, "jugadores": jugadores})
+    return templates.TemplateResponse("jugadores.html", {"request": request, "jugadores": jugadores, "papelera": papelera})
 
 @app.get("/jugadores/crear/", response_class=HTMLResponse)
 async def create_jugador_form(request: Request):
@@ -201,11 +202,23 @@ async def delete_jugador(id: int):
         update_papelera(papelera, papelera_item)
     return RedirectResponse(url="/jugadores/", status_code=303)
 
+@app.get("/jugadores/{id}", response_class=HTMLResponse)
+async def get_jugador_detalle(request: Request, id: int):
+    jugadores = load_jugadores()
+    jugador = next((j for j in jugadores if j.id == id), None)
+    if not jugador:
+        raise HTTPException(status_code=404, detail="Jugador no encontrado")
+    return templates.TemplateResponse("jugadores_detalle.html", {"request": request, "jugador": jugador})
+
 # Rutas para Equipos
 @app.get("/equipos/", response_class=HTMLResponse)
 async def get_equipos(request: Request):
     equipos = load_equipos()
-    return templates.TemplateResponse("equipos.html", {"request": request, "equipos": equipos})
+    papelera = load_papelera()
+    year = request.query_params.get("year")
+    if year:
+        equipos = [e for e in equipos if str(e.id)[:4] == year]
+    return templates.TemplateResponse("equipos.html", {"request": request, "equipos": equipos, "papelera": papelera})
 
 @app.get("/equipos/crear/", response_class=HTMLResponse)
 async def create_equipo_form(request: Request):
@@ -255,11 +268,11 @@ async def delete_equipo(id: int):
 @app.get("/partidos/", response_class=HTMLResponse)
 async def get_partidos(request: Request):
     partidos = load_partidos()
-    torneos = load_torneos()
+    papelera = load_papelera()
     year = request.query_params.get("year")
     if year:
-        partidos = [p for p in partidos if str(p.fecha.split('-')[0]) == year]
-    return templates.TemplateResponse("partidos.html", {"request": request, "partidos": partidos, "torneos": torneos})
+        partidos = [p for p in partidos if p.fecha and p.fecha.split('-')[0] == year]
+    return templates.TemplateResponse("partidos.html", {"request": request, "partidos": partidos, "papelera": papelera})
 
 @app.get("/partidos/crear/", response_class=HTMLResponse)
 async def create_partido_form(request: Request):
@@ -333,10 +346,14 @@ async def delete_partido(id: int):
 @app.get("/plantillas/", response_class=HTMLResponse)
 async def get_plantillas(request: Request):
     plantillas = load_plantillas()
+    papelera = load_papelera()
     jugadores = load_jugadores()
     equipos = load_equipos()
     torneos = load_torneos()
-    return templates.TemplateResponse("plantillas.html", {"request": request, "plantillas": plantillas, "jugadores": jugadores, "equipos": equipos, "torneos": torneos})
+    year = request.query_params.get("year")
+    if year:
+        plantillas = [p for p in plantillas if str(p.anio) == year]
+    return templates.TemplateResponse("plantillas.html", {"request": request, "plantillas": plantillas, "jugadores": jugadores, "equipos": equipos, "torneos": torneos, "papelera": papelera})
 
 @app.get("/plantillas/crear/", response_class=HTMLResponse)
 async def create_plantilla_form(request: Request):
@@ -399,10 +416,11 @@ async def delete_plantilla(id: int):
 @app.get("/torneos/", response_class=HTMLResponse)
 async def get_torneos(request: Request):
     torneos = load_torneos()
+    papelera = load_papelera()
     year = request.query_params.get("year")
     if year:
         torneos = [t for t in torneos if str(t.anio) == year]
-    return templates.TemplateResponse("torneos.html", {"request": request, "torneos": torneos})
+    return templates.TemplateResponse("torneos.html", {"request": request, "torneos": torneos, "papelera": papelera})
 
 @app.get("/torneos/crear/", response_class=HTMLResponse)
 async def create_torneo_form(request: Request):
@@ -461,7 +479,6 @@ async def get_estadisticas_completa(request: Request):
     partidos = load_partidos()
     torneos = load_torneos()
 
-    # Calcular estadísticas de Colombia
     victorias_total = 0
     goles_total = 0
     partidos_jugados_total = 0
@@ -470,17 +487,19 @@ async def get_estadisticas_completa(request: Request):
     partidos_jugados_por_anio = {}
 
     for p in partidos:
-        anio = p.fecha.split('-')[0]
-        if p.equipo_local == "Colombia" or p.equipo_visitante == "Colombia":
-            partidos_jugados_total += 1
-            partidos_jugados_por_anio[anio] = partidos_jugados_por_anio.get(anio, 0) + 1
-            goles_total += (p.goles_local if p.equipo_local == "Colombia" else 0) + (p.goles_visitante if p.equipo_visitante == "Colombia" else 0)
-            goles_por_anio[anio] = goles_por_anio.get(anio, 0) + (p.goles_local if p.equipo_local == "Colombia" else 0) + (p.goles_visitante if p.equipo_visitante == "Colombia" else 0)
-            if (p.equipo_local == "Colombia" and p.goles_local > p.goles_visitante) or (p.equipo_visitante == "Colombia" and p.goles_visitante > p.goles_local):
-                victorias_total += 1
-                victorias_por_anio[anio] = victorias_por_anio.get(anio, 0) + 1
+        try:
+            anio = p.fecha.split('-')[0] if p.fecha and '-' in p.fecha else "0"
+            if p.equipo_local == "Colombia" or p.equipo_visitante == "Colombia":
+                partidos_jugados_total += 1
+                partidos_jugados_por_anio[anio] = partidos_jugados_por_anio.get(anio, 0) + 1
+                goles_total += (p.goles_local if p.equipo_local == "Colombia" else 0) + (p.goles_visitante if p.equipo_visitante == "Colombia" else 0)
+                goles_por_anio[anio] = goles_por_anio.get(anio, 0) + (p.goles_local if p.equipo_local == "Colombia" else 0) + (p.goles_visitante if p.equipo_visitante == "Colombia" else 0)
+                if (p.equipo_local == "Colombia" and p.goles_local > p.goles_visitante) or (p.equipo_visitante == "Colombia" and p.goles_visitante > p.goles_local):
+                    victorias_total += 1
+                    victorias_por_anio[anio] = victorias_por_anio.get(anio, 0) + 1
+        except (IndexError, AttributeError):
+            continue
 
-    # Calcular promedios
     promedio_goles_total = goles_total / partidos_jugados_total if partidos_jugados_total > 0 else 0
     promedio_goles_por_anio = {anio: goles / partidos for anio, goles in goles_por_anio.items() for partidos in [partidos_jugados_por_anio.get(anio, 1)] if partidos_jugados_por_anio.get(anio, 1) > 0}
 

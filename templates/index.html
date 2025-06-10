@@ -4,31 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Selección Colombia</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores/">Jugadores</a>
-        <a href="/equipos/">Equipos</a>
-        <a href="/partidos/">Partidos</a>
-        <a href="/plantillas/">Plantillas</a>
-        <a href="/torneos/">Torneos</a>
-        <a href="/estadisticas/completa/">Estadísticas</a>
-        <a href="/documentacion/">Documentación</a>
-    </nav>
-    <div class="content">
-        <h1>Bienvenido a la Gestión de la Selección Colombia</h1>
-        <p>Selecciona una sección para comenzar:</p>
-        <ul>
-            <li><a href="/jugadores/">Jugadores</a></li>
-            <li><a href="/equipos/">Equipos</a></li>
-            <li><a href="/partidos/">Partidos</a></li>
-            <li><a href="/plantillas/">Plantillas</a></li>
-            <li><a href="/torneos/">Torneos</a></li>
-            <li><a href="/estadisticas/completa/">Estadísticas</a></li>
-            <li><a href="/documentacion/">Documentación</a></li>
-        </ul>
-    </div>
+    <header class="header">
+        <h1>Gestión Selección Colombia</h1>
+        <nav class="nav">
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/jugadores/" class="nav-link">Jugadores</a>
+            <a href="/equipos/" class="nav-link">Equipos</a>
+            <a href="/partidos/" class="nav-link">Partidos</a>
+            <a href="/plantillas/" class="nav-link">Plantillas</a>
+            <a href="/torneos/" class="nav-link">Torneos</a>
+            <a href="/estadisticas/completa/" class="nav-link">Estadísticas</a>
+            <a href="/documentacion/" class="nav-link">Documentación</a>
+        </nav>
+    </header>
+    <main class="main-content">
+        <section class="history-section">
+            <h2>Historia</h2>
+            <p>La Selección Colombia fue fundada en 1924 por la Federación Colombiana de Fútbol (FCF). Desde entonces, ha representado al país en innumerables competiciones, marcando hitos como su participación en los Mundiales y su estilo de juego característico.</p>
+        </section>
+        <section class="objective-section">
+            <h2>Objetivo del Proyecto</h2>
+            <p>Este proyecto tiene como objetivo gestionar de manera eficiente los datos de jugadores, equipos, partidos, plantillas y torneos de la Selección Colombia, ofreciendo una herramienta profesional para análisis y administración.</p>
+        </section>
+        <section class="video-section">
+            <h2>Videos</h2>
+            <div class="video-card">
+                <a href="https://www.youtube.com/watch?v=example" target="_blank">Entreno Selección Mayor</a>
+            </div>
+            <div class="video-card">
+                <a href="https://www.youtube.com/watch?v=example2" target="_blank">Salida Entreno</a>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Sistema de Gestión - Selección Colombia</p>
+    </footer>
 </body>
 </html>

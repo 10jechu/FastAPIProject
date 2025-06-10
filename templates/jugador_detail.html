@@ -3,36 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle Jugador</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>{{ jugador.Jugadores }} - Detalles</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores/">Jugadores</a>
-        <a href="/equipos/">Equipos</a>
-        <a href="/partidos/">Partidos</a>
-        <a href="/plantillas/">Plantillas</a>
-        <a href="/torneos/">Torneos</a>
-        <a href="/estadisticas/completa/">Estadísticas</a>
-        <a href="/documentacion/">Documentación</a>
-    </nav>
-    <div class="content">
-        <h1>Detalle del Jugador</h1>
-        <p><strong>ID:</strong> {{ jugador.id }}</p>
-        <p><strong>Nombre:</strong> {{ jugador.Jugadores }}</p>
-        <p><strong>Fecha Nacimiento/Edad:</strong> {{ jugador.F_Nacim_Edad }}</p>
-        <p><strong>Club:</strong> {{ jugador.Club }}</p>
-        <p><strong>Altura:</strong> {{ jugador.Altura }}</p>
-        <p><strong>Pie:</strong> {{ jugador.Pie }}</p>
-        <p><strong>Partidos con Selección:</strong> {{ jugador.Partidos_con_la_seleccion }}</p>
-        <p><strong>Goles:</strong> {{ jugador.Goles }}</p>
-        <p><strong>Número de Camisa:</strong> {{ jugador.Numero_de_camisa }}</p>
-        <p><strong>Año:</strong> {{ jugador.anio }}</p>
-        <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
-        <p><strong>Activo:</strong> {{ jugador.activo }}</p>
-        <p><strong>Imagen:</strong> {{ jugador.imagen }}</p>
-        <a href="/jugadores/{{ jugador.id }}/edit">Editar</a>
-    </div>
+    <header class="header">
+        <h1>{{ jugador.Jugadores }}</h1>
+        <a href="/jugadores/" class="btn btn-secondary">Volver</a>
+    </header>
+    <main class="player-detail">
+        <div class="player-card">
+            <img src="{{ url_for('static', path='/images/' + (jugador.imagen if jugador.imagen else 'default.jpg')) }}" alt="Foto de {{ jugador.Jugadores }}" class="player-image-large">
+            <div class="player-info">
+                <p><strong>ID:</strong> {{ jugador.id }}</p>
+                <p><strong>Fecha Nacimiento/Edad:</strong> {{ jugador.F_Nacim_Edad }}</p>
+                <p><strong>Club:</strong> {{ jugador.Club }}</p>
+                <p><strong>Altura:</strong> {{ jugador.Altura }}</p>
+                <p><strong>Pie:</strong> {{ jugador.Pie }}</p>
+                <p><strong>Partidos:</strong> {{ jugador.Partidos_con_la_seleccion }}</p>
+                <p><strong>Goles:</strong> {{ jugador.Goles }}</p>
+                <p><strong>Número:</strong> {{ jugador.Numero_de_camisa }}</p>
+                <p><strong>Año:</strong> {{ jugador.anio }}</p>
+                <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
+                <p><strong>Activo:</strong> {{ "Sí" if jugador.activo else "No" }}</p>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Gestión Selección Colombia</p>
+    </footer>
 </body>
 </html>

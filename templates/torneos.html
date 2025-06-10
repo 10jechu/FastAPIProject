@@ -5,55 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Torneos</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #4CAF50; color: white; }
-        .action-btn { margin: 0 5px; }
-    </style>
 </head>
 <body>
-    <h1>TORNEOS</h1>
-    <table>
+    <header class="header">
+        <h1>Torneos</h1>
+        <a href="/torneos/crear/" class="btn btn-primary">Agregar Torneo</a>
+    </header>
+    <div class="filter-container">
+        <form method="get" action="/torneos/">
+            <label for="year_filter">Filtrar por Año:</label>
+            <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
+            <button type="submit" class="btn btn-secondary">Filtrar</button>
+        </form>
+    </div>
+    <table class="data-table">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>Año</th>
-                <th>Eliminado</th>
-                <th>País Anfitrión</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th>NOMBRE</th>
+                <th>AÑO</th>
+                <th>ELIMINADO</th>
+                <th>PAÍS ANFITRIÓN</th>
+                <th>ESTADO</th>
+                <th>ACCIONES</th>
             </tr>
         </thead>
         <tbody>
             {% for torneo in torneos %}
+            {% if not request.query_params.get('year') or torneo.anio == request.query_params.get('year')|int %}
             <tr>
                 <td>{{ torneo.id }}</td>
                 <td>{{ torneo.nombre }}</td>
                 <td>{{ torneo.anio }}</td>
                 <td>{{ torneo.eliminado }}</td>
-                <td>{{ torneo.pais_anfitrion }}</td>
-                <td>{{ torneo.estado }}</td>
+                <td>{{ torneo.pais_anfitrion or 'N/A' }}</td>
+                <td>{{ torneo.estado or 'N/A' }}</td>
                 <td>
-                    <a href="/torneos/{{ torneo.id }}/edit" class="action-btn">Editar</a>
-                    <a href="/torneos/{{ torneo.id }}/delete" class="action-btn">Eliminar</a>
+                    <a href="/torneos/{{ torneo.id }}/edit" class="btn btn-edit">Editar</a>
+                    <a href="/torneos/{{ torneo.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Eliminar?')">Eliminar</a>
                 </td>
             </tr>
+            {% endif %}
             {% endfor %}
-            <tr>
-                <td colspan="6"></td>
-                <td><a href="/torneos/crear/" class="action-btn">Añadir Torneo</a></td>
-            </tr>
-            <tr>
-                <td colspan="7">
-                    <h3>Papelera</h3>
-                    {% for item in load_papelera() if item.tipo == "torneo" %}
-                        <p>ID: {{ item.id }}, Tipo: {{ item.tipo }} - <a href="/torneos/{{ item.id }}/restore">Restaurar</a></p>
-                    {% endfor %}
-                </td>
-            </tr>
         </tbody>
     </table>
+    <h2>Papelera</h2>
+    <div class="trash-container">
+        {% for item in papelera %}
+        {% if item.tipo == "torneo" %}
+        <div class="trash-item">
+            <p>{{ item.data.nombre }} (ID: {{ item.id }}) - Eliminado</p>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <footer class="footer">
+        <p>© 2025 Gestión Selección Colombia</p>
+    </footer>
 </body>
 </html>

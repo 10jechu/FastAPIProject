@@ -1,96 +1,245 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f0f8ff; /* Fondo claro inspirado en el cielo colombiano */
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
     color: #333;
+    line-height: 1.6;
 }
 
-h1 {
+.header {
+    background-color: #003087;
+    color: #FCD116;
+    padding: 1.5rem;
     text-align: center;
-    color: #ffcc00; /* Amarillo de la bandera colombiana */
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px #000080; /* Sombra azul para contraste */
-    font-size: 2.5em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border: 2px solid #ce1126; /* Rojo de la bandera colombiana */
+.header h1 {
+    margin: 0;
+    font-size: 2.5rem;
 }
 
-th, td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
+.header .nav {
+    margin-top: 1rem;
 }
 
-th {
-    background-color: #000080; /* Azul de la bandera colombiana */
-    color: #ffcc00; /* Amarillo para texto */
-    font-weight: bold;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tr:hover {
-    background-color: #e6f3ff; /* Tono azul claro al pasar el mouse */
-}
-
-.btn-edit, .btn-delete, .btn-add {
-    display: inline-block;
-    padding: 8px 15px;
-    margin: 2px;
+.header .nav a {
+    color: #FCD116;
     text-decoration: none;
-    border-radius: 5px;
+    margin: 0 15px;
+    font-size: 1.1rem;
+}
+
+.header .nav a:hover {
+    color: #CE1126;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
     color: white;
-    font-size: 14px;
+    cursor: pointer;
     transition: background-color 0.3s;
 }
 
+.btn-primary {
+    background-color: #CE1126;
+}
+
+.btn-primary:hover {
+    background-color: #a50e1e;
+}
+
+.btn-secondary {
+    background-color: #003087;
+}
+
+.btn-secondary:hover {
+    background-color: #00266e;
+}
+
 .btn-edit {
-    background-color: #4CAF50; /* Verde (inspirado en la naturaleza colombiana) */
+    background-color: #2ecc71;
+    margin-right: 5px;
 }
 
 .btn-edit:hover {
-    background-color: #45a049;
+    background-color: #27ae60;
 }
 
 .btn-delete {
-    background-color: #ce1126; /* Rojo de la bandera colombiana */
+    background-color: #e74c3c;
 }
 
 .btn-delete:hover {
-    background-color: #a50f1e;
+    background-color: #c0392b;
 }
 
-.btn-add {
-    background-color: #000080; /* Azul de la bandera colombiana */
+.btn-details {
+    background-color: #3498db;
 }
 
-.btn-add:hover {
-    background-color: #000066;
+.btn-details:hover {
+    background-color: #2980b9;
 }
 
-a.btn-add {
-    margin-left: 10px;
-}
-
-/* Estilo adicional para la papelera */
-.papelera {
-    margin-top: 20px;
-    padding: 10px;
+.filter-container {
+    margin: 20px auto;
+    padding: 15px;
     background-color: #fff;
-    border: 1px solid #ce1126;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-container label {
+    font-weight: bold;
+    color: #003087;
+}
+
+.filter-container input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.data-table th {
+    background-color: #CE1126;
+    color: #FCD116;
+    padding: 12px;
+    text-align: left;
+}
+
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.data-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.player-image {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.player-image-large {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.trash-container {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.trash-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.trash-item:last-child {
+    border-bottom: none;
+}
+
+.footer {
+    background-color: #003087;
+    color: #FCD116;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 20px;
+}
+
+.news-section, .selections-section {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.news-card {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.selection-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.player-detail {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.player-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.player-info {
+    flex-grow: 1;
+}
+
+.player-info p {
+    margin: 5px 0;
+}
+
+.stats-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
     border-radius: 5px;
 }
 
-.papelera h3 {
-    color: #ffcc00;
-    margin-bottom: 10px;
+.stat-card p, .stat-card ul {
+    margin: 10px 0;
+}
+
+.stat-card ul li {
+    padding: 5px 0;
 }

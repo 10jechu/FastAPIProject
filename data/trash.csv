@@ -1,3 +1,9 @@
 id,tipo,data
 21,equipo,"{'id': 21, 'nombre': 'u catolica', 'pais': 'catolica', 'enfrentamientos_con_colombia': 2}"
 220,jugador,"{'id': 220, 'Jugadores': 'sergio motoa', 'F_Nacim_Edad': '18', 'Club': 'nacional', 'Altura': '1.88m', 'Pie': 'Derecho', 'Partidos_con_la_seleccion': 2, 'Goles': 2, 'Numero_de_camisa': 11, 'anio': 2025, 'posicion': 'Defensa', 'activo': True, 'imagen': 'Ospina.jpg'}"
+220,jugador,"{'id': 220, 'Jugadores': 'David Ospina', 'F_Nacim_Edad': '19', 'Club': 'millonarios', 'Altura': '1.83', 'Pie': 'izquierdo', 'Partidos_con_la_seleccion': 1, 'Goles': 1, 'Numero_de_camisa': 1, 'anio': 2025, 'posicion': 'Defensa', 'activo': True, 'imagen': 'Ospina.jpg'}"
+21,equipo,"{'id': 21, 'nombre': 'u catolica', 'pais': 'Arabia Saudita', 'enfrentamientos_con_colombia': 100}"
+8,torneo,"{'id': 8, 'nombre': 'u catolica', 'anio': 2025, 'eliminado': 'si', 'pais_anfitrion': 'argentina', 'estado': 'no activo'}"
+51,partido,"{'id': 51, 'fecha': '2024/05/20', 'equipo_local': 'Colombia', 'equipo_visitante': 'u catolica', 'goles_local': 5, 'goles_visitante': 2, 'torneo_id': None, 'eliminado': 'si', 'tarjetas_amarillas_local': 2, 'tarjetas_amarillas_visitante': 1, 'tarjetas_rojas_local': 2, 'tarjetas_rojas_visitante': 1}"
+52,partido,"{'id': 52, 'fecha': '2024/05/20', 'equipo_local': 'Colombia', 'equipo_visitante': 'u catolica', 'goles_local': 5, 'goles_visitante': 2, 'torneo_id': None, 'eliminado': 'si', 'tarjetas_amarillas_local': 0, 'tarjetas_amarillas_visitante': 4, 'tarjetas_rojas_local': 0, 'tarjetas_rojas_visitante': 4}"
+53,partido,"{'id': 53, 'fecha': '2025/05/20', 'equipo_local': 'Colombia', 'equipo_visitante': 'u catolica', 'goles_local': 5, 'goles_visitante': 0, 'torneo_id': None, 'eliminado': 'si', 'tarjetas_amarillas_local': 0, 'tarjetas_amarillas_visitante': 0, 'tarjetas_rojas_local': 0, 'tarjetas_rojas_visitante': 0}"

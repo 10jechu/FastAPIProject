@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas Completas</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>Estadísticas Completas</h1>
+    </header>
+    <main class="stats-container">
+        <h2>Resumen General</h2>
+        <div class="stat-card">
+            <p><strong>Victorias Totales:</strong> {{ victorias_total }}</p>
+            <p><strong>Goles Totales:</strong> {{ goles_total }}</p>
+            <p><strong>Partidos Jugados Totales:</strong> {{ partidos_jugados_total }}</p>
+            <p><strong>Promedio Goles Total:</strong> {{ "%.2f"|format(promedio_goles_total) }}</p>
+        </div>
+        <h2>Estadísticas por Año</h2>
+        <div class="stat-card">
+            <ul>
+                {% for anio, victorias in victorias_por_anio.items() %}
+                <li>
+                    <strong>Año {{ anio }}:</strong>
+                    {{ victorias }} victorias,
+                    {{ goles_por_anio[anio] }} goles,
+                    {{ partidos_jugados_por_anio[anio] }} partidos,
+                    Promedio: {{ "%.2f"|format(promedio_goles_por_anio[anio]) }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Gestión Selección Colombia</p>
+    </footer>
+</body>
+</html>
