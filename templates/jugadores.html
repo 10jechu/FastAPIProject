@@ -6,27 +6,86 @@
     <title>Jugadores - Selección Colombia</title>
     <link rel="stylesheet" href="/static/css/styles.css">
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
-        header { background: linear-gradient(to right, #ffcc00, #ff6600); padding: 10px; text-align: center; }
-        header h1 { color: #fff; margin: 0; font-size: 24px; }
-        nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
-        nav a.active { text-decoration: underline; }
-        .container { max-width: 1200px; margin: 20px auto; padding: 20px; background: #fff; border: 2px solid #000080; border-radius: 5px; }
-        h2 { color: #ff0000; margin-top: 0; }
-        .filter-form { margin-bottom: 20px; }
-        .filter-form input[type="number"] { padding: 5px; margin-right: 10px; }
-        .filter-form button, .create-btn { background: #ff0000; color: #fff; border: none; padding: 5px 15px; cursor: pointer; }
-        .filter-form button:hover, .create-btn:hover { background: #cc0000; }
-        .card { display: inline-block; width: 180px; margin: 10px; padding: 10px; border: 2px solid #000080; border-radius: 5px; text-align: center; vertical-align: top; }
-        .card img { max-width: 100%; height: auto; }
-        .card h3 { margin: 5px 0; font-size: 16px; }
-        .card p { margin: 2px 0; font-size: 14px; }
-        .btn { display: inline-block; padding: 5px 10px; margin: 3px; text-decoration: none; border-radius: 3px; }
-        .btn-edit { background: #008000; color: #fff; }
-        .btn-delete { background: #ff0000; color: #fff; }
-        .btn-view { background: #ffff00; color: #000; }
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: linear-gradient(to right, #ffcc00, #ff6600);
+            padding: 10px;
+            text-align: center;
+        }
+        header h1 {
+            color: #fff;
+            margin: 0;
+            font-size: 24px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        nav a.active {
+            text-decoration: underline;
+        }
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #000080;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+        }
+        .filter-form input[type="number"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .filter-form button, .create-btn {
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .filter-form button:hover, .create-btn:hover {
+            background-color: #cc0000;
+        }
+        .player-card {
+            display: inline-block;
+            width: 200px;
+            margin: 10px;
+            padding: 10px;
+            border: 2px solid #000080;
+            border-radius: 5px;
+            text-align: center;
+            background: #fff;
+        }
+        .player-card img {
+            max-width: 100%;
+            height: auto;
+        }
+        .player-card p {
+            margin: 5px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 3px;
+        }
+        .btn-edit { background-color: #008000; }
+        .btn-delete { background-color: #ff0000; }
+        .btn-view { background-color: #ffff00; color: #000; }
         .btn:hover { opacity: 0.8; }
-        footer { background: #ffcc00; color: #000; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
     </style>
 </head>
 <body>
@@ -42,6 +101,7 @@
             <a href="/documentacion/" class="">Documentación</a>
         </nav>
     </header>
+
     <div class="container">
         <h2>Lista de Jugadores</h2>
         <div class="filter-form">
@@ -54,7 +114,7 @@
         </div>
         <div>
             {% for jugador in jugadores %}
-            <div class="card">
+            <div class="player-card">
                 <img src="{{ jugador.imagen if jugador.imagen else 'https://via.placeholder.com/150' }}" alt="{{ jugador.nombre }}">
                 <h3>{{ jugador.nombre }}</h3>
                 <p>Posición: {{ jugador.posicion }}</p>
@@ -67,7 +127,8 @@
             {% endfor %}
         </div>
     </div>
-    <footer>
+
+    <footer style="background-color: #ffcc00; color: #000; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
 </body>
