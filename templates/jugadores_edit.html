@@ -1,70 +1,56 @@
-{% extends "base.html" %}
-{% block title %}Editar Jugador - Selección Colombia{% endblock %}
-{% block header_title %}Editar Jugador{% endblock %}
-{% block content %}
-<div class="content">
-    <section class="card">
-        <h2>Editar Jugador: {{ jugador.nombre }}</h2>
-        <form action="/jugadores/{{ jugador.id }}/update" method="post" class="form-container">
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" value="{{ jugador.nombre }}" required>
-            </div>
-            <div class="form-group">
-                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ jugador.fecha_nacimiento }}" required>
-            </div>
-            <div class="form-group">
-                <label for="club">Club</label>
-                <input type="text" id="club" name="club" value="{{ jugador.club }}" required>
-            </div>
-            <div class="form-group">
-                <label for="altura">Altura (m)</label>
-                <input type="text" id="altura" name="altura" value="{{ jugador.altura }}" required>
-            </div>
-            <div class="form-group">
-                <label for="pie">Pie Dominante</label>
-                <select id="pie" name="pie" required>
-                    <option value="Derecho" {% if jugador.pie == 'Derecho' %}selected{% endif %}>Derecho</option>
-                    <option value="Izquierdo" {% if jugador.pie == 'Izquierdo' %}selected{% endif %}>Izquierdo</option>
-                    <option value="Ambos" {% if jugador.pie == 'Ambos' %}selected{% endif %}>Ambos</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="partidos">Partidos Jugados</label>
-                <input type="number" id="partidos" name="partidos" value="{{ jugador.partidos }}" min="0" required>
-            </div>
-            <div class="form-group">
-                <label for="goles">Goles</label>
-                <input type="number" id="goles" name="goles" value="{{ jugador.goles }}" min="0" required>
-            </div>
-            <div class="form-group">
-                <label for="numero_camisa">Número de Camiseta</label>
-                <input type="number" id="numero_camisa" name="numero_camisa" value="{{ jugador.numero_camisa }}" min="1" required>
-            </div>
-            <div class="form-group">
-                <label for="anio">Año de Registro</label>
-                <input type="number" id="anio" name="anio" value="{{ jugador.anio }}" min="2021" max="2024" required>
-            </div>
-            <div class="form-group">
-                <label for="posicion">Posición</label>
-                <select id="posicion" name="posicion" required>
-                    <option value="Portero" {% if jugador.posicion == 'Portero' %}selected{% endif %}>Portero</option>
-                    <option value="Defensa" {% if jugador.posicion == 'Defensa' %}selected{% endif %}>Defensa</option>
-                    <option value="Medio" {% if jugador.posicion == 'Medio' %}selected{% endif %}>Medio</option>
-                    <option value="Delantero" {% if jugador.posicion == 'Delantero' %}selected{% endif %}>Delantero</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="activo">Activo</label>
-                <input type="checkbox" id="activo" name="activo" {% if jugador.activo %}checked{% endif %}>
-            </div>
-            <div class="form-group">
-                <label for="imagen">URL de Imagen</label>
-                <input type="url" id="imagen" name="imagen" value="{{ jugador.imagen or '' }}" placeholder="https://example.com/image.jpg">
-            </div>
-            <button type="submit" class="btn btn-primary">Actualizar Jugador</button>
-        </form>
-    </section>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Jugador - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
+        <h1>Editar Jugador</h1>
+        <nav>
+            <a href="/" class="nav-btn">Inicio</a>
+            <a href="/jugadores/" class="nav-btn">Jugadores</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="stats-card">
+            <h2>Editar Jugador: {{ jugador.nombre }}</h2>
+            <form method="post" action="/jugadores/{{ jugador.id }}/update">
+                <label for="nombre">Nombre:</label><br>
+                <input type="text" id="nombre" name="nombre" value="{{ jugador.nombre }}" required><br>
+                <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
+                <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ jugador.fecha_nacimiento }}" required><br>
+                <label for="club">Club:</label><br>
+                <input type="text" id="club" name="club" value="{{ jugador.club }}" required><br>
+                <label for="altura">Altura:</label><br>
+                <input type="text" id="altura" name="altura" value="{{ jugador.altura }}" required><br>
+                <label for="pie">Pie:</label><br>
+                <input type="text" id="pie" name="pie" value="{{ jugador.pie }}" required><br>
+                <label for="partidos">Partidos:</label><br>
+                <input type="number" id="partidos" name="partidos" value="{{ jugador.partidos }}" required><br>
+                <label for="goles">Goles:</label><br>
+                <input type="number" id="goles" name="goles" value="{{ jugador.goles }}" required><br>
+                <label for="numero_camisa">Número de Camisa:</label><br>
+                <input type="number" id="numero_camisa" name="numero_camisa" value="{{ jugador.numero_camisa }}" required><br>
+                <label for="anio">Año:</label><br>
+                <input type="number" id="anio" name="anio" value="{{ jugador.anio }}" required><br>
+                <label for="posicion">Posición:</label><br>
+                <input type="text" id="posicion" name="posicion" value="{{ jugador.posicion }}" required><br>
+                <label for="activo">Activo:</label><br>
+                <input type="checkbox" id="activo" name="activo" {% if jugador.activo %}checked{% endif %}><br>
+                <label for="imagen">URL de la Imagen (ej. /static/images/players/nombre.png):</label><br>
+                <input type="text" id="imagen" name="imagen" value="{{ jugador.imagen if jugador.imagen else '' }}" placeholder="Ejemplo: /static/images/players/jugador1.png"><br>
+                <button type="submit" class="btn btn-primary">Actualizar Jugador</button>
+            </form>
+            <a href="/jugadores/" class="btn btn-primary">Volver</a>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
+    </footer>
+</body>
+</html>

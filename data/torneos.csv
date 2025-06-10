@@ -1,8 +1,8 @@
-id,nombre,anio,eliminado,pais_anfitrion,estado
-2,Eliminatorias Catar 2022,2021,Sí,colombia,activo
-3,Copa América 2021,2021,Sí,brasil,no activo
-4,Amistoso 2022,2022,No,,
-5,Amistoso 2023,2023,No,,
-6,Eliminatorias 2026,2023,No,,
-7,Amistoso 2024,2024,No,,
-8,Copa América 2024,2024,si,argentina,activo
+id,nombre,anio,eliminado,pais_anfitrion,estado,imagen
+2,Eliminatorias Catar 2022,2021,Sí,colombia,activo,https://s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/06/05114145/Qatar-2022-1920-1.jpg
+3,Copa América 2021,2021,Sí,brasil,no activo,https://cdn.conmebol.com/wp-content/uploads/2021/06/microsoftteams-image_5_3.png
+4,Amistoso 2022,2022,No,,,https://ssl.gstatic.com/onebox/media/sports/logos/tXHnA_tDylayacdjWQCJvw_64x64.png
+5,Amistoso 2023,2023,No,,,https://ssl.gstatic.com/onebox/media/sports/logos/tXHnA_tDylayacdjWQCJvw_64x64.png
+6,Eliminatorias 2026,2023,No,,,https://i0.wp.com/panamericanworld.com/wp-content/uploads/2024/08/mundial-2026.jpg?resize=1080%2C675&ssl=1
+7,Amistoso 2024,2024,No,,,https://ssl.gstatic.com/onebox/media/sports/logos/tXHnA_tDylayacdjWQCJvw_64x64.png
+8,Copa América 2024,2024,si,argentina,activo,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA8DRHEpSfXgpET4Kl26TSFpFCWbnwZDlqIQ&s

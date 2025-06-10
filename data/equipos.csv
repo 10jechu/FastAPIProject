@@ -1,20 +1,20 @@
 id,nombre,pais,enfrentamientos_con_colombia,bandera
-1,Argentina,Argentina,8,/static/images/flags/argentina.png
-2,Bolivia,Bolivia,2,/static/images/flags/bolivia.png
-3,Brasil,Brasil,5,/static/images/flags/brasil.png
-4,Chile,Chile,3,/static/images/flags/chile.png
-5,Costa Rica,Costa Rica,4,/static/images/flags/costa_rica.png
-6,Corea del Sur,Corea del Sur,2,/static/images/flags/corea_del_sur.png
-7,Ecuador,Ecuador,4,/static/images/flags/ecuador.png
-8,España,España,1,/static/images/flags/espana.png
-9,Estados Unidos,Estados Unidos,2,/static/images/flags/estados_unidos.png
-10,Irak,Irak,1,/static/images/flags/irak.png
-11,Japón,Japón,1,/static/images/flags/japon.png
-12,México,México,3,/static/images/flags/mexico.png
-13,Panamá,Panamá,4,/static/images/flags/panama.png
-14,Paraguay,Paraguay,9,/static/images/flags/paraguay.png
-15,Perú,Perú,6,/static/images/flags/peru.png
-16,Rumania,Rumania,1,/static/images/flags/rumania.png
-17,Uruguay,Uruguay,7,/static/images/flags/uruguay.png
-18,Venezuela,Venezuela,5,/static/images/flags/venezuela.png
-19,Alemania,Alemania,3,/static/images/flags/alemania.png
+1,Argentina,Argentina,8,https://i.pinimg.com/736x/b1/7c/f0/b17cf033b2066794330a415b32991d29.jpg
+2,Bolivia,Bolivia,2,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqLjpu2UkyYKdNFc1cpYeqyZtjQ-GcVrMFdw&s
+3,Brasil,Brasil,5,https://brandemia.org/contenido/subidas/2022/12/02-escudo-cbf-1200x670.webp
+4,Chile,Chile,3,https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Federaci%C3%B3n_de_F%C3%BAtbol_de_Chile_logo.svg/1229px-Federaci%C3%B3n_de_F%C3%BAtbol_de_Chile_logo.svg.png
+5,Costa Rica,Costa Rica,4,https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Costa_Rica_national_football_team_logo.svg/1200px-Costa_Rica_national_football_team_logo.svg.png
+6,Corea del Sur,Corea del Sur,2,https://logodownload.org/wp-content/uploads/2022/12/south-korea-national-football-team-logo-2.png
+7,Ecuador,Ecuador,4,https://i.pinimg.com/736x/ce/f9/75/cef9757b566827ec0dce340601ca6a10.jpg
+8,España,España,1,https://i.pinimg.com/1200x/69/5c/5a/695c5a9a6a6679d564b1e575da712726.jpg
+9,Estados Unidos,Estados Unidos,2,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyfCT4EEcrMbAGFsZBwajOFBcieLeOwtMO0Q&s
+10,Irak,Irak,1,https://upload.wikimedia.org/wikipedia/commons/e/ea/Iraq_National_Team_Badge_2021_v2.svg
+11,Japón,Japón,1,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScH8cZAaB_ae4LGZv0BDtjHlDaJEn0XaT-tQ&s
+12,México,México,3,https://i.pinimg.com/736x/40/e3/06/40e3060eb5636db8981222dca3a22767.jpg
+13,Panamá,Panamá,4,https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh70Y8_eXDykZEoyGLVHN1m5TvBm_VgW6ACWblDeBil2RiKVMWsfuHMK_wmZz-6Pma1z7xogQ4NX-aZa2UO6lJlDISRccN9g_urSAoUJd8EufhPnE2446OCZ6QtVRBEq6XZRApAFYbBFbTHgoVkQiMY3sg3C1rZwGYoINml4e7mau927N20P1xgQcFxuP0/s1600/lanzamiento-del-nuevo-logotipo-de-panama.jpg
+14,Paraguay,Paraguay,9,https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Asociaci%C3%B3n_Paraguaya_de_F%C3%BAtbol_logo.svg/800px-Asociaci%C3%B3n_Paraguaya_de_F%C3%BAtbol_logo.svg.png
+15,Perú,Perú,6,https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Logotipo_de_la_Federaci%C3%B3n_Peruana_de_F%C3%BAtbol.svg/810px-Logotipo_de_la_Federaci%C3%B3n_Peruana_de_F%C3%BAtbol.svg.png
+16,Rumania,Rumania,1,https://img.planetafobal.com/2017/11/escudo-rumania-2017-frf.jpg
+17,Uruguay,Uruguay,7,https://seeklogo.com/images/A/asociacion-uruguaya-de-futbol-logo-8AE2DF5DB7-seeklogo.com.png
+18,Venezuela,Venezuela,5,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Logo_escudo_FVF%2C_2023.svg/640px-Logo_escudo_FVF%2C_2023.svg.png
+19,Alemania,Alemania,3,https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/1894.png

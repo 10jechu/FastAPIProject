@@ -1,25 +1,40 @@
-{% extends "base.html" %}
-{% block title %}Editar Equipo - Selección Colombia{% endblock %}
-{% block header_title %}Editar Equipo{% endblock %}
-{% block content %}
-<div class="content">
-    <section class="card">
-        <h2>Editar Equipo: {{ equipo.nombre }}</h2>
-        <form action="/equipos/{{ equipo.id }}/update" method="post" class="form-container">
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" value="{{ equipo.nombre }}" required>
-            </div>
-            <div class="form-group">
-                <label for="pais">País</label>
-                <input type="text" id="pais" name="pais" value="{{ equipo.pais }}" required>
-            </div>
-            <div class="form-group">
-                <label for="enfrentamientos_con_colombia">Enfrentamientos con Colombia</label>
-                <input type="number" id="enfrentamientos_con_colombia" name="enfrentamientos_con_colombia" value="{{ equipo.enfrentamientos_con_colombia }}" min="0" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Actualizar Equipo</button>
-        </form>
-    </section>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Equipo - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
+        <h1>Editar Equipo</h1>
+        <nav>
+            <a href="/" class="nav-btn">Inicio</a>
+            <a href="/equipos/" class="nav-btn">Equipos</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="stats-card">
+            <h2>Editar Equipo: {{ equipo.nombre }}</h2>
+            <form method="post" action="/equipos/{{ equipo.id }}/update">
+                <label for="nombre">Nombre:</label><br>
+                <input type="text" id="nombre" name="nombre" value="{{ equipo.nombre }}" required><br>
+                <label for="pais">País:</label><br>
+                <input type="text" id="pais" name="pais" value="{{ equipo.pais }}" required><br>
+                <label for="enfrentamientos_con_colombia">Enfrentamientos con Colombia:</label><br>
+                <input type="number" id="enfrentamientos_con_colombia" name="enfrentamientos_con_colombia" value="{{ equipo.enfrentamientos_con_colombia }}" required><br>
+                <label for="bandera">URL de la Bandera (ej. /static/images/flags/nombre.png):</label><br>
+                <input type="text" id="bandera" name="bandera" value="{{ equipo.bandera if equipo.bandera else '' }}" placeholder="Ejemplo: /static/images/flags/argentina.png"><br>
+                <button type="submit" class="btn btn-primary">Actualizar Equipo</button>
+            </form>
+            <a href="/equipos/" class="btn btn-primary">Volver</a>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
+    </footer>
+</body>
+</html>

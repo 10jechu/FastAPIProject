@@ -31,12 +31,12 @@ id,nombre,fecha_nacimiento,club,altura,pie,partidos,goles,numero_camisa,anio,pos
 31,Yairo Moreno,04/04/1995 (25),Sin equipo,1.84m,Izquierdo,16,0,17,2021,Medio,True,https://www.tudn.com/api/image/x/us/futbol/copa-america/yairo-moreno-baja-copa-america-2021-lesion-colombia
 32,James Rodríguez,12/07/1991 (29),Club León FC,1.80m,Izquierdo,114,29,10,2021,Medio,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpOczRX-6QxDM05Li2fUZBSsUjGJ0JGOMdWA&s
 33,Juan Fernando Quintero,18/01/1993 (27),CD América de Cali,1.68m,Izquierdo,41,5,10,2021,Medio,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXSJrpXyVxAiXdbg-RUAD47hZcrDXe47XAgQ&s
-34,Edwin Cardona,08/12/1992 (28),Atlético Nacional,1.83m,Derecho,45,6,10,2021,Mediocampista,True,
-35,Luis Díaz,13/01/1997 (23),Liverpool FC,1.80m,Derecho,63,18,14,2021,Delantero,True,
-36,Luis Sinisterra,17/06/1999 (21),AFC Bournemouth,1.72m,Derecho,18,5,18,2021,Delantero,True,
-37,Jáminton Campaz,24/05/2000 (20),CA Rosario Central,1.65m,Izquierdo,3,0,20,2021,Delantero,True,
+34,Edwin Cardona,08/12/1992 (28),Atlético Nacional,1.83m,Derecho,45,6,10,2021,Medio,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrQFuSwdsyHPjSMEllJkYFv3lh971qyYNoAg&s
+35,Luis Díaz,13/01/1997 (23),Liverpool FC,1.80m,Derecho,63,18,14,2021,Delantero,True,https://images.copaamerica.com/000_9EJ2L2.jpg
+36,Luis Sinisterra,17/06/1999 (21),AFC Bournemouth,1.72m,Derecho,18,5,18,2021,Delantero,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2Uv1vt8UyccCS-tlJ2e320wyDSwKuRepmEQ&s
+37,Jáminton Campaz,24/05/2000 (20),CA Rosario Central,1.65m,Izquierdo,3,0,20,2021,Delantero,True,https://caracoltv.brightspotcdn.com/dims4/default/9adebe5/2147483647/strip/true/crop/1026x609+0+0/resize/400x237!/quality/75/?url=http%3A%2F%2Fcaracol-brightspot.s3.us-west-2.amazonaws.com%2F14%2Fc6%2F8cef73f24e8297063ee6ac0f10e6%2Fwhatsapp-image-2024-07-17-at-6-24-16-am.jpeg
 38,Andrés Andrade,23/02/1989 (31),Atlético Bucaramanga,1.83m,Derecho,1,0,7,2021,Medio,True,https://cloudfront-us-east-1.images.arcpublishing.com/semana/A65MELDXBFBHHGNSL6MRHQG2Y4.jpg
-39,Yimmi Chará,02/04/1991 (29),Junior de Barranquilla,1.68m,Derecho,16,1,28,2021,Delantero,True,
+39,Yimmi Chará,02/04/1991 (29),Junior de Barranquilla,1.68m,Derecho,16,1,28,2021,Delantero,True,https://files.lafm.com.co/assets/public/styles/img_node_706x392/public/2021-07/000_9ej2lb_1_0.jpg.webp?VersionId=54hANcl5zbcd1mdBQNvIKjy6p4PtDBg5&itok=ScyBfUNk
 40,Diego Valoyes,22/09/1996 (24),FC Juárez,1.81m,Derecho,8,0,22,2021,Delantero,True,
 41,Duván Zapata,01/04/1991 (29),Torino FC,1.88m,Derecho,34,4,7,2021,Delantero,True,
 42,Luis Muriel,16/04/1991 (29),Orlando City SC,1.80m,Derecho,45,8,9,2021,Delantero,True,

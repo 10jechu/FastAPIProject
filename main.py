@@ -246,6 +246,7 @@ async def get_jugador_detalle(request: Request, id: int):
 @app.get("/equipos/", response_class=HTMLResponse)
 async def get_equipos(request: Request, year: Optional[int] = None):
     equipos = load_equipos()
+    print("Equipos cargados:", equipos)  # Depuración
     if year:
         equipos = [e for e in equipos if any(p.fecha.startswith(str(year)) for p in load_partidos() if e.nombre in [p.equipo_local, p.equipo_visitante])]
     return templates.TemplateResponse("equipos.html", {"request": request, "equipos": equipos, "year": year})
@@ -401,10 +402,10 @@ async def create_torneo_form(request: Request):
 
 @app.post("/torneos/crear/")
 async def create_torneo(nombre: str = Form(...), anio: int = Form(...), eliminado: str = Form(...),
-                       pais_anfitrion: str = Form(""), estado: str = Form(""), imagen: str = Form("")):
+                       pais_anfitrion: str = Form(""), estado: str = Form(""), imagen: str = Form(...)):
     torneos = load_torneos()
     new_id = max([t.id for t in torneos] + [0]) + 1
-    imagen_validada = Torneo.validate_image(imagen) if imagen else None
+    imagen_validada = Torneo.validate_image(imagen)
     new_torneo = Torneo(id=new_id, nombre=nombre, anio=anio, eliminado=eliminado,
                         pais_anfitrion=pais_anfitrion if pais_anfitrion else None,
                         estado=estado if estado else None, imagen=imagen_validada)
@@ -522,10 +523,11 @@ async def read_root(request: Request):
             continue
     return templates.TemplateResponse("index.html", {
         "request": request,
+        "jugadores": jugadores,
         "victorias_total": victorias_total,
         "goles_total": goles_total,
         "partidos_jugados_total": partidos_jugados_total,
-        "last_update": "10 de junio de 2025, 03:00 AM -05"
+        "last_update": "10 de junio de 2025, 03:42 AM -05"
     })
 
 @app.get("/documentacion/", response_class=HTMLResponse)

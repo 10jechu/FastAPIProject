@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+from typing import Optional
+import pandas as pd
 
 class Equipo(BaseModel):
     id: int
