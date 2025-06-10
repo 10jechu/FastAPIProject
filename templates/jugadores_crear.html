@@ -1,71 +1,70 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Jugador</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
-    <style>
-        .form-group { margin-bottom: 15px; }
-        label { font-weight: bold; }
-        input { padding: 5px; width: 200px; }
-        button { padding: 5px 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-    </style>
-</head>
-<body>
-    <h1>Crear Jugador</h1>
-    <form method="post" action="/jugadores/crear/">
-        <div class="form-group">
-            <label for="Jugadores">Nombre:</label><br>
-            <input type="text" id="Jugadores" name="Jugadores" required>
-        </div>
-        <div class="form-group">
-            <label for="F_Nacim_Edad">Fecha Nacimiento/Edad:</label><br>
-            <input type="text" id="F_Nacim_Edad" name="F_Nacim_Edad" required>
-        </div>
-        <div class="form-group">
-            <label for="Club">Club:</label><br>
-            <input type="text" id="Club" name="Club" required>
-        </div>
-        <div class="form-group">
-            <label for="Altura">Altura:</label><br>
-            <input type="text" id="Altura" name="Altura" required>
-        </div>
-        <div class="form-group">
-            <label for="Pie">Pie:</label><br>
-            <input type="text" id="Pie" name="Pie" required>
-        </div>
-        <div class="form-group">
-            <label for="Partidos_con_la_seleccion">Partidos con la Selección:</label><br>
-            <input type="number" id="Partidos_con_la_seleccion" name="Partidos_con_la_seleccion" required>
-        </div>
-        <div class="form-group">
-            <label for="Goles">Goles:</label><br>
-            <input type="number" id="Goles" name="Goles" required>
-        </div>
-        <div class="form-group">
-            <label for="Numero_de_camisa">Número de Camisa:</label><br>
-            <input type="number" id="Numero_de_camisa" name="Numero_de_camisa" required>
-        </div>
-        <div class="form-group">
-            <label for="anio">Año:</label><br>
-            <input type="number" id="anio" name="anio" required>
-        </div>
-        <div class="form-group">
-            <label for="posicion">Posición:</label><br>
-            <input type="text" id="posicion" name="posicion" required>
-        </div>
-        <div class="form-group">
-            <label for="activo">Activo:</label><br>
-            <input type="checkbox" id="activo" name="activo">
-        </div>
-        <div class="form-group">
-            <label for="imagen">Imagen:</label><br>
-            <input type="text" id="imagen" name="imagen">
-        </div>
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="/jugadores/">Volver</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Crear Jugador - Selección Colombia{% endblock %}
+{% block header_title %}Crear Jugador{% endblock %}
+{% block content %}
+<div class="content">
+    <section class="card">
+        <h2>Crear Nuevo Jugador</h2>
+        <form action="/jugadores/crear/" method="post" class="form-container">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha_nacimiento">Fecha de Nacimiento (YYYY-MM-DD)</label>
+                <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="YYYY-MM-DD" required>
+            </div>
+            <div class="form-group">
+                <label for="club">Club</label>
+                <input type="text" id="club" name="club" required>
+            </div>
+            <div class="form-group">
+                <label for="altura">Altura (m)</label>
+                <input type="text" id="altura" name="altura" placeholder="1.80" required>
+            </div>
+            <div class="form-group">
+                <label for="pie">Pie Dominante</label>
+                <select id="pie" name="pie" required>
+                    <option value="Derecho">Derecho</option>
+                    <option value="Izquierdo">Izquierdo</option>
+                    <option value="Ambos">Ambos</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="partidos">Partidos Jugados</label>
+                <input type="number" id="partidos" name="partidos" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="goles">Goles</label>
+                <input type="number" id="goles" name="goles" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="numero_camisa">Número de Camiseta</label>
+                <input type="number" id="numero_camisa" name="numero_camisa" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="anio">Año de Registro</label>
+                <input type="number" id="anio" name="anio" min="2021" max="2024" required>
+            </div>
+            <div class="form-group">
+                <label for="posicion">Posición</label>
+                <select id="posicion" name="posicion" required>
+                    <option value="Portero">Portero</option>
+                    <option value="Defensa">Defensa</option>
+                    <option value="Medio">Medio</option>
+                    <option value="Delantero">Delantero</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="activo">Activo</label>
+                <input type="checkbox" id="activo" name="activo">
+            </div>
+            <div class="form-group">
+                <label for="imagen">URL de Imagen</label>
+                <input type="url" id="imagen" name="imagen" placeholder="https://example.com/image.jpg">
+            </div>
+            <button type="submit" class="btn btn-primary">Crear Jugador</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

@@ -1,73 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipos</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
-</head>
-<body>
-    <header class="header">
-        <h1>Equipos</h1>
-        <nav class="nav">
-            <a href="/" class="nav-link">Inicio</a>
-            <a href="/jugadores/" class="nav-link">Jugadores</a>
-            <a href="/equipos/" class="nav-link active">Equipos</a>
-            <a href="/partidos/" class="nav-link">Partidos</a>
-            <a href="/plantillas/" class="nav-link">Plantillas</a>
-            <a href="/torneos/" class="nav-link">Torneos</a>
-            <a href="/estadisticas/completa/" class="nav-link">Estadísticas</a>
-            <a href="/documentacion/" class="nav-link">Documentación</a>
-        </nav>
-        <a href="/equipos/crear/" class="btn btn-primary">Agregar</a>
-    </header>
-    <div class="filter-container">
-        <form method="get" action="/equipos/">
-            <label for="year_filter">Filtrar por Año (si aplica):</label>
-            <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
-            <button type="submit" class="btn btn-secondary">Filtrar</button>
-        </form>
-    </div>
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>NOMBRE</th>
-                <th>PAÍS</th>
-                <th>ENFRENTAMIENTOS</th>
-                <th>ACCIONES</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for equipo in equipos %}
-            {% if not request.query_params.get('year') or str(equipo.id)[:4] == request.query_params.get('year') %}
-            <tr>
-                <td>{{ equipo.id }}</td>
-                <td>{{ equipo.nombre }}</td>
-                <td>{{ equipo.pais }}</td>
-                <td>{{ equipo.enfrentamientos_con_colombia }}</td>
-                <td>
-                    <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-edit">Editar</a>
-                    <a href="/equipos/{{ equipo.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Eliminar?')">Eliminar</a>
-                </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    <h2>Papelera</h2>
-    <div class="trash-container">
-        {% for item in papelera %}
-        {% if item.tipo == "equipo" %}
-        <div class="trash-item">
-            <p>{{ item.data.nombre }} (ID: {{ item.id }}) - Eliminado</p>
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-    <footer class="footer">
-        <p>© 2025 Gestión Selección Colombia</p>
-    </footer>
-    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Equipos - Selección Colombia{% endblock %}
+{% block header_title %}Equipos{% endblock %}
+{% block content %}
+<div class="content">
+    <section class="card">
+        <h2>Lista de Equipos</h2>
+        <a href="/equipos/crear/" class="btn btn-primary">Crear Equipo</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>País</th>
+                    <th>Enfrentamientos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipo in equipos %}
+                <tr>
+                    <td>{{ equipo.nombre }}</td>
+                    <td>{{ equipo.pais }}</td>
+                    <td>{{ equipo.enfrentamientos_con_colombia }}</td>
+                    <td>
+                        <a href="/equipos/{{ equipo.id }}" class="btn btn-primary">Ver</a>
+                        <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-edit">Editar</a>
+                        <a href="/equipos/{{ equipo.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar a {{ equipo.nombre }}?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</div>
+{% endblock %}

@@ -3,35 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle Partido</title>
+    <title>Detalle del Partido - Selección Colombia</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores/">Jugadores</a>
-        <a href="/equipos/">Equipos</a>
-        <a href="/partidos/">Partidos</a>
-        <a href="/plantillas/">Plantillas</a>
-        <a href="/torneos/">Torneos</a>
-        <a href="/estadisticas/completa/">Estadísticas</a>
-        <a href="/documentacion/">Documentación</a>
-    </nav>
-    <div class="content">
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 10px; text-align: center;">
         <h1>Detalle del Partido</h1>
-        <p><strong>ID:</strong> {{ partido.id }}</p>
-        <p><strong>Equipo Local:</strong> {{ partido.equipo_local }}</p>
-        <p><strong>Equipo Visitante:</strong> {{ partido.equipo_visitante }}</p>
-        <p><strong>Fecha:</strong> {{ partido.fecha }}</p>
-        <p><strong>Goles Local:</strong> {{ partido.goles_local }}</p>
-        <p><strong>Goles Visitante:</strong> {{ partido.goles_visitante }}</p>
-        <p><strong>Torneo ID:</strong> {{ partido.torneo_id }}</p>
-        <p><strong>Eliminado:</strong> {{ partido.eliminado }}</p>
-        <p><strong>Tarjetas Amarillas Local:</strong> {{ partido.tarjetas_amarillas_local }}</p>
-        <p><strong>Tarjetas Amarillas Visitante:</strong> {{ partido.tarjetas_amarillas_visitante }}</p>
-        <p><strong>Tarjetas Rojas Local:</strong> {{ partido.tarjetas_rojas_local }}</p>
-        <p><strong>Tarjetas Rojas Visitante:</strong> {{ partido.tarjetas_rojas_visitante }}</p>
-        <a href="/partidos/{{ partido.id }}/edit">Editar</a>
-    </div>
+        <nav>
+            <a href="/" class="nav-btn">Inicio</a>
+            <a href="/partidos/" class="nav-btn active">Partidos</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Información del Partido</h2>
+            <p><strong>Fecha:</strong> {{ partido.fecha }}</p>
+            <p><strong>Equipo Local:</strong> {{ partido.equipo_local }}</p>
+            <p><strong>Equipo Visitante:</strong> {{ partido.equipo_visitante }}</p>
+            <p><strong>Goles Local:</strong> {{ partido.goles_local }}</p>
+            <p><strong>Goles Visitante:</strong> {{ partido.goles_visitante }}</p>
+            <p><strong>Torneo:</strong> {{ torneos_dict[partido.torneo_id].nombre if partido.torneo_id else 'Sin torneo' }}</p>
+            <p><strong>Eliminado:</strong> {{ partido.eliminado if partido.eliminado else 'No' }}</p>
+            <p><strong>Tarjetas Amarillas Local:</strong> {{ partido.tarjetas_amarillas_local }}</p>
+            <p><strong>Tarjetas Amarillas Visitante:</strong> {{ partido.tarjetas_amarillas_visitante }}</p>
+            <p><strong>Tarjetas Rojas Local:</strong> {{ partido.tarjetas_rojas_local }}</p>
+            <p><strong>Tarjetas Rojas Visitante:</strong> {{ partido.tarjetas_rojas_visitante }}</p>
+            <a href="/partidos/" class="btn btn-primary">Volver</a>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
+    </footer>
 </body>
 </html>

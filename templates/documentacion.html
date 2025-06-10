@@ -4,138 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentación - Selección Colombia</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores/">Jugadores</a>
-        <a href="/equipos/">Equipos</a>
-        <a href="/partidos/">Partidos</a>
-        <a href="/plantillas/">Plantillas</a>
-        <a href="/torneos/">Torneos</a>
-        <a href="/estadisticas/completa/">Estadísticas</a>
-        <a href="/documentacion/">Documentación</a>
-    </nav>
-    <div class="content">
-        <h1>Documentación del Proyecto</h1>
-        <p>Detalles completos sobre el sistema de gestión de la Selección Colombia.</p>
+    <header class="header">
+        <h1>Documentación - Selección Colombia</h1>
+        <nav class="nav">
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/jugadores/" class="nav-link">Jugadores</a>
+            <a href="/equipos/" class="nav-link">Equipos</a>
+            <a href="/partidos/" class="nav-link">Partidos</a>
+            <a href="/plantillas/" class="nav-link">Plantillas</a>
+            <a href="/torneos/" class="nav-link">Torneos</a>
+            <a href="/estadisticas/completa/" class="nav-link">Estadísticas</a>
+            <a href="/documentacion/" class="nav-link active">Documentación</a>
+        </nav>
+    </header>
+    <main class="main-content">
+        <div class="content">
+            <h2>Documentación del Proyecto</h2>
+            <p>Detalles completos sobre el sistema de gestión de la Selección Colombia.</p>
 
-        <div class="card">
-            <h2>1. Introducción</h2>
-            <p>
-                Este proyecto es un sistema de gestión para la Selección Colombia, diseñado para administrar jugadores, equipos rivales, partidos, torneos y plantillas de manera eficiente. La aplicación permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre cada modelo, además de ofrecer estadísticas detalladas y un historial de acciones.
-            </p>
-        </div>
+            <div class="card">
+                <h3>1. Introducción</h3>
+                <p>
+                    Este proyecto es un sistema de gestión para la Selección Colombia, diseñado para administrar jugadores, equipos rivales, partidos, torneos y plantillas de manera eficiente. La aplicación permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre cada modelo, además de ofrecer estadísticas detalladas y un historial de acciones.
+                </p>
+            </div>
 
-        <div class="card">
-            <h2>2. Objetivos del Proyecto</h2>
-            <h3>2.1 Objetivo General</h3>
-            <p>
-                Desarrollar un sistema web que permita la gestión integral de la Selección Colombia, incluyendo el manejo de datos de jugadores, equipos, partidos, torneos y plantillas, con un enfoque en la usabilidad y la eficiencia.
-            </p>
-            <h3>2.2 Objetivos Específicos</h3>
-            <ul>
-                <li>Implementar operaciones CRUD para cada modelo (Jugadores, Equipos, Partidos, Torneos, Plantillas).</li>
-                <li>Proveer estadísticas detalladas sobre el rendimiento de la Selección Colombia en partidos.</li>
-                <li>Mantener un historial de acciones para cada modelo, permitiendo auditorías y recuperación de datos.</li>
-                <li>Diseñar una interfaz moderna y responsiva con estilos CSS personalizados.</li>
-                <li>Incorporar documentación clara y accesible dentro de la aplicación.</li>
-            </ul>
-        </div>
+            <div class="card">
+                <h3>2. Objetivos del Proyecto</h3>
+                <h4>2.1 Objetivo General</h4>
+                <p>
+                    Desarrollar un sistema web que permita la gestión integral de la Selección Colombia, incluyendo el manejo de datos de jugadores, equipos, partidos, torneos y plantillas, con un enfoque en la usabilidad y la eficiencia.
+                </p>
+                <h4>2.2 Objetivos Específicos</h4>
+                <ul>
+                    <li>Implementar operaciones CRUD para cada modelo (Jugadores, Equipos, Partidos, Torneos, Plantillas).</li>
+                    <li>Proveer estadísticas detalladas sobre el rendimiento de la Selección Colombia en partidos.</li>
+                    <li>Mantener un historial de acciones para cada modelo, permitiendo auditorías y recuperación de datos.</li>
+                    <li>Diseñar una interfaz moderna y responsiva con estilos CSS personalizados.</li>
+                    <li>Incorporar documentación clara y accesible dentro de la aplicación.</li>
+                </ul>
+            </div>
 
-        <div class="card">
-            <h2>3. Descripción de los Modelos</h2>
-            <div class="collapsible">
-                <button class="collapsible-btn">3.1 Jugador</button>
-                <div class="collapsible-content">
-                    <p>Representa a un jugador de fútbol de la Selección Colombia.</p>
-                    <ul>
-                        <li><strong>id</strong>: Identificador único (entero).</li>
-                        <li><strong>Jugadores</strong>: Nombre del jugador (texto).</li>
-                        <li><strong>F_Nacim_Edad</strong>: Fecha de nacimiento y edad (texto, formato: "YYYY-MM-DD (edad)")</li>
-                        <li><strong>Club</strong>: Club actual del jugador (texto).</li>
-                        <li><strong>Altura</strong>: Altura del jugador (texto, formato: "X.XX m").</li>
-                        <li><strong>Pie</strong>: Pie dominante (texto: "Derecho", "Izquierdo", "Ambos").</li>
-                        <li><strong>Partidos_con_la_seleccion</strong>: Número de partidos jugados (entero).</li>
-                        <li><strong>Goles</strong>: Número de goles anotados (entero).</li>
-                        <li><strong>Numero_de_camisa</strong>: Número de camiseta (entero).</li>
-                        <li><strong>anio</strong>: Año de registro (entero, entre 2021 y 2025).</li>
-                        <li><strong>posicion</strong>: Posición en el campo (texto: "Portero", "Defensa", "Medio", "Delantero").</li>
-                        <li><strong>activo</strong>: Estado del jugador (booleano: True si está activo, False si no).</li>
-                    </ul>
+            <div class="card">
+                <h3>3. Descripción de los Modelos</h3>
+                <div class="collapsible">
+                    <button class="collapsible-btn">3.1 Jugador</button>
+                    <div class="collapsible-content">
+                        <p>Representa a un jugador de fútbol de la Selección Colombia.</p>
+                        <ul>
+                            <li><strong>id</strong>: Identificador único (entero).</li>
+                            <li><strong>Jugadores</strong>: Nombre del jugador (texto).</li>
+                            <li><strong>F_Nacim_Edad</strong>: Fecha de nacimiento y edad (texto, formato: "YYYY-MM-DD (edad)")</li>
+                            <li><strong>Club</strong>: Club actual del jugador (texto).</li>
+                            <li><strong>Altura</strong>: Altura del jugador (texto, formato: "X.XX m").</li>
+                            <li><strong>Pie</strong>: Pie dominante (texto: "Derecho", "Izquierdo", "Ambos").</li>
+                            <li><strong>Partidos_con_la_seleccion</strong>: Número de partidos jugados (entero).</li>
+                            <li><strong>Goles</strong>: Número de goles anotados (entero).</li>
+                            <li><strong>Numero_de_camisa</strong>: Número de camiseta (entero).</li>
+                            <li><strong>anio</strong>: Año de registro (entero, entre 2021 y 2025).</li>
+                            <li><strong>posicion</strong>: Posición en el campo (texto: "Portero", "Defensa", "Medio", "Delantero").</li>
+                            <li><strong>activo</strong>: Estado del jugador (booleano: True si está activo, False si no).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <button class="collapsible-btn">3.2 Equipo</button>
+                    <div class="collapsible-content">
+                        <p>Representa a un equipo rival de la Selección Colombia.</p>
+                        <ul>
+                            <li><strong>id</strong>: Identificador único (texto).</li>
+                            <li><strong>nombre</strong>: Nombre del equipo (texto).</li>
+                            <li><strong>pais</strong>: País del equipo (texto).</li>
+                            <li><strong>enfrentamientos_con_colombia</strong>: Número de enfrentamientos (entero).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <button class="collapsible-btn">3.3 Partido</button>
+                    <div class="collapsible-content">
+                        <p>Representa un partido jugado por la Selección Colombia.</p>
+                        <ul>
+                            <li><strong>id</strong>: Identificador único (texto).</li>
+                            <li><strong>equipo_local</strong>: Nombre del equipo local (texto).</li>
+                            <li><strong>equipo_visitante</strong>: Nombre del equipo visitante (texto).</li>
+                            <li><strong>fecha</strong>: Fecha del partido (fecha, formato: "YYYY-MM-DD").</li>
+                            <li><strong>goles_local</strong>: Goles del equipo local (entero).</li>
+                            <li><strong>goles_visitante</strong>: Goles del equipo visitante (entero).</li>
+                            <li><strong>torneo_id</strong>: Identificador del torneo (texto).</li>
+                            <li><strong>eliminado</strong>: Equipo eliminado (texto, opcional).</li>
+                            <li><strong>tarjetas_amarillas_local</strong>: Tarjetas amarillas local (entero).</li>
+                            <li><strong>tarjetas_amarillas_visitante</strong>: Tarjetas amarillas visitante (entero).</li>
+                            <li><strong>tarjetas_rojas_local</strong>: Tarjetas rojas local (entero).</li>
+                            <li><strong>tarjetas_rojas_visitante</strong>: Tarjetas rojas visitante (entero).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <button class="collapsible-btn">3.4 Torneo</button>
+                    <div class="collapsible-content">
+                        <p>Representa un torneo en el que participa la Selección Colombia.</p>
+                        <ul>
+                            <li><strong>id</strong>: Identificador único (texto).</li>
+                            <li><strong>nombre</strong>: Nombre del torneo (texto).</li>
+                            <li><strong>anio</strong>: Año del torneo (entero).</li>
+                            <li><strong>pais_anfitrion</strong>: País anfitrión (texto, opcional).</li>
+                            <li><strong>estado</strong>: Estado del torneo (texto: "En curso", "Finalizado", "Cancelado").</li>
+                            <li><strong>eliminado</strong>: Equipo eliminado (texto, opcional).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <button class="collapsible-btn">3.5 Plantilla</button>
+                    <div class="collapsible-content">
+                        <p>Representa la plantilla de un equipo para un torneo o año específico.</p>
+                        <ul>
+                            <li><strong>id</strong>: Identificador único (texto).</li>
+                            <li><strong>equipo_id</strong>: Identificador del equipo (texto).</li>
+                            <li><strong>nombre</strong>: Nombre del jugador (texto, opcional).</li>
+                            <li><strong>posicion</strong>: Posición del jugador (texto, opcional).</li>
+                            <li><strong>anio</strong>: Año de la plantilla (entero).</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="collapsible">
-                <button class="collapsible-btn">3.2 Equipo</button>
-                <div class="collapsible-content">
-                    <p>Representa a un equipo rival de la Selección Colombia.</p>
-                    <ul>
-                        <li><strong>id</strong>: Identificador único (texto).</li>
-                        <li><strong>nombre</strong>: Nombre del equipo (texto).</li>
-                        <li><strong>pais</strong>: País del equipo (texto).</li>
-                        <li><strong>enfrentamientos_con_colombia</strong>: Número de enfrentamientos (entero).</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="collapsible">
-                <button class="collapsible-btn">3.3 Partido</button>
-                <div class="collapsible-content">
-                    <p>Representa un partido jugado por la Selección Colombia.</p>
-                    <ul>
-                        <li><strong>id</strong>: Identificador único (texto).</li>
-                        <li><strong>equipo_local</strong>: Nombre del equipo local (texto).</li>
-                        <li><strong>equipo_visitante</strong>: Nombre del equipo visitante (texto).</li>
-                        <li><strong>fecha</strong>: Fecha del partido (fecha, formato: "YYYY-MM-DD").</li>
-                        <li><strong>goles_local</strong>: Goles del equipo local (entero).</li>
-                        <li><strong>goles_visitante</strong>: Goles del equipo visitante (entero).</li>
-                        <li><strong>torneo_id</strong>: Identificador del torneo (texto).</li>
-                        <li><strong>eliminado</strong>: Equipo eliminado (texto, opcional).</li>
-                        <li><strong>tarjetas_amarillas_local</strong>: Tarjetas amarillas local (entero).</li>
-                        <li><strong>tarjetas_amarillas_visitante</strong>: Tarjetas amarillas visitante (entero).</li>
-                        <li><strong>tarjetas_rojas_local</strong>: Tarjetas rojas local (entero).</li>
-                        <li><strong>tarjetas_rojas_visitante</strong>: Tarjetas rojas visitante (entero).</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="collapsible">
-                <button class="collapsible-btn">3.4 Torneo</button>
-                <div class="collapsible-content">
-                    <p>Representa un torneo en el que participa la Selección Colombia.</p>
-                    <ul>
-                        <li><strong>id</strong>: Identificador único (texto).</li>
-                        <li><strong>nombre</strong>: Nombre del torneo (texto).</li>
-                        <li><strong>anio</strong>: Año del torneo (entero).</li>
-                        <li><strong>pais_anfitrion</strong>: País anfitrión (texto, opcional).</li>
-                        <li><strong>estado</strong>: Estado del torneo (texto: "En curso", "Finalizado", "Cancelado").</li>
-                        <li><strong>eliminado</strong>: Equipo eliminado (texto, opcional).</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="collapsible">
-                <button class="collapsible-btn">3.5 Plantilla</button>
-                <div class="collapsible-content">
-                    <p>Representa la plantilla de un equipo para un torneo o año específico.</p>
-                    <ul>
-                        <li><strong>id</strong>: Identificador único (texto).</li>
-                        <li><strong>equipo_id</strong>: Identificador del equipo (texto).</li>
-                        <li><strong>nombre</strong>: Nombre del jugador (texto, opcional).</li>
-                        <li><strong>posicion</strong>: Posición del jugador (texto, opcional).</li>
-                        <li><strong>anio</strong>: Año de la plantilla (entero).</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>4. Diagrama de Clases</h2>
-            <p>Diagrama de clases en formato texto:</p>
-            <pre>
+            <div class="card">
+                <h3>4. Diagrama de Clases</h3>
+                <p>Diagrama de clases en formato texto:</p>
+                <pre>
 +--------------+       +--------------+       +--------------+       +--------------+       +--------------+
 |   Jugador    |       |    Equipo    |       |    Partido   |       |    Torneo    |       |   Plantilla  |
 +--------------+       +--------------+       +--------------+       +--------------+       +--------------+
@@ -175,20 +179,20 @@
                                             | + update()   |
                                             | + delete()   |
                                             +--------------+
-            </pre>
-        </div>
+                </pre>
+            </div>
 
-        <div class="card">
-            <h2>5. Estructura de la Aplicación</h2>
-            <p>Tecnologías utilizadas:</p>
-            <ul>
-                <li><strong>Backend</strong>: FastAPI (Python) para rutas y lógica del servidor.</li>
-                <li><strong>Frontend</strong>: Jinja2 para plantillas HTML, CSS profesional personalizado.</li>
-                <li><strong>Almacenamiento</strong>: Archivos CSV con historial y papelera.</li>
-                <li><strong>Estilo</strong>: Diseño responsivo con CSS moderno.</li>
-            </ul>
-            <p>Estructura de carpetas:</p>
-            <pre>
+            <div class="card">
+                <h3>5. Estructura de la Aplicación</h3>
+                <p>Tecnologías utilizadas:</p>
+                <ul>
+                    <li><strong>Backend</strong>: FastAPI (Python) para rutas y lógica del servidor.</li>
+                    <li><strong>Frontend</strong>: Jinja2 para plantillas HTML, CSS profesional personalizado.</li>
+                    <li><strong>Almacenamiento</strong>: Archivos CSV con historial y papelera.</li>
+                    <li><strong>Estilo</strong>: Diseño responsivo con CSS moderno.</li>
+                </ul>
+                <p>Estructura de carpetas:</p>
+                <pre>
 /proyecto
 │
 ├── /data
@@ -244,33 +248,35 @@
 │   └── exceptions.py
 │
 └── main.py
-            </pre>
-        </div>
+                </pre>
+            </div>
 
-        <div class="card">
-            <h2>6. Instrucciones de Uso</h2>
-            <ol>
-                <li>Instala dependencias: <code>pip install fastapi uvicorn pandas pydantic</code>.</li>
-                <li>Ejecuta el servidor: <code>uvicorn main:app --reload</code>.</li>
-                <li>Accede a <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a>.</li>
-                <li>Navega por las secciones desde la barra de navegación.</li>
-                <li>Usa los botones de "Crear", "Editar" y "Eliminar" para gestionar datos.</li>
-            </ol>
-        </div>
+            <div class="card">
+                <h3>6. Instrucciones de Uso</h3>
+                <ol>
+                    <li>Instala dependencias: <code>pip install fastapi uvicorn pandas pydantic</code>.</li>
+                    <li>Ejecuta el servidor: <code>uvicorn main:app --reload</code>.</li>
+                    <li>Accede a <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a>.</li>
+                    <li>Navega por las secciones desde la barra de navegación.</li>
+                    <li>Usa los botones de "Crear", "Editar" y "Eliminar" para gestionar datos.</li>
+                </ol>
+            </div>
 
-        <div class="card">
-            <h2>7. Notas Adicionales</h2>
-            <p>
-                - Validación de datos (años entre 2021 y 2025).<br>
-                - Historial y papelera para auditoría.<br>
-                - Estadísticas automáticas basadas en partidos.<br>
-                - Diseño responsivo optimizado.<br>
-                - Desarrollado por <strong>Jesús Vilardi</strong> - 67001298, Universidad Católica.
-            </p>
+            <div class="card">
+                <h3>7. Notas Adicionales</h3>
+                <p>
+                    - Validación de datos (años entre 2021 y 2025).<br>
+                    - Historial y papelera para auditoría.<br>
+                    - Estadísticas automáticas basadas en partidos.<br>
+                    - Diseño responsivo optimizado.<br>
+                    - Desarrollado por <strong>Jesús Vilardi</strong> - 67001298, Universidad Católica.
+                </p>
+            </div>
         </div>
-    </div>
-    <footer>
+    </main>
+    <footer class="footer">
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica.</p>
     </footer>
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
 </body>
 </html>

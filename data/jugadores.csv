@@ -1,15 +1,15 @@
-id,Jugadores,F_Nacim_Edad,Club,Altura,Pie,Partidos_con_la_seleccion,Goles,Numero_de_camisa,anio,posicion,activo,imagen
-1,David Ospina,31/08/1988 (32),Atlético Nacional,1.83m,Derecho,129,0,1,2021,Arquero,True,Ospina.jpg
-2,Camilo Vargas,09/03/1989 (31),Atlas Guadalajara,1.85m,Izquierdo,37,0,12,2021,Arquero,True,camilovargas.jpg
-3,Álvaro Montero,29/03/1995 (25),Millonarios FC,1.99m,Derecho,8,0,22,2021,Arquero,True,
-4,Aldair Quintana,11/07/1994 (26),Atlético Bucaramanga,1.95m,Izquierdo,0,0,25,2021,Arquero,True,
-5,Andrés Mosquera,10/09/1991 (29),Independiente Santa Fe,1.86m,Derecho,1,0,24,2021,Defensa,True,
-6,Davinson Sánchez,12/06/1996 (24),Galatasaray,1.87m,Derecho,69,3,23,2021,Defensa,True,
-7,Yerry Mina,23/09/1994 (26),Cagliari,1.95m,Derecho,49,7,13,2021,Defensa,True,
-8,Jhon Lucumí,26/06/1998 (22),Bolonia,1.87m,Izquierdo,28,0,3,2021,Defensa,True,
-9,Carlos Cuesta,09/03/1999 (21),Galatasaray,1.79m,Derecho,23,0,4,2021,Mediocampista,True,
-11,William Tesillo,02/02/1990 (30),Atlético Nacional,1.85m,Izquierdo,30,1,6,2021,Defensa,True,
-12,Óscar Murillo,18/04/1988 (32),Retirado,1.84m,Izquierdo,23,0,2,2021,Defensa,False,
+id,nombre,fecha_nacimiento,club,altura,pie,partidos,goles,numero_camisa,anio,posicion,activo,imagen
+1,David Ospina,31/08/1988 (32),Atlético Nacional,1.83m,Derecho,129,0,1,2021,Portero,True,https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQjaVNZCCXnYqbBaVWDTYaRYaWqBMHDnLsU3515xpT7xeKCeWNMBfDeFEgNbpZ0YsyQnueilVCnSAMM1AenROngsQ
+2,Camilo Vargas,09/03/1989 (31),Atlas Guadalajara,1.85m,Izquierdo,37,0,12,2021,Arquero,True,https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmAbZEaQoAVzatM2xhJpvSbma3puMjWA9GeUfHUJiN5hRDitIfD5IhvSYNnElhwsmhnzZkhLVhCvxdYkI
+3,Álvaro Montero,29/03/1995 (25),Millonarios FC,1.99m,Derecho,8,0,22,2021,Arquero,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIWVWSlpf120WwMVPWwrDgS3pneZSvIc31vdT8Jw85VsoMw_xzQgQcAA75Ck654ZKxCLJMQNTTvi1gBZruBiPLwg
+4,Aldair Quintana,11/07/1994 (26),Atlético Bucaramanga,1.95m,Izquierdo,0,0,25,2021,Arquero,True,https://img.asmedia.epimg.net/resizer/v2/PVY4UMKGSPO75LMUEGK4XRIX34.jpg?auth=6f04f7f03ea7e078e0a0a6561463fdf4a016f86e3e45630e043bc2c815df68bd&width=1472&height=1104&focal=2309%2C336
+5,Andrés Mosquera,10/09/1991 (29),Independiente Santa Fe,1.86m,Derecho,1,0,24,2021,Defensa,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxrT1yHtS7P67RNB__AD5lbKs9lDMqxQ7qESJ7iP0FyPfWDLoQo7NuAraKz548a724sW5VOBxfEFvIh8T3Q4eCMTdXGDnEHQ7UnP1TKA
+6,Davinson Sánchez,12/06/1996 (24),Galatasaray,1.87m,Derecho,69,3,23,2021,Defensa,True,https://img.uefa.com/imgml/TP/players/14/2025/324x324/250099374.jpg
+7,Yerry Mina,23/09/1994 (26),Cagliari,1.95m,Derecho,49,7,13,2021,Defensa,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReFyh5GkPncrtIg9qeQB48p6NK7WjBE56Y-A&s
+8,Jhon Lucumí,26/06/1998 (22),Bolonia,1.87m,Izquierdo,28,0,3,2021,Defensa,True,https://files.antena2.com/antena2/public/styles/seo1500x1500/public/2025-05/jhon-lucumi-llegaria-a-la-premier-league.jpg?VersionId=kpl57_KlVOqSn1WAWbN6JeFSCSPh0Xty&h=a9ae5a94&itok=5Uat3iVZ
+9,Carlos Cuesta,09/03/1999 (21),Galatasaray,1.79m,Derecho,23,0,4,2021,Mediocampista,True,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-N3lug-a2yNwICXUAamTGMOvtq5EBSTaYyQ&s
+11,William Tesillo,02/02/1990 (30),Atlético Nacional,1.85m,Izquierdo,30,1,6,2021,Defensa,True,https://cloudfront-us-east-1.images.arcpublishing.com/prisaradioco/52ZTU5Z3TNGQVKVZ3FWMETHFXQ.jpg
+12,Óscar Murillo,18/04/1988 (32),Retirado,1.84m,Izquierdo,23,0,2,2021,Defensa,False,https://s.hs-data.com/bilder/spieler/gross/117380.jpg
 13,Frank Fabra,22/02/1991 (29),CA Boca Juniors,1.74m,Izquierdo,28,1,26,2021,Defensa,True,
 14,Johan Mojica,21/08/1992 (28),RCD Mallorca,1.85m,Izquierdo,38,1,17,2021,Defensa,True,
 15,Dairon Mosquera,23/07/1992 (28),AD Union Magdalena,1.82m,Izquierdo,0,0,27,2021,Defensa,True,

@@ -1,36 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Torneo</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
-</head>
-<body>
-    <h1>Editar Torneo</h1>
-    <form method="post" action="/torneos/{{ torneo.id }}/update">
-        <div>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" value="{{ torneo.nombre }}" required>
-        </div>
-        <div>
-            <label for="anio">Año:</label>
-            <input type="number" id="anio" name="anio" value="{{ torneo.anio }}" required>
-        </div>
-        <div>
-            <label for="eliminado">Eliminado:</label>
-            <input type="text" id="eliminado" name="eliminado" value="{{ torneo.eliminado }}" required>
-        </div>
-        <div>
-            <label for="pais_anfitrion">País Anfitrión:</label>
-            <input type="text" id="pais_anfitrion" name="pais_anfitrion" value="{{ torneo.pais_anfitrion or '' }}">
-        </div>
-        <div>
-            <label for="estado">Estado:</label>
-            <input type="text" id="estado" name="estado" value="{{ torneo.estado or '' }}">
-        </div>
-        <button type="submit">Actualizar Torneo</button>
-    </form>
-    <a href="/torneos/">Volver a la lista de torneos</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Editar Torneo - Selección Colombia{% endblock %}
+{% block header_title %}Editar Torneo{% endblock %}
+{% block content %}
+<div class="content">
+    <section class="card">
+        <h2>Editar Torneo: {{ torneo.nombre }}</h2>
+        <form action="/torneos/{{ torneo.id }}/update" method="post" class="form-container">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" value="{{ torneo.nombre }}" required>
+            </div>
+            <div class="form-group">
+                <label for="anio">Año</label>
+                <input type="number" id="anio" name="anio" value="{{ torneo.anio }}" min="2021" max="2024" required>
+            </div>
+            <div class="form-group">
+                <label for="eliminado">Eliminado</label>
+                <input type="text" id="eliminado" name="eliminado" value="{{ torneo.eliminado }}" required>
+            </div>
+            <div class="form-group">
+                <label for="pais_anfitrion">País Anfitrión</label>
+                <input type="text" id="pais_anfitrion" name="pais_anfitrion" value="{{ torneo.pais_anfitrion or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <input type="text" id="estado" name="estado" value="{{ torneo.estado or '' }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Actualizar Torneo</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

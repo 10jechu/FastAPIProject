@@ -1,222 +1,156 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #003087 0%, #CE1126 100%), url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cpath fill="%23FCD116" d="M0 0h100v100H0z" opacity="0.1"/%3E%3C/svg%3E');
-    background-blend-mode: overlay;
-    color: #333;
-    line-height: 1.6;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.header {
-    background-color: #003087;
-    color: #FCD116;
-    padding: 1.5rem;
+header {
+    background: linear-gradient(to right, #002266, #FCD116, #CE1126);
+    padding: 10px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-}
-
-.nav {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.nav-link {
-    color: #FCD116;
-    text-decoration: none;
-    font-size: 1.1rem;
-    padding: 5px 10px;
-}
-
-.nav-link.active {
-    background-color: #CE1126;
-    border-radius: 4px;
-}
-
-.nav-link:hover {
-    color: #CE1126;
-    background-color: #FCD116;
-    border-radius: 4px;
-}
-
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
     color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.btn-primary {
-    background-color: #CE1126;
+h1 {
+    margin: 0;
+    font-size: 24px;
 }
 
-.btn-primary:hover {
-    background-color: #a50e1e;
-}
-
-.btn-secondary {
-    background-color: #003087;
-}
-
-.btn-secondary:hover {
-    background-color: #00266e;
-}
-
-.btn-edit {
-    background-color: #2ecc71;
-    margin-right: 5px;
-}
-
-.btn-edit:hover {
-    background-color: #27ae60;
-}
-
-.btn-delete {
-    background-color: #e74c3c;
-}
-
-.btn-delete:hover {
-    background-color: #c0392b;
-}
-
-.filter-container {
-    margin: 20px auto;
-    padding: 15px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.filter-container label {
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
     font-weight: bold;
-    color: #003087;
 }
 
-.filter-container input {
-    padding: 8px;
+.nav-btn {
+    padding: 5px 10px;
+    background-color: #444;
+    border-radius: 3px;
+}
+
+.nav-btn:hover {
+    background-color: #666;
+}
+
+.nav-btn.active {
+    background-color: #FCD116;
+    color: #002266;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+section {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 20px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 5px;
 }
 
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+h2 {
+    color: #002266;
+    margin-top: 0;
 }
 
-.data-table th {
-    background-color: #CE1126;
-    color: #FCD116;
-    padding: 12px;
-    text-align: left;
+.player-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.data-table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-}
-
-.data-table tr:nth-child(even) {
-    background-color: rgba(252, 209, 22, 0.1);
-}
-
-.data-table tr:hover {
-    background-color: rgba(206, 17, 38, 0.1);
+.player-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    background-color: #f9f9f9;
 }
 
 .player-image {
-    max-width: 50px;
-    max-height: 50px;
-    border-radius: 5px;
-    object-fit: cover;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
 }
 
-.detail-row {
-    display: none;
-}
-
-.detail-row.active {
-    display: table-row;
-}
-
-.player-detail {
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 5px;
-    margin: 5px 0;
-}
-
-.player-detail p {
-    margin: 5px 0;
-}
-
-.trash-container {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.trash-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.trash-item:last-child {
-    border-bottom: none;
-}
-
-.footer {
-    background-color: #003087;
-    color: #FCD116;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 20px;
-}
-
-.history-section, .objective-section, .video-section {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.video-card {
-    margin: 10px 0;
-}
-
-.video-card a {
-    color: #003087;
+.btn {
+    display: inline-block;
+    padding: 8px 15px;
     text-decoration: none;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 5px 0;
 }
 
-.video-card a:hover {
-    text-decoration: underline;
+.btn-primary {
+    background-color: #002266;
 }
 
-.main-content {
-    min-height: calc(100vh - 150px);
+.btn-primary:hover {
+    background-color: #00194d;
+}
+
+.btn-edit {
+    background-color: #006600;
+}
+
+.btn-edit:hover {
+    background-color: #004d00;
+}
+
+.btn-delete {
+    background-color: #cc0000;
+}
+
+.btn-delete:hover {
+    background-color: #990000;
+}
+
+.btn-view {
+    background-color: #FCD116;
+    color: #002266;
+}
+
+.btn-view:hover {
+    background-color: #e0b800;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #002266;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+footer {
+    background-color: #002266;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
 }

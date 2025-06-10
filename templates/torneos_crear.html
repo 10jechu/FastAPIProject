@@ -1,43 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Torneo</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
-    <style>
-        .form-group { margin-bottom: 15px; }
-        label { font-weight: bold; }
-        input, select { padding: 5px; width: 200px; }
-        button { padding: 5px 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-    </style>
-</head>
-<body>
-    <h1>Crear Torneo</h1>
-    <form method="post" action="/torneos/crear/">
-        <div class="form-group">
-            <label for="nombre">Nombre:</label><br>
-            <input type="text" id="nombre" name="nombre" required>
-        </div>
-        <div class="form-group">
-            <label for="anio">Año:</label><br>
-            <input type="number" id="anio" name="anio" required>
-        </div>
-        <div class="form-group">
-            <label for="eliminado">Eliminado:</label><br>
-            <input type="text" id="eliminado" name="eliminado" required>
-        </div>
-        <div class="form-group">
-            <label for="pais_anfitrion">País Anfitrión:</label><br>
-            <input type="text" id="pais_anfitrion" name="pais_anfitrion">
-        </div>
-        <div class="form-group">
-            <label for="estado">Estado:</label><br>
-            <input type="text" id="estado" name="estado">
-        </div>
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="/torneos/">Volver</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Crear Torneo - Selección Colombia{% endblock %}
+{% block header_title %}Crear Torneo{% endblock %}
+{% block content %}
+<div class="content">
+    <section class="card">
+        <h2>Crear Nuevo Torneo</h2>
+        <form action="/torneos/crear/" method="post" class="form-container">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="anio">Año</label>
+                <input type="number" id="anio" name="anio" min="2021" max="2024" required>
+            </div>
+            <div class="form-group">
+                <label for="eliminado">Eliminado</label>
+                <input type="text" id="eliminado" name="eliminado" required>
+            </div>
+            <div class="form-group">
+                <label for="pais_anfitrion">País Anfitrión</label>
+                <input type="text" id="pais_anfitrion" name="pais_anfitrion">
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <input type="text" id="estado" name="estado">
+            </div>
+            <button type="submit" class="btn btn-primary">Crear Torneo</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

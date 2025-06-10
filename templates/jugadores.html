@@ -3,112 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jugadores</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+    <title>Jugadores - Selección Colombia</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <header class="header">
+    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 10px; text-align: center;">
         <h1>Jugadores</h1>
-        <nav class="nav">
-            <a href="/" class="nav-link">Inicio</a>
-            <a href="/jugadores/" class="nav-link active">Jugadores</a>
-            <a href="/equipos/" class="nav-link">Equipos</a>
-            <a href="/partidos/" class="nav-link">Partidos</a>
-            <a href="/plantillas/" class="nav-link">Plantillas</a>
-            <a href="/torneos/" class="nav-link">Torneos</a>
-            <a href="/estadisticas/completa/" class="nav-link">Estadísticas</a>
-            <a href="/documentacion/" class="nav-link">Documentación</a>
+        <nav>
+            <a href="/" class="nav-btn">Inicio</a>
+            <a href="/jugadores/" class="nav-btn active">Jugadores</a>
+            <a href="/partidos/" class="nav-btn">Partidos</a>
+            <a href="/torneos/" class="nav-btn">Torneos</a>
+            <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
+            <a href="/documentacion/" class="nav-btn">Documentación</a>
         </nav>
-        <a href="/jugadores/crear/" class="btn btn-primary">Agregar</a>
     </header>
-    <div class="filter-container">
-        <form method="get" action="/jugadores/">
-            <label for="year_filter">Buscar por Año:</label>
-            <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
-            <button type="submit" class="btn btn-secondary">Filtrar</button>
-        </form>
-    </div>
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>NOMBRE</th>
-                <th>FECHA NACIMIENTO/EDAD</th>
-                <th>CLUB</th>
-                <th>ALTURA</th>
-                <th>PIE</th>
-                <th>PARTIDOS</th>
-                <th>GOLES</th>
-                <th>NÚMERO</th>
-                <th>AÑO</th>
-                <th>POSICIÓN</th>
-                <th>ACTIVO</th>
-                <th>IMAGEN</th>
-                <th>ACCIONES</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for jugador in jugadores %}
-            {% if not request.query_params.get('year') or jugador.anio == request.query_params.get('year')|int %}
-            <tr>
-                <td>{{ jugador.id }}</td>
-                <td>{{ jugador.Jugadores }}</td>
-                <td>{{ jugador.F_Nacim_Edad }}</td>
-                <td>{{ jugador.Club }}</td>
-                <td>{{ jugador.Altura }}</td>
-                <td>{{ jugador.Pie }}</td>
-                <td>{{ jugador.Partidos_con_la_seleccion }}</td>
-                <td>{{ jugador.Goles }}</td>
-                <td>{{ jugador.Numero_de_camisa }}</td>
-                <td>{{ jugador.anio }}</td>
-                <td>{{ jugador.posicion }}</td>
-                <td>{{ "Sí" if jugador.activo else "No" }}</td>
-                <td>
+
+    <main>
+        <section>
+            <h2>Lista de Jugadores</h2>
+            <a href="/jugadores/crear/" class="btn btn-primary">Crear Jugador</a>
+            <div class="player-list">
+                {% for jugador in jugadores %}
+                <div class="player-card">
+                    <h3>{{ jugador.nombre }}</h3>
                     {% if jugador.imagen %}
-                        <img src="{{ url_for('static', path='/images/' + jugador.imagen) }}" alt="Imagen de {{ jugador.Jugadores }}" class="player-image">
+                        <img src="{{ jugador.imagen }}" alt="Foto de {{ jugador.nombre }}" class="player-image">
                     {% else %}
-                        <img src="{{ url_for('static', path='/images/default.jpg') }}" alt="Imagen genérica" class="player-image">
+                        <img src="/static/images/generic_player.png" alt="Foto genérica" class="player-image">
                     {% endif %}
-                </td>
-                <td>
+                    <p>Posición: {{ jugador.posicion }}</p>
+                    <p>Goles: {{ jugador.goles }}</p>
+                    <p>Partidos: {{ jugador.partidos }}</p>
                     <a href="/jugadores/{{ jugador.id }}/edit" class="btn btn-edit">Editar</a>
-                    <a href="/jugadores/{{ jugador.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Eliminar?')">Eliminar</a>
-                </td>
-            </tr>
-            <tr class="detail-row">
-                <td colspan="14">
-                    <div class="player-detail">
-                        <p><strong>ID:</strong> {{ jugador.id }}</p>
-                        <p><strong>Fecha Nacimiento/Edad:</strong> {{ jugador.F_Nacim_Edad }}</p>
-                        <p><strong>Club:</strong> {{ jugador.Club }}</p>
-                        <p><strong>Altura:</strong> {{ jugador.Altura }}</p>
-                        <p><strong>Pie:</strong> {{ jugador.Pie }}</p>
-                        <p><strong>Partidos:</strong> {{ jugador.Partidos_con_la_seleccion }}</p>
-                        <p><strong>Goles:</strong> {{ jugador.Goles }}</p>
-                        <p><strong>Número:</strong> {{ jugador.Numero_de_camisa }}</p>
-                        <p><strong>Año:</strong> {{ jugador.anio }}</p>
-                        <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
-                        <p><strong>Activo:</strong> {{ "Sí" if jugador.activo else "No" }}</p>
-                    </div>
-                </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    <h2>Papelera</h2>
-    <div class="trash-container">
-        {% for item in papelera %}
-        {% if item.tipo == "jugador" %}
-        <div class="trash-item">
-            <p>{{ item.data.Jugadores }} (ID: {{ item.id }}) - Eliminado</p>
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-    <footer class="footer">
-        <p>© 2025 Gestión Selección Colombia</p>
+                    <a href="/jugadores/{{ jugador.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar a {{ jugador.nombre }}?')">Eliminar</a>
+                    <a href="/jugadores/{{ jugador.id }}" class="btn btn-view">Ver</a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+        <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
-    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
 </body>
 </html>

@@ -1,66 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partidos</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
-</head>
-<body>
-    <header class="header">
-        <h1>Partidos</h1>
-        <a href="/partidos/crear/" class="btn btn-primary">Agregar Partido</a>
-    </header>
-    <div class="filter-container">
-        <form method="get" action="/partidos/">
-            <label for="year_filter">Filtrar por Año:</label>
-            <input type="number" id="year_filter" name="year" placeholder="Ej. 2021" value="{{ request.query_params.get('year') or '' }}">
-            <button type="submit" class="btn btn-secondary">Filtrar</button>
-        </form>
-    </div>
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>FECHA</th>
-                <th>LOCAL</th>
-                <th>VISITANTE</th>
-                <th>GOLES LOCAL</th>
-                <th>GOLES VISITANTE</th>
-                <th>ACCIONES</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for partido in partidos %}
-            {% if not request.query_params.get('year') or partido.fecha.split('-')[0] == request.query_params.get('year') %}
-            <tr>
-                <td>{{ partido.id }}</td>
-                <td>{{ partido.fecha }}</td>
-                <td>{{ partido.equipo_local }}</td>
-                <td>{{ partido.equipo_visitante }}</td>
-                <td>{{ partido.goles_local }}</td>
-                <td>{{ partido.goles_visitante }}</td>
-                <td>
-                    <a href="/partidos/{{ partido.id }}/edit" class="btn btn-edit">Editar</a>
-                    <a href="/partidos/{{ partido.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Eliminar?')">Eliminar</a>
-                </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    <h2>Papelera</h2>
-    <div class="trash-container">
-        {% for item in papelera %}
-        {% if item.tipo == "partido" %}
-        <div class="trash-item">
-            <p>{{ item.data.equipo_local }} vs {{ item.data.equipo_visitante }} (ID: {{ item.id }}) - Eliminado</p>
+{% extends "base.html" %}
+{% block title %}Partidos - Selección Colombia{% endblock %}
+{% block header_title %}Partidos{% endblock %}
+{% block content %}
+<div class="content">
+    <section class="card">
+        <h2>Lista de Partidos</h2>
+        <div class="search-bar">
+            <input type="number" id="search-year" placeholder="Buscar por año (ej. 2023)" min="2021" max="2024" value="{{ year or '' }}">
+            <button class="btn btn-primary" onclick="searchByYear()">Buscar</button>
         </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-    <footer class="footer">
-        <p>© 2025 Gestión Selección Colombia</p>
-    </footer>
-</body>
-</html>
+        <a href="/partidos/crear/" class="btn btn-primary">Crear Partido</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Equipo Local</th>
+                    <th>Equipo Visitante</th>
+                    <th>Resultado</th>
+                    <th>Torneo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for partido in partidos %}
+                <tr>
+                    <td>{{ partido.fecha }}</td>
+                    <td>{{ partido.equipo_local }}</td>
+                    <td>{{ partido.equipo_visitante }}</td>
+                    <td>{{ partido.goles_local }} - {{ partido.goles_visitante }}</td>
+                    <td>{{ torneos_dict.get(partido.torneo_id, 'Sin torneo') }}</td>
+                    <td>
+                        <a href="/partidos/{{ partido.id }}" class="btn btn-primary">Ver</a>
+                        <a href="/partidos/{{ partido.id }}/edit" class="btn btn-edit">Editar</a>
+                        <a href="/partidos/{{ partido.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar este partido?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    function searchByYear() {
+        const year = document.getElementById('search-year').value;
+        if (year) {
+            window.location.href = `/partidos/?year=${year}`;
+        } else {
+            window.location.href = '/partidos/';
+        }
+    }
+</script>
+{% endblock %}

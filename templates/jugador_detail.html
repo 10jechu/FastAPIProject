@@ -1,36 +1,36 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ jugador.Jugadores }} - Detalles</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
-</head>
-<body>
-    <header class="header">
-        <h1>{{ jugador.Jugadores }}</h1>
-        <a href="/jugadores/" class="btn btn-secondary">Volver</a>
-    </header>
-    <main class="player-detail">
-        <div class="player-card">
-            <img src="{{ url_for('static', path='/images/' + (jugador.imagen if jugador.imagen else 'default.jpg')) }}" alt="Foto de {{ jugador.Jugadores }}" class="player-image-large">
+{% extends "base.html" %}
+{% block title %}Detalles de {{ jugador.nombre }} - Selección Colombia{% endblock %}
+{% block header_title %}Detalles de Jugador{% endblock %}
+{% block content %}
+<div class="content">
+    <section class="card">
+        <h2>{{ jugador.nombre }}</h2>
+        <div class="player-details">
+            <div class="player-image-container">
+                {% if jugador.imagen %}
+                <img src="{{ jugador.imagen }}" alt="{{ jugador.nombre }}" class="player-image">
+                {% else %}
+                <img src="{{ url_for('static', path='/images/generic_player.png') }}" alt="Sin imagen" class="player-image">
+                {% endif %}
+            </div>
             <div class="player-info">
-                <p><strong>ID:</strong> {{ jugador.id }}</p>
-                <p><strong>Fecha Nacimiento/Edad:</strong> {{ jugador.F_Nacim_Edad }}</p>
-                <p><strong>Club:</strong> {{ jugador.Club }}</p>
-                <p><strong>Altura:</strong> {{ jugador.Altura }}</p>
-                <p><strong>Pie:</strong> {{ jugador.Pie }}</p>
-                <p><strong>Partidos:</strong> {{ jugador.Partidos_con_la_seleccion }}</p>
-                <p><strong>Goles:</strong> {{ jugador.Goles }}</p>
-                <p><strong>Número:</strong> {{ jugador.Numero_de_camisa }}</p>
-                <p><strong>Año:</strong> {{ jugador.anio }}</p>
+                <p><strong>Fecha de Nacimiento:</strong> {{ jugador.fecha_nacimiento }}</p>
+                <p><strong>Club:</strong> {{ jugador.club }}</p>
+                <p><strong>Altura:</strong> {{ jugador.altura }}</p>
+                <p><strong>Pie Dominante:</strong> {{ jugador.pie }}</p>
+                <p><strong>Partidos Jugados:</strong> {{ jugador.partidos }}</p>
+                <p><strong>Goles:</strong> {{ jugador.goles }}</p>
+                <p><strong>Número de Camiseta:</strong> {{ jugador.numero_camisa }}</p>
+                <p><strong>Año de Registro:</strong> {{ jugador.anio }}</p>
                 <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
-                <p><strong>Activo:</strong> {{ "Sí" if jugador.activo else "No" }}</p>
+                <p><strong>Activo:</strong> {{ 'Sí' if jugador.activo else 'No' }}</p>
             </div>
         </div>
-    </main>
-    <footer class="footer">
-        <p>© 2025 Gestión Selección Colombia</p>
-    </footer>
-</body>
-</html>
+        <div class="actions">
+            <a href="/jugadores/{{ jugador.id }}/edit" class="btn btn-edit">Editar</a>
+            <a href="/jugadores/{{ jugador.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar a {{ jugador.nombre }}?')">Eliminar</a>
+            <a href="/jugadores/" class="btn btn-primary">Volver</a>
+        </div>
+    </section>
+</div>
+{% endblock %}

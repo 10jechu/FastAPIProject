@@ -1,72 +1,62 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Partido</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
-    <style>
-        .form-group { margin-bottom: 15px; }
-        label { font-weight: bold; }
-        input, select { padding: 5px; width: 200px; }
-        button { padding: 5px 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-    </style>
-</head>
-<body>
-    <h1>Editar Partido</h1>
-    <form method="post" action="/partidos/{{ partido.id }}/update">
-        <div class="form-group">
-            <label for="fecha">Fecha:</label><br>
-            <input type="text" id="fecha" name="fecha" value="{{ partido.fecha }}" required>
-        </div>
-        <div class="form-group">
-            <label for="equipo_local">Equipo Local:</label><br>
-            <input type="text" id="equipo_local" name="equipo_local" value="{{ partido.equipo_local }}" required>
-        </div>
-        <div class="form-group">
-            <label for="equipo_visitante">Equipo Visitante:</label><br>
-            <input type="text" id="equipo_visitante" name="equipo_visitante" value="{{ partido.equipo_visitante }}" required>
-        </div>
-        <div class="form-group">
-            <label for="goles_local">Goles Local:</label><br>
-            <input type="number" id="goles_local" name="goles_local" value="{{ partido.goles_local }}" required>
-        </div>
-        <div class="form-group">
-            <label for="goles_visitante">Goles Visitante:</label><br>
-            <input type="number" id="goles_visitante" name="goles_visitante" value="{{ partido.goles_visitante }}" required>
-        </div>
-        <div class="form-group">
-            <label for="torneo_id">Torneo:</label><br>
-            <select id="torneo_id" name="torneo_id">
-                <option value="">Sin torneo</option>
-                {% for torneo in torneos %}
-                <option value="{{ torneo.id }}" {% if partido.torneo_id == torneo.id %}selected{% endif %}>{{ torneo.nombre }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="eliminado">Eliminado:</label><br>
-            <input type="text" id="eliminado" name="eliminado" value="{{ partido.eliminado }}" required>
-        </div>
-        <div class="form-group">
-            <label for="tarjetas_amarillas_local">Tarjetas Amarillas Local:</label><br>
-            <input type="number" id="tarjetas_amarillas_local" name="tarjetas_amarillas_local" value="{{ partido.tarjetas_amarillas_local }}">
-        </div>
-        <div class="form-group">
-            <label for="tarjetas_amarillas_visitante">Tarjetas Amarillas Visitante:</label><br>
-            <input type="number" id="tarjetas_amarillas_visitante" name="tarjetas_amarillas_visitante" value="{{ partido.tarjetas_amarillas_visitante }}">
-        </div>
-        <div class="form-group">
-            <label for="tarjetas_rojas_local">Tarjetas Rojas Local:</label><br>
-            <input type="number" id="tarjetas_rojas_local" name="tarjetas_rojas_local" value="{{ partido.tarjetas_rojas_local }}">
-        </div>
-        <div class="form-group">
-            <label for="tarjetas_rojas_visitante">Tarjetas Rojas Visitante:</label><br>
-            <input type="number" id="tarjetas_rojas_visitante" name="tarjetas_rojas_visitante" value="{{ partido.tarjetas_rojas_visitante }}">
-        </div>
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="/partidos/">Volver</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Editar Partido - Selección Colombia{% endblock %}
+{% block header_title %}Editar Partido{% endblock %}
+{% block content %}
+<div class="content">
+    <section class="card">
+        <h2>Editar Partido</h2>
+        <form action="/partidos/{{ partido.id }}/update" method="post" class="form-container">
+            <div class="form-group">
+                <label for="fecha">Fecha</label>
+                <input type="text" id="fecha" name="fecha" value="{{ partido.fecha }}" required>
+            </div>
+            <div class="form-group">
+                <label for="equipo_local">Equipo Local</label>
+                <input type="text" id="equipo_local" name="equipo_local" value="{{ partido.equipo_local }}" required>
+            </div>
+            <div class="form-group">
+                <label for="equipo_visitante">Equipo Visitante</label>
+                <input type="text" id="equipo_visitante" name="equipo_visitante" value="{{ partido.equipo_visitante }}" required>
+            </div>
+            <div class="form-group">
+                <label for="goles_local">Goles Local</label>
+                <input type="number" id="goles_local" name="goles_local" value="{{ partido.goles_local }}" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="goles_visitante">Goles Visitante</label>
+                <input type="number" id="goles_visitante" name="goles_visitante" value="{{ partido.goles_visitante }}" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="torneo_id">Torneo</label>
+                <select id="torneo_id" name="torneo_id">
+                    <option value="">Sin torneo</option>
+                    {% for torneo in torneos %}
+                    <option value="{{ torneo.id }}" {% if partido.torneo_id == torneo.id %}selected{% endif %}>{{ torneo.nombre }} ({{ torneo.anio }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="eliminado">Eliminado</label>
+                <input type="text" id="eliminado" name="eliminado" value="{{ partido.eliminado or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="tarjetas_amarillas_local">Tarjetas Amarillas Local</label>
+                <input type="number" id="tarjetas_amarillas_local" name="tarjetas_amarillas_local" value="{{ partido.tarjetas_amarillas_local }}" min="0">
+            </div>
+            <div class="form-group">
+                <label for="tarjetas_amarillas_visitante">Tarjetas Amarillas Visitante</label>
+                <input type="number" id="tarjetas_amarillas_visitante" name="tarjetas_amarillas_visitante" value="{{ partido.tarjetas_amarillas_visitante }}" min="0">
+            </div>
+            <div class="form-group">
+                <label for="tarjetas_rojas_local">Tarjetas Rojas Local</label>
+                <input type="number" id="tarjetas_rojas_local" name="tarjetas_rojas_local" value="{{ partido.tarjetas_rojas_local }}" min="0">
+            </div>
+            <div class="form-group">
+                <label for="tarjetas_rojas_visitante">Tarjetas Rojas Visitante</label>
+                <input type="number" id="tarjetas_rojas_visitante" name="tarjetas_rojas_visitante" value="{{ partido.tarjetas_rojas_visitante }}" min="0">
+            </div>
+            <button type="submit" class="btn btn-primary">Actualizar Partido</button>
+        </form>
+    </section>
+</div>
+{% endblock %}
