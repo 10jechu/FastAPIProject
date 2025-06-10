@@ -2,7 +2,8 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #003087 0%, #CE1126 100%), url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cpath fill="%23FCD116" d="M0 0h100v100H0z" opacity="0.1"/%3E%3C/svg%3E');
+    background-blend-mode: overlay;
     color: #333;
     line-height: 1.6;
 }
@@ -13,6 +14,9 @@ body {
     padding: 1.5rem;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .header h1 {
@@ -20,19 +24,29 @@ body {
     font-size: 2.5rem;
 }
 
-.header .nav {
+.nav {
     margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
-.header .nav a {
+.nav-link {
     color: #FCD116;
     text-decoration: none;
-    margin: 0 15px;
     font-size: 1.1rem;
+    padding: 5px 10px;
 }
 
-.header .nav a:hover {
+.nav-link.active {
+    background-color: #CE1126;
+    border-radius: 4px;
+}
+
+.nav-link:hover {
     color: #CE1126;
+    background-color: #FCD116;
+    border-radius: 4px;
 }
 
 .btn {
@@ -78,18 +92,10 @@ body {
     background-color: #c0392b;
 }
 
-.btn-details {
-    background-color: #3498db;
-}
-
-.btn-details:hover {
-    background-color: #2980b9;
-}
-
 .filter-container {
     margin: 20px auto;
     padding: 15px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     max-width: 600px;
@@ -114,7 +120,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -131,11 +137,11 @@ body {
 }
 
 .data-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: rgba(252, 209, 22, 0.1);
 }
 
 .data-table tr:hover {
-    background-color: #e0e0e0;
+    background-color: rgba(206, 17, 38, 0.1);
 }
 
 .player-image {
@@ -145,17 +151,29 @@ body {
     object-fit: cover;
 }
 
-.player-image-large {
-    max-width: 200px;
-    max-height: 200px;
-    border-radius: 10px;
-    object-fit: cover;
+.detail-row {
+    display: none;
+}
+
+.detail-row.active {
+    display: table-row;
+}
+
+.player-detail {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.player-detail p {
+    margin: 5px 0;
 }
 
 .trash-container {
     margin: 20px 0;
     padding: 15px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -177,69 +195,28 @@ body {
     margin-top: 20px;
 }
 
-.news-section, .selections-section {
+.history-section, .objective-section, .video-section {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
-}
-
-.news-card {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.selection-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.player-detail {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.player-card {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.player-info {
-    flex-grow: 1;
-}
-
-.player-info p {
-    margin: 5px 0;
-}
-
-.stats-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.stat-card {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-}
-
-.stat-card p, .stat-card ul {
+.video-card {
     margin: 10px 0;
 }
 
-.stat-card ul li {
-    padding: 5px 0;
+.video-card a {
+    color: #003087;
+    text-decoration: none;
+}
+
+.video-card a:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    min-height: calc(100vh - 150px);
 }

@@ -9,7 +9,17 @@
 <body>
     <header class="header">
         <h1>Jugadores</h1>
-        <a href="/jugadores/crear/" class="btn btn-primary">Agregar Jugador</a>
+        <nav class="nav">
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/jugadores/" class="nav-link active">Jugadores</a>
+            <a href="/equipos/" class="nav-link">Equipos</a>
+            <a href="/partidos/" class="nav-link">Partidos</a>
+            <a href="/plantillas/" class="nav-link">Plantillas</a>
+            <a href="/torneos/" class="nav-link">Torneos</a>
+            <a href="/estadisticas/completa/" class="nav-link">Estadísticas</a>
+            <a href="/documentacion/" class="nav-link">Documentación</a>
+        </nav>
+        <a href="/jugadores/crear/" class="btn btn-primary">Agregar</a>
     </header>
     <div class="filter-container">
         <form method="get" action="/jugadores/">
@@ -63,7 +73,23 @@
                 <td>
                     <a href="/jugadores/{{ jugador.id }}/edit" class="btn btn-edit">Editar</a>
                     <a href="/jugadores/{{ jugador.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Eliminar?')">Eliminar</a>
-                    <a href="/jugadores/{{ jugador.id }}" class="btn btn-details">Detalles</a>
+                </td>
+            </tr>
+            <tr class="detail-row">
+                <td colspan="14">
+                    <div class="player-detail">
+                        <p><strong>ID:</strong> {{ jugador.id }}</p>
+                        <p><strong>Fecha Nacimiento/Edad:</strong> {{ jugador.F_Nacim_Edad }}</p>
+                        <p><strong>Club:</strong> {{ jugador.Club }}</p>
+                        <p><strong>Altura:</strong> {{ jugador.Altura }}</p>
+                        <p><strong>Pie:</strong> {{ jugador.Pie }}</p>
+                        <p><strong>Partidos:</strong> {{ jugador.Partidos_con_la_seleccion }}</p>
+                        <p><strong>Goles:</strong> {{ jugador.Goles }}</p>
+                        <p><strong>Número:</strong> {{ jugador.Numero_de_camisa }}</p>
+                        <p><strong>Año:</strong> {{ jugador.anio }}</p>
+                        <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
+                        <p><strong>Activo:</strong> {{ "Sí" if jugador.activo else "No" }}</p>
+                    </div>
                 </td>
             </tr>
             {% endif %}
@@ -83,5 +109,6 @@
     <footer class="footer">
         <p>© 2025 Gestión Selección Colombia</p>
     </footer>
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
 </body>
 </html>
