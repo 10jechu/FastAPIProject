@@ -5,64 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partidos - Selección Colombia</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: linear-gradient(to right, #ffcc00, #ff6600);
+            padding: 10px;
+            text-align: center;
+        }
+        header h1 {
+            color: #fff;
+            margin: 0;
+            font-size: 24px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        nav a.active {
+            text-decoration: underline;
+        }
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #000080;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+        }
+        .filter-form input[type="number"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .filter-form button, .create-btn {
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .filter-form button:hover, .create-btn:hover {
+            background-color: #cc0000;
+        }
+        .match-card {
+            display: inline-block;
+            width: 200px;
+            margin: 10px;
+            padding: 10px;
+            border: 2px solid #000080;
+            border-radius: 5px;
+            text-align: center;
+            background: #fff;
+        }
+        .match-card p {
+            margin: 5px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 3px;
+        }
+        .btn-edit { background-color: #008000; }
+        .btn-delete { background-color: #ff0000; }
+        .btn-view { background-color: #ffff00; color: #000; }
+        .btn:hover { opacity: 0.8; }
+    </style>
 </head>
 <body>
-    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 10px; text-align: center;">
-        <h1>Partidos</h1>
+    <header>
+        <h1>Selección Colombia - Gestión</h1>
         <nav>
-            <a href="/" class="nav-btn">Inicio</a>
-            <a href="/jugadores/" class="nav-btn">Jugadores</a>
-            <a href="/partidos/" class="nav-btn active">Partidos</a>
-            <a href="/torneos/" class="nav-btn">Torneos</a>
-            <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
-            <a href="/documentacion/" class="nav-btn">Documentación</a>
+            <a href="/" class="">Inicio</a>
+            <a href="/jugadores/" class="">Jugadores</a>
+            <a href="/equipos/" class="">Equipos</a>
+            <a href="/partidos/" class="active">Partidos</a>
+            <a href="/torneos/" class="">Torneos</a>
+            <a href="/estadisticas/completa/" class="">Estadísticas</a>
+            <a href="/documentacion/" class="">Documentación</a>
         </nav>
     </header>
 
-    <main>
-        <section>
-            <h2>Lista de Partidos</h2>
-            <form id="year-filter-form" method="get" action="/partidos/">
-                <label for="year-filter">Filtrar por Año:</label>
-                <input type="number" id="year-filter" name="year" min="2021" max="2024" value="{{ year if year else '' }}">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+    <div class="container">
+        <h2>Lista de Partidos</h2>
+        <div class="filter-form">
+            <form method="get" action="/partidos/">
+                <label for="year">Filtrar por Año:</label>
+                <input type="number" id="year" name="year" value="{{ year if year else '' }}">
+                <button type="submit">Filtrar</button>
             </form>
-            <a href="/partidos/crear/" class="btn btn-primary">Crear Partido</a>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Local</th>
-                        <th>Visitante</th>
-                        <th>Goles Local</th>
-                        <th>Goles Visitante</th>
-                        <th>Torneo ID</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for partido in partidos %}
-                    <tr>
-                        <td>{{ partido.fecha }}</td>
-                        <td>{{ partido.equipo_local }}</td>
-                        <td>{{ partido.equipo_visitante }}</td>
-                        <td>{{ partido.goles_local }}</td>
-                        <td>{{ partido.goles_visitante }}</td>
-                        <td>{{ partido.torneo_id if partido.torneo_id else 'Sin torneo' }}</td>
-                        <td>
-                            <a href="/partidos/{{ partido.id }}/edit" class="btn btn-edit">Editar</a>
-                            <a href="/partidos/{{ partido.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar este partido?')">Eliminar</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-    </main>
+            <a href="/partidos/crear/" class="create-btn">Crear Partido</a>
+        </div>
+        <div>
+            {% for partido in partidos %}
+            <div class="match-card">
+                <h3>{{ partido.fecha }}</h3>
+                <p>{{ partido.equipo_local }} {{ partido.goles_local }} - {{ partido.goles_visitante }} {{ partido.equipo_visitante }}</p>
+                <p>Torneo: {{ torneos_dict[partido.torneo_id].nombre if partido.torneo_id and partido.torneo_id in torneos_dict else 'Sin torneo' }}</p>
+                <a href="/partidos/{{ partido.id }}/edit" class="btn btn-edit">Editar</a>
+                <a href="/partidos/{{ partido.id }}/delete" class="btn btn-delete">Eliminar</a>
+                <a href="/partidos/{{ partido.id }}" class="btn btn-view">Ver</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
-    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+    <footer style="background-color: #ffcc00; color: #000; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
-    <script src="/static/js/script.js"></script>
 </body>
 </html>

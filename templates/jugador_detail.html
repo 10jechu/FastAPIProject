@@ -3,41 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del Jugador - Selección Colombia</title>
+    <title>Detalles Jugador - Selección Colombia</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
+        header { background: linear-gradient(to right, #ffcc00, #ff6600); padding: 10px; text-align: center; }
+        header h1 { color: #fff; margin: 0; font-size: 24px; }
+        nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
+        nav a.active { text-decoration: underline; }
+        .container { max-width: 400px; margin: 20px auto; padding: 20px; background: #fff; border: 2px solid #000080; border-radius: 5px; }
+        h2 { color: #ff0000; margin-top: 0; }
+        .detail { margin: 10px 0; }
+        .detail img { max-width: 100%; height: auto; }
+        .detail p { margin: 5px 0; font-size: 14px; }
+        a.back-btn { background: #ffff00; color: #000; padding: 10px; text-decoration: none; border-radius: 3px; display: inline-block; margin-top: 20px; }
+        a.back-btn:hover { opacity: 0.8; }
+        footer { background: #ffcc00; color: #000; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+    </style>
 </head>
 <body>
-    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 10px; text-align: center;">
-        <h1>Detalle del Jugador</h1>
+    <header>
+        <h1>Selección Colombia - Gestión</h1>
         <nav>
-            <a href="/" class="nav-btn">Inicio</a>
-            <a href="/jugadores/" class="nav-btn">Jugadores</a>
+            <a href="/" class="">Inicio</a>
+            <a href="/jugadores/" class="active">Jugadores</a>
+            <a href="/equipos/" class="">Equipos</a>
+            <a href="/partidos/" class="">Partidos</a>
+            <a href="/torneos/" class="">Torneos</a>
+            <a href="/estadisticas/completa/" class="">Estadísticas</a>
+            <a href="/documentacion/" class="">Documentación</a>
         </nav>
     </header>
-
-    <main>
-        <section>
-            <h2>{{ jugador.nombre }}</h2>
-            {% if jugador.imagen %}
-                <img src="{{ jugador.imagen }}" alt="Foto de {{ jugador.nombre }}" class="player-image">
-            {% else %}
-                <img src="/static/images/generic_player.png" alt="Foto genérica" class="player-image">
-            {% endif %}
-            <p><strong>Fecha de Nacimiento:</strong> {{ jugador.fecha_nacimiento }}</p>
-            <p><strong>Club:</strong> {{ jugador.club }}</p>
-            <p><strong>Altura:</strong> {{ jugador.altura }}</p>
-            <p><strong>Pie:</strong> {{ jugador.pie }}</p>
+    <div class="container">
+        <h2>Detalles del Jugador</h2>
+        <div class="detail">
+            <img src="{{ jugador.imagen if jugador.imagen else 'https://via.placeholder.com/150' }}" alt="{{ jugador.nombre }}">
+            <p><strong>Nombre:</strong> {{ jugador.nombre }}</p>
+            <p><strong>Fecha Nacimiento:</strong> {{ jugador.fecha_nacimiento }}</p>
+            <p><strong>Club:</strong> {{ jugador.club if jugador.club else 'N/A' }}</p>
+            <p><strong>Altura:</strong> {{ jugador.altura if jugador.altura else 'N/A' }}</p>
+            <p><strong>Pie:</strong> {{ jugador.pie if jugador.pie else 'N/A' }}</p>
             <p><strong>Partidos:</strong> {{ jugador.partidos }}</p>
             <p><strong>Goles:</strong> {{ jugador.goles }}</p>
-            <p><strong>Número de Camisa:</strong> {{ jugador.numero_camisa }}</p>
+            <p><strong>Número Camisa:</strong> {{ jugador.numero_camisa }}</p>
             <p><strong>Año:</strong> {{ jugador.anio }}</p>
             <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
-            <p><strong>Activo:</strong> {{ "Sí" if jugador.activo else "No" }}</p>
-            <a href="/jugadores/" class="btn btn-primary">Volver</a>
-        </section>
-    </main>
-
-    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+            <p><strong>Activo:</strong> {{ 'Sí' if jugador.activo else 'No' }}</p>
+        </div>
+        <a href="/jugadores/" class="back-btn">Volver</a>
+    </div>
+    <footer>
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
 </body>

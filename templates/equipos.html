@@ -5,54 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipos - Selección Colombia</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
+        header { background: linear-gradient(to right, #ffcc00, #ff6600); padding: 10px; text-align: center; }
+        header h1 { color: #fff; margin: 0; font-size: 24px; }
+        nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
+        nav a.active { text-decoration: underline; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; background: #fff; border: 2px solid #000080; border-radius: 5px; }
+        h2 { color: #ff0000; margin-top: 0; }
+        .filter-form { margin-bottom: 20px; }
+        .filter-form input[type="number"] { padding: 5px; margin-right: 10px; }
+        .filter-form button, .create-btn { background: #ff0000; color: #fff; border: none; padding: 5px 15px; cursor: pointer; }
+        .filter-form button:hover, .create-btn:hover { background: #cc0000; }
+        .card { display: inline-block; width: 180px; margin: 10px; padding: 10px; border: 2px solid #000080; border-radius: 5px; text-align: center; vertical-align: top; }
+        .card img { max-width: 100%; height: auto; }
+        .card h3 { margin: 5px 0; font-size: 16px; }
+        .card p { margin: 2px 0; font-size: 14px; }
+        .btn { display: inline-block; padding: 5px 10px; margin: 3px; text-decoration: none; border-radius: 3px; }
+        .btn-edit { background: #008000; color: #fff; }
+        .btn-delete { background: #ff0000; color: #fff; }
+        .btn-view { background: #ffff00; color: #000; }
+        .btn:hover { opacity: 0.8; }
+        footer { background: #ffcc00; color: #000; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+    </style>
 </head>
 <body>
-    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
-        <h1>Equipos</h1>
+    <header>
+        <h1>Selección Colombia - Gestión</h1>
         <nav>
-            <a href="/" class="nav-btn">Inicio</a>
-            <a href="/jugadores/" class="nav-btn">Jugadores</a>
-            <a href="/partidos/" class="nav-btn">Partidos</a>
-            <a href="/torneos/" class="nav-btn">Torneos</a>
-            <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
-            <a href="/documentacion/" class="nav-btn">Documentación</a>
+            <a href="/" class="">Inicio</a>
+            <a href="/jugadores/" class="">Jugadores</a>
+            <a href="/equipos/" class="active">Equipos</a>
+            <a href="/partidos/" class="">Partidos</a>
+            <a href="/torneos/" class="">Torneos</a>
+            <a href="/estadisticas/completa/" class="">Estadísticas</a>
+            <a href="/documentacion/" class="">Documentación</a>
         </nav>
     </header>
-
-    <main>
-        <section>
-            <h2>Lista de Equipos</h2>
-            <form id="year-filter-form" method="get" action="/equipos/">
-                <label for="year-filter">Filtrar por Año:</label>
-                <input type="number" id="year-filter" name="year" min="2021" max="2025" value="{{ year if year else '' }}">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+    <div class="container">
+        <h2>Lista de Equipos</h2>
+        <div class="filter-form">
+            <form method="get" action="/equipos/">
+                <label for="year">Filtrar por Año:</label>
+                <input type="number" id="year" name="year" value="{{ year if year else '' }}">
+                <button type="submit">Filtrar</button>
             </form>
-            <a href="/equipos/crear/" class="btn btn-primary">Crear Equipo</a>
-            <div class="team-list">
-                {% if not equipos %}
-                    <p>No hay equipos registrados. Crea uno para empezar.</p>
-                {% else %}
-                    {% for equipo in equipos %}
-                    <div class="team-card">
-                        <h3>{{ equipo.nombre }}</h3>
-                        {% if equipo.bandera %}
-                            <img src="{{ equipo.bandera }}" alt="Bandera de {{ equipo.nombre }}" class="flag-image">
-                        {% else %}
-                            <img src="/static/images/generic_flag.png" alt="Bandera genérica" class="flag-image">
-                        {% endif %}
-                        <p>País: {{ equipo.pais }}</p>
-                        <p>Enfrentamientos con Colombia: {{ equipo.enfrentamientos_con_colombia }}</p>
-                        <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-edit">Editar</a>
-                        <a href="/equipos/{{ equipo.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar a {{ equipo.nombre }}?')">Eliminar</a>
-                        <a href="/equipos/{{ equipo.id }}" class="btn btn-view">Ver</a>
-                    </div>
-                    {% endfor %}
-                {% endif %}
+            <a href="/equipos/crear/" class="create-btn">Crear Equipo</a>
+        </div>
+        <div>
+            {% for equipo in equipos %}
+            <div class="card">
+                <img src="{{ equipo.bandera if equipo.bandera else 'https://via.placeholder.com/150' }}" alt="{{ equipo.nombre }}">
+                <h3>{{ equipo.nombre }}</h3>
+                <p>País: {{ equipo.pais }}</p>
+                <p>Enfrentamientos: {{ equipo.enfrentamientos_con_colombia }}</p>
+                <a href="/equipos/{{ equipo.id }}/edit" class="btn btn-edit">Editar</a>
+                <a href="/equipos/{{ equipo.id }}/delete" class="btn btn-delete">Eliminar</a>
+                <a href="/equipos/{{ equipo.id }}" class="btn btn-view">Ver</a>
             </div>
-        </section>
-    </main>
-
-    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
 </body>

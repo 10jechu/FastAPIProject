@@ -5,53 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jugadores - Selección Colombia</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
+        header { background: linear-gradient(to right, #ffcc00, #ff6600); padding: 10px; text-align: center; }
+        header h1 { color: #fff; margin: 0; font-size: 24px; }
+        nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
+        nav a.active { text-decoration: underline; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; background: #fff; border: 2px solid #000080; border-radius: 5px; }
+        h2 { color: #ff0000; margin-top: 0; }
+        .filter-form { margin-bottom: 20px; }
+        .filter-form input[type="number"] { padding: 5px; margin-right: 10px; }
+        .filter-form button, .create-btn { background: #ff0000; color: #fff; border: none; padding: 5px 15px; cursor: pointer; }
+        .filter-form button:hover, .create-btn:hover { background: #cc0000; }
+        .card { display: inline-block; width: 180px; margin: 10px; padding: 10px; border: 2px solid #000080; border-radius: 5px; text-align: center; vertical-align: top; }
+        .card img { max-width: 100%; height: auto; }
+        .card h3 { margin: 5px 0; font-size: 16px; }
+        .card p { margin: 2px 0; font-size: 14px; }
+        .btn { display: inline-block; padding: 5px 10px; margin: 3px; text-decoration: none; border-radius: 3px; }
+        .btn-edit { background: #008000; color: #fff; }
+        .btn-delete { background: #ff0000; color: #fff; }
+        .btn-view { background: #ffff00; color: #000; }
+        .btn:hover { opacity: 0.8; }
+        footer { background: #ffcc00; color: #000; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+    </style>
 </head>
 <body>
-    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
-        <h1>Jugadores</h1>
+    <header>
+        <h1>Selección Colombia - Gestión</h1>
         <nav>
-            <a href="/" class="nav-btn">Inicio</a>
-            <a href="/jugadores/" class="nav-btn active">Jugadores</a>
-            <a href="/partidos/" class="nav-btn">Partidos</a>
-            <a href="/torneos/" class="nav-btn">Torneos</a>
-            <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
-            <a href="/documentacion/" class="nav-btn">Documentación</a>
+            <a href="/" class="">Inicio</a>
+            <a href="/jugadores/" class="active">Jugadores</a>
+            <a href="/equipos/" class="">Equipos</a>
+            <a href="/partidos/" class="">Partidos</a>
+            <a href="/torneos/" class="">Torneos</a>
+            <a href="/estadisticas/completa/" class="">Estadísticas</a>
+            <a href="/documentacion/" class="">Documentación</a>
         </nav>
     </header>
-
-    <main>
-        <section>
-            <h2>Lista de Jugadores</h2>
-            <form id="year-filter-form" method="get" action="/jugadores/">
-                <label for="year-filter">Filtrar por Año:</label>
-                <input type="number" id="year-filter" name="year" min="2021" max="2025" value="{{ year if year else '' }}">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+    <div class="container">
+        <h2>Lista de Jugadores</h2>
+        <div class="filter-form">
+            <form method="get" action="/jugadores/">
+                <label for="year">Filtrar por Año:</label>
+                <input type="number" id="year" name="year" value="{{ year if year else '' }}">
+                <button type="submit">Filtrar</button>
             </form>
-            <a href="/jugadores/crear/" class="btn btn-primary">Crear Jugador</a>
-            <div class="player-list">
-                {% for jugador in jugadores %}
-                <div class="player-card">
-                    <h3>{{ jugador.nombre }}</h3>
-                    {% if jugador.imagen %}
-                        <img src="{{ jugador.imagen }}" alt="Foto de {{ jugador.nombre }}" class="player-image">
-                    {% else %}
-                        <img src="/static/images/generic_player.png" alt="Foto genérica" class="player-image">
-                    {% endif %}
-                    <p>Posición: {{ jugador.posicion }}</p>
-                    <p>Goles: {{ jugador.goles }}</p>
-                    <p>Partidos: {{ jugador.partidos }}</p>
-                    <a href="/jugadores/{{ jugador.id }}/edit" class="btn btn-edit">Editar</a>
-                    <a href="/jugadores/{{ jugador.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar a {{ jugador.nombre }}?')">Eliminar</a>
-                    <a href="/jugadores/{{ jugador.id }}" class="btn btn-view">Ver</a>
-                </div>
-                {% endfor %}
+            <a href="/jugadores/crear/" class="create-btn">Crear Jugador</a>
+        </div>
+        <div>
+            {% for jugador in jugadores %}
+            <div class="card">
+                <img src="{{ jugador.imagen if jugador.imagen else 'https://via.placeholder.com/150' }}" alt="{{ jugador.nombre }}">
+                <h3>{{ jugador.nombre }}</h3>
+                <p>Posición: {{ jugador.posicion }}</p>
+                <p>Goles: {{ jugador.goles }}</p>
+                <p>Partidos: {{ jugador.partidos }}</p>
+                <a href="/jugadores/{{ jugador.id }}/edit" class="btn btn-edit">Editar</a>
+                <a href="/jugadores/{{ jugador.id }}/delete" class="btn btn-delete">Eliminar</a>
+                <a href="/jugadores/{{ jugador.id }}" class="btn btn-view">Ver</a>
             </div>
-        </section>
-    </main>
-
-    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
-    <!-- Elimino script.js temporalmente para evitar redirecciones no deseadas -->
 </body>
 </html>

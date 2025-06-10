@@ -527,7 +527,7 @@ async def read_root(request: Request):
         "victorias_total": victorias_total,
         "goles_total": goles_total,
         "partidos_jugados_total": partidos_jugados_total,
-        "last_update": "10 de junio de 2025, 03:42 AM -05"
+        "last_update": "10 de junio de 2025, 04:16 AM -05"
     })
 
 @app.get("/documentacion/", response_class=HTMLResponse)

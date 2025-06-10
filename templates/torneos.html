@@ -5,52 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Torneos - Selección Colombia</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
+        header { background: linear-gradient(to right, #ffcc00, #ff6600); padding: 10px; text-align: center; }
+        header h1 { color: #fff; margin: 0; font-size: 24px; }
+        nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
+        nav a.active { text-decoration: underline; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; background: #fff; border: 2px solid #000080; border-radius: 5px; }
+        h2 { color: #ff0000; margin-top: 0; }
+        .filter-form { margin-bottom: 20px; }
+        .filter-form input[type="number"] { padding: 5px; margin-right: 10px; }
+        .filter-form button, .create-btn { background: #ff0000; color: #fff; border: none; padding: 5px 15px; cursor: pointer; }
+        .filter-form button:hover, .create-btn:hover { background: #cc0000; }
+        .card { display: inline-block; width: 180px; margin: 10px; padding: 10px; border: 2px solid #000080; border-radius: 5px; text-align: center; vertical-align: top; }
+        .card img { max-width: 100%; height: auto; }
+        .card h3 { margin: 5px 0; font-size: 16px; }
+        .card p { margin: 2px 0; font-size: 14px; }
+        .btn { display: inline-block; padding: 5px 10px; margin: 3px; text-decoration: none; border-radius: 3px; }
+        .btn-edit { background: #008000; color: #fff; }
+        .btn-delete { background: #ff0000; color: #fff; }
+        .btn-view { background: #ffff00; color: #000; }
+        .btn:hover { opacity: 0.8; }
+        footer { background: #ffcc00; color: #000; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+    </style>
 </head>
 <body>
-    <header style="background: linear-gradient(to right, #002266, #FCD116, #CE1126); padding: 15px; text-align: center;">
-        <h1>Torneos</h1>
+    <header>
+        <h1>Selección Colombia - Gestión</h1>
         <nav>
-            <a href="/" class="nav-btn">Inicio</a>
-            <a href="/jugadores/" class="nav-btn">Jugadores</a>
-            <a href="/partidos/" class="nav-btn">Partidos</a>
-            <a href="/torneos/" class="nav-btn active">Torneos</a>
-            <a href="/estadisticas/completa/" class="nav-btn">Estadísticas</a>
-            <a href="/documentacion/" class="nav-btn">Documentación</a>
+            <a href="/" class="">Inicio</a>
+            <a href="/jugadores/" class="">Jugadores</a>
+            <a href="/equipos/" class="">Equipos</a>
+            <a href="/partidos/" class="">Partidos</a>
+            <a href="/torneos/" class="active">Torneos</a>
+            <a href="/estadisticas/completa/" class="">Estadísticas</a>
+            <a href="/documentacion/" class="">Documentación</a>
         </nav>
     </header>
-
-    <main>
-        <section>
-            <h2>Lista de Torneos</h2>
-            <form id="year-filter-form" method="get" action="/torneos/">
-                <label for="year-filter">Filtrar por Año:</label>
-                <input type="number" id="year-filter" name="year" min="2021" max="2024" value="{{ year if year else '' }}">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+    <div class="container">
+        <h2>Lista de Torneos</h2>
+        <div class="filter-form">
+            <form method="get" action="/torneos/">
+                <label for="year">Filtrar por Año:</label>
+                <input type="number" id="year" name="year" value="{{ year if year else '' }}">
+                <button type="submit">Filtrar</button>
             </form>
-            <a href="/torneos/crear/" class="btn btn-primary">Crear Torneo</a>
-            <div class="tournament-list">
-                {% for torneo in torneos %}
-                <div class="tournament-card">
-                    <h3>{{ torneo.nombre }}</h3>
-                    {% if torneo.imagen %}
-                        <img src="{{ torneo.imagen }}" alt="Imagen de {{ torneo.nombre }}" class="tournament-image">
-                    {% else %}
-                        <img src="/static/images/generic_tournament.png" alt="Imagen genérica" class="tournament-image">
-                    {% endif %}
-                    <p>Año: {{ torneo.anio }}</p>
-                    <p>Eliminado: {{ torneo.eliminado }}</p>
-                    <a href="/torneos/{{ torneo.id }}/edit" class="btn btn-edit">Editar</a>
-                    <a href="/torneos/{{ torneo.id }}/delete" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar {{ torneo.nombre }}?')">Eliminar</a>
-                    <a href="/torneos/{{ torneo.id }}" class="btn btn-view">Ver</a>
-                </div>
-                {% endfor %}
+            <a href="/torneos/crear/" class="create-btn">Crear Torneo</a>
+        </div>
+        <div>
+            {% for torneo in torneos %}
+            <div class="card">
+                <img src="{{ torneo.imagen if torneo.imagen else 'https://via.placeholder.com/150' }}" alt="{{ torneo.nombre }}">
+                <h3>{{ torneo.nombre }}</h3>
+                <p>Año: {{ torneo.anio }}</p>
+                <p>Eliminado: {{ torneo.eliminado if torneo.eliminado else 'No' }}</p>
+                <a href="/torneos/{{ torneo.id }}/edit" class="btn btn-edit">Editar</a>
+                <a href="/torneos/{{ torneo.id }}/delete" class="btn btn-delete">Eliminar</a>
+                <a href="/torneos/{{ torneo.id }}" class="btn btn-view">Ver</a>
             </div>
-        </section>
-    </main>
-
-    <footer style="background-color: #002266; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%;">
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
         <p>© 2025 Selección Colombia - Gestión. Desarrollado por Jesús Vilardi - 67001298, Universidad Católica</p>
     </footer>
-    <script src="/static/js/script.js"></script>
 </body>
 </html>
